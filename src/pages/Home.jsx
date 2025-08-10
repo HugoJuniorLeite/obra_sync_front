@@ -1,0 +1,52 @@
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import Sidebar from "../components/Sidebar";
+import ProjectForm from "../components/ProjectForm";
+import ProjectList from "../components/ProjectList";
+import CreateService from "../components/CreateService";
+import RegisterEmployee from "../components/RegisterEmployee";
+import CreateOccupation from "../components/CreateOccupation";
+
+const Container = styled.div`
+  display: flex;
+  height: 100%;
+  background-color: #2c2c2c;
+  color: white;
+`;
+
+const Main = styled.main`
+  flex: 1;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+`;
+
+export default function Home() {
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    async function fetchProjects() {
+      const response = await fetch("/api/projects");
+      const data = await response.json();
+      setProjects(data);
+    }
+    fetchProjects();
+  }, []);
+
+  return (
+    <Container>
+      <Sidebar />
+      <Main>
+        {/* <ProjectForm /> */}
+        {/* <ProjectList projects={projects} /> */}
+        {/* <CreateService></CreateService> */}
+
+
+
+        <RegisterEmployee></RegisterEmployee>
+        <CreateOccupation></CreateOccupation>
+      </Main>
+    </Container>
+  );
+}
