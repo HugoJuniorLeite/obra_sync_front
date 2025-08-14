@@ -21,6 +21,7 @@ export const TextArea = styled.textarea`
   border: 1px solid #374151;
   border-radius: 0.25rem;
   color: white;
+  width: 100%;
 `;
 
 export const Logo = styled.img`
@@ -458,4 +459,62 @@ export const ContractPrice = styled.div`
   color: #1f2937;
   margin-top: 0.5rem;
   text-align: right;
+`;
+
+
+export const HiddenCheckbox = styled.input.attrs({ type: "checkbox" })`
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+`;
+
+export const CheckboxContainer = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+`;
+
+
+export const StyledCheckbox = styled.span`
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 4px;
+  border: 2px solid ${colors.input};
+  transition: all 150ms;
+  position: relative;
+
+  // Quando marcado, muda a cor
+  ${HiddenCheckbox}:checked + & {
+    background: ${colors.accent};
+    padding-bottom: 10px;
+  }
+
+  // Ícone de check
+  &::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 5px;
+    top: 0px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  ${HiddenCheckbox}:checked + &::after {
+    display: block;
+  }
 `;

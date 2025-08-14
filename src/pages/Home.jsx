@@ -10,6 +10,7 @@ import CreateOccupation from "../components/CreateOccupation";
 const Container = styled.div`
   display: flex;
   height: 100%;
+  width:100%;
   background-color: #2c2c2c;
   color: white;
 `;
@@ -40,10 +41,10 @@ export default function Home() {
       <Main>
         {/* <ProjectForm /> */}
         {/* <ProjectList projects={projects} /> */}
-        {/* <CreateService></CreateService> */}
-
-
-
+        
+        
+        
+        <CreateService></CreateService>
         <RegisterEmployee></RegisterEmployee>
         <CreateOccupation></CreateOccupation>
       </Main>

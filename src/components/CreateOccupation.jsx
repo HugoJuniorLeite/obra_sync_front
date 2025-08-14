@@ -5,6 +5,7 @@ import { ErrorText, Select, StyledLabel, SubmitButton, TextArea } from "../layou
 import {useState } from "react";
 import occupation from "../services/apiOccupation";
 import { CreateOccupationSchema } from "../schemas/CreateOccupationSchema";
+import Checkbox from "./Ui/Checkbox";
 
 export default function CreateOccupation(){
   const [selectedOption, setSelectedOption] = useState("")
@@ -17,13 +18,8 @@ export default function CreateOccupation(){
         resolver: zodResolver(CreateOccupationSchema),
       });
 
-//  const handleChange = (event) => {
-//     setSelectedOption(event.target.value);
-//     console.log(event.target.value)
-//   };
-
       const onSubmit = async ({occupationName, descriptionOccupation, selectedOption,  }) => {
-                const dangerousnessBoolean = selectedOption === "true";
+                const dangerousnessBoolean = selectedOption ;
 
             const payload = {
                 
@@ -63,20 +59,17 @@ export default function CreateOccupation(){
              {...register("descriptionOccupation")}
             error={errors.descriptionOccupation}/>
 
-           <div>
-          <StyledLabel>Possui periculosidade</StyledLabel>
-          <Select {...register("selectedOption")}>
-            <option value="">Selecione uma opção</option>
-            <option value="true">Sim</option>
-            <option value="false">Não</option>
-          </Select>
-          {errors.selectedOption && (
+
+          <Checkbox 
+          label="Possui periculosidade?" 
+          register={register} 
+          name="selectedOption" 
+          />
+
+           {errors.selectedOption && (
             <ErrorText>{errors.selectedOption.message}</ErrorText>
           )}
-        </div>
-
-
-            <SubmitButton type="submit"> Criar</SubmitButton>     
+                   <SubmitButton type="submit"> Criar</SubmitButton>     
 
             </form>
         </div>

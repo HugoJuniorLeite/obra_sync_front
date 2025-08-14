@@ -43,6 +43,7 @@ export default function Sidebar() {
       <Logo>ObraSync</Logo>
       <nav>
         <NavItem><FaUser /> Clientes</NavItem>
+           <NavItem><FaUser /> Funcionários</NavItem>
         <ActiveNavItem><FaFolderOpen /> Projetos</ActiveNavItem>
         <NavItem><FaCog /> Configurações</NavItem>
       </nav>

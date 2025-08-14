@@ -8,6 +8,10 @@ import contract from "../services/apiContract";
 import occupation from "../services/apiOccupation";
 import { EmployeeSchema, } from "../schemas/EmployeeSchema";
 
+import { IMaskInput } from "react-imask";
+import Checkbox from "./Ui/Checkbox";
+
+
 export default function RegisterEmployee(){
  const [ selectedOptionProject, setSelectedOptionProject] = useState("")
   const [ selectedOptionOccupation, setSelectedOptionOccupation] = useState("")
@@ -198,14 +202,19 @@ const payload = {
           <Input
             type="text"
             label="Rg"
+            mask="00.000.000-00"
+            definitions={{ "0": /[0-9]/ }}
             name="rgNumber"
             register={register}
             error={errors.rgNumber}
           />
 
               <Input
+              
             type="text"
             label="CPF"
+            mask="000.000.000-00"
+            definitions={{ "0": /[0-9]/ }}
             name="cpfNumber"
             register={register}
             error={errors.cpfNumber}
@@ -219,12 +228,20 @@ const payload = {
             <Input
             type="phone"
             label="Telefone"
+            mask="(00) 0 0000-0000"
+            definitions={{ "0": /[0-9]/ }}
             name="phoneNumber"
             register={register}
             error={errors.phoneNumber}
             />
 
-      <Input label="Cep" value={cep} onChange={handleCepChange} maxLength={8} />
+      <Input
+      label="Cep" 
+      value={cep} 
+      onChange={handleCepChange} 
+      maxLength={8} />
+
+      
       </RowInput>
 
       <RowInput>
@@ -281,7 +298,7 @@ const payload = {
 
                <RowInput>
 
-          <div style={{ margin: "0.5rem 0", display: "flex", alignItems: "center", gap: 8 }}>
+          {/* <div style={{ margin: "0.5rem 0", display: "flex", alignItems: "center", gap: 8 }}>
           <StyledLabel>Possui CNH?</StyledLabel>
           <input
             type="checkbox"
@@ -289,7 +306,10 @@ const payload = {
             id="driversLicense"
             defaultChecked={false}
           />
-        </div>
+        </div> */}
+
+        <Checkbox label="Possui CNH?" register={register} name="driversLicense" />
+
 
         </RowInput>
 
