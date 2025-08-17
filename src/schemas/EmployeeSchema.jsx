@@ -3,7 +3,7 @@ import { z } from "zod";
 export const EmployeeSchema = z.object({
   employeeName: z.string().min(3, "Nome é obrigatório"),
   birthDate: z.string(),
-  rgNumber: z.string(),
+  rgNumber: z.string().regex(/^\d{2}\.\d{3}\.\d{3}-\d{2}$/,"RG inválido. Use o formato 00.000.000-00"),
   cpfNumber: z.string(),
   phoneNumber: z.string(),
   adressNumber: z.string(),

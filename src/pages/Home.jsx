@@ -6,6 +6,7 @@ import ProjectList from "../components/ProjectList";
 import CreateService from "../components/CreateService";
 import RegisterEmployee from "../components/RegisterEmployee";
 import CreateOccupation from "../components/CreateOccupation";
+import CreateOs from "../components/CreateOs";
 
 const Container = styled.div`
   display: flex;
@@ -47,6 +48,7 @@ export default function Home() {
         <CreateService></CreateService>
         <RegisterEmployee></RegisterEmployee>
         <CreateOccupation></CreateOccupation>
+        <CreateOs></CreateOs>
       </Main>
     </Container>
   );

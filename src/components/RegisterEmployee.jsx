@@ -298,16 +298,6 @@ const payload = {
 
                <RowInput>
 
-          {/* <div style={{ margin: "0.5rem 0", display: "flex", alignItems: "center", gap: 8 }}>
-          <StyledLabel>Possui CNH?</StyledLabel>
-          <input
-            type="checkbox"
-            {...register("driversLicense")}
-            id="driversLicense"
-            defaultChecked={false}
-          />
-        </div> */}
-
         <Checkbox label="Possui CNH?" register={register} name="driversLicense" />
 
 

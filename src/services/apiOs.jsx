@@ -27,13 +27,9 @@ async function postService(payload) {
   return response.data;
 }
 
-async function getService(payload) {
-  const response = await api.get(`/service-by-project/${payload}`);
-  return response.data;
-}
 
 
 
-const contract = { postContract, getContracts, getClients, putClient, postService , getService}
+const serviceOs = { postContract, getContracts, getClients, putClient, postService }
 
-export default contract ;
+export default serviceOs ;

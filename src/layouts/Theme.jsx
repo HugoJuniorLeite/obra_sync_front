@@ -2,6 +2,8 @@ import { IMaskInput } from "react-imask";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+
+
 // Definindo cores base (padrão Material Design)
 
 export const colors = {
@@ -82,6 +84,11 @@ export const StyledInput = styled.input`
   font-size: 16px;
   transition: 0.3s ease;
   margin-bottom:6px;
+    cursor: pointer;
+  &:hover {
+       border-color: ${colors.accent};
+    outline: none;
+    }
   
 
   &:focus {
@@ -104,7 +111,11 @@ export const StyledMaskInput = styled(IMaskInput)`
   font-size: 16px;
   transition: 0.3s ease;
   margin-bottom:6px;
-  
+    cursor: pointer;
+  &:hover {
+       border-color: ${colors.accent};
+    outline: none;
+    }
 
   &:focus {
     border-color: ${colors.accent};
@@ -201,7 +212,7 @@ export const StyledInputToken = styled.input`
   border-radius: 12px;
   font-size: 16px;
   transition: 0.3s ease;
-
+  cursor: pointer;
   &:focus {
     border-color: ${colors.accent};
     outline: none;
@@ -224,11 +235,17 @@ export const Select = styled.select`
   /* margin-top:6px; */
   margin-bottom:6px;
   transition: 0.3s ease;
+  cursor: pointer;
+  &:hover {
+       border-color: ${colors.accent};
+    outline: none;
+    }
 
    &:focus {
     border-color: ${colors.accent};
     outline: none;
-  }
+  };
+    
 `;
 
 
@@ -274,6 +291,7 @@ export const Card = styled.div`
     width: 16px;
     height: 16px;
     accent-color: #2563eb;
+    
   }
 `;
 
@@ -393,42 +411,58 @@ export const Main = styled.section`
  
 `
 
+// export const StyledSelect = styled.select`
+//   width: 100%;
+//   min-height: 100px;
+//   padding: 10px;
+//   background-color: #2e2e2e;
+//   color: #f0e68c;
+//   border: 1px solid #f0e68c;
+//   border-radius: 10px;
+//   font-size: 14px;
+//   font-family: 'Segoe UI', sans-serif;
+//   outline: none;
+//   transition: border 0.3s ease, box-shadow 0.3s ease;
+
+//   &:focus {
+//     border: 1px solid #ffeb3b;
+//     box-shadow: 0 0 5px 2px rgba(255, 235, 59, 0.5);
+//   }
+
+//   option {
+//     background-color: #3a3a3a;
+//     color: #f0e68c;
+//     padding: 5px;
+//   }
+// `;
+
 export const StyledSelect = styled.select`
   width: 100%;
-  min-height: 100px;
-  padding: 10px;
-  background-color: #2e2e2e;
-  color: #f0e68c;
-  border: 1px solid #f0e68c;
-  border-radius: 10px;
-  font-size: 14px;
-  font-family: 'Segoe UI', sans-serif;
-  outline: none;
-  transition: border 0.3s ease, box-shadow 0.3s ease;
-
-  &:focus {
-    border: 1px solid #ffeb3b;
-    box-shadow: 0 0 5px 2px rgba(255, 235, 59, 0.5);
-  }
-
-  option {
-    background-color: #3a3a3a;
-    color: #f0e68c;
-    padding: 5px;
+  padding: 12px;
+  background-color: ${colors.input};
+  color: ${colors.text};
+  border: 1px solid ${colors.border};
+  border-radius: 12px;
+  font-size: 16px;
+  /* margin-top:6px; */
+  margin-bottom:6px;
+  transition: 0.3s ease;
+    cursor: pointer;
+    &:hover {
+       border-color: ${colors.accent};
+    outline: none;
+    }
+   &:focus {
+    border-color: ${colors.accent};
+    outline: none;
   }
 `;
-
-
-
 
 export const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
 `;
-
-
-
 
 export const ContractCard = styled.div`
   background: white;
@@ -483,7 +517,6 @@ export const CheckboxContainer = styled.label`
   position: relative;
 `;
 
-
 export const StyledCheckbox = styled.span`
   display: inline-block;
   width: 20px;
@@ -493,13 +526,16 @@ export const StyledCheckbox = styled.span`
   border: 2px solid ${colors.input};
   transition: all 150ms;
   position: relative;
-
+    cursor: pointer;
+  &:hover {
+       border-color: ${colors.accent};
+    outline: none;
+    }
   // Quando marcado, muda a cor
   ${HiddenCheckbox}:checked + & {
     background: ${colors.accent};
-    padding-bottom: 10px;
+    padding-bottom: 10px; 
   }
-
   // Ícone de check
   &::after {
     content: "";
@@ -513,8 +549,70 @@ export const StyledCheckbox = styled.span`
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
   }
-
   ${HiddenCheckbox}:checked + &::after {
     display: block;
   }
 `;
+
+
+export const customSelectStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    width: "100%",
+    backgroundColor: colors.input,
+    color: colors.text,
+    border: `1px solid ${state.isFocused ? colors.accent : colors.border}`,
+    borderRadius: 12,
+    marginBottom:"6px",
+    padding: "12px",
+    fontSize: 16,
+    transition: "0.3s ease",
+    boxShadow: "none",
+    cursor: "pointer",
+    "&:hover": {
+      borderColor: colors.accent,
+    },
+  }),
+  placeholder: (provided) => ({
+    ...provided,
+    color: colors.gray,
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: colors.text,
+  }),
+  menu: (provided) => ({
+    ...provided,
+    backgroundColor: colors.input,
+    borderRadius: 12,
+    marginTop: 4,
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isFocused ? colors.accent : colors.input,
+    color: colors.text,
+    cursor: "pointer",
+    ":active": {
+      backgroundColor: colors.accent,
+    },
+  }),
+  multiValue: (provided) => ({
+    ...provided,
+    backgroundColor: colors.accent,
+    borderRadius: 6,
+    padding: "2px 6px",
+  }),
+  multiValueLabel: (provided) => ({
+    ...provided,
+    color: colors.text,
+  }),
+  multiValueRemove: (provided) => ({
+    ...provided,
+    color: colors.text,
+    cursor: "pointer",
+    ":hover": {
+      backgroundColor: colors.error,
+      color: colors.text,
+    },
+  }),
+};
