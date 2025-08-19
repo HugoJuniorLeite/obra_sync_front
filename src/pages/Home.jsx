@@ -7,6 +7,7 @@ import CreateService from "../components/CreateService";
 import RegisterEmployee from "../components/RegisterEmployee";
 import CreateOccupation from "../components/CreateOccupation";
 import CreateOs from "../components/CreateOs";
+import GetOss from "../components/GetOSs";
 
 const Container = styled.div`
   display: flex;
@@ -42,13 +43,15 @@ export default function Home() {
       <Main>
         {/* <ProjectForm /> */}
         {/* <ProjectList projects={projects} /> */}
-        
-        
-        
+
+
+
         <CreateService></CreateService>
         <RegisterEmployee></RegisterEmployee>
         <CreateOccupation></CreateOccupation>
         <CreateOs></CreateOs>
+
+        <GetOss></GetOss>
       </Main>
     </Container>
   );

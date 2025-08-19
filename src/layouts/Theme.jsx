@@ -200,6 +200,21 @@ justify-content:space-between;
   }
 `;
 
+export const RowDespech = styled.div`
+display:flex;
+/* flex-direction:column; */
+justify-content:flex-start;
+align-items:center;
+1
+/* align-self:center; */
+
+  @media (max-width: 768px) {
+    /* grid-template-columns: 1fr; */
+    display:flex;
+    /* flex-direction:column; */
+  }
+`;
+
 
 export const StyledInputToken = styled.input`
     width: 2.2rem;
@@ -545,8 +560,8 @@ export const StyledCheckbox = styled.span`
     top: 0px;
     width: 5px;
     height: 10px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
+    border: solid ${colors.background};
+    border-width: 0 4px 4px 0;
     transform: rotate(45deg);
   }
   ${HiddenCheckbox}:checked + &::after {

@@ -2,7 +2,7 @@ import api from "./api";
 
 
 async function postOccupation(payload) {
-  const response = await api.post('/create-occupation',payload);
+  const response = await api.post('/create-occupation', payload);
   return response.data;
 }
 
@@ -17,4 +17,4 @@ async function getOccupation() {
 
 const occupation = { postOccupation, getOccupation }
 
-export default occupation ;
+export default occupation;

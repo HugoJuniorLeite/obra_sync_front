@@ -33,7 +33,7 @@ export default function LoginMaster() {
 
   const handleTokenSubmit = async (code) => {
     console.log(code);
-      setIstoken(false)
+    setIstoken(false)
     // try {
     //   // await validateToken(code);
     //   alert("Token validado com sucesso!");
@@ -46,28 +46,28 @@ export default function LoginMaster() {
   return (
     <FormWrapper>
 
-     
-      {/* <FormTitle>ObraSync</FormTitle> */}
-{/* <FormTitle> */}
-       <Logo src={logo} alt="logo"></Logo>
 
-{/* </FormTitle> */}
-      
+      {/* <FormTitle>ObraSync</FormTitle> */}
+      {/* <FormTitle> */}
+      <Logo src={logo} alt="logo"></Logo>
+
+      {/* </FormTitle> */}
+
       {!istoken ? (
-          <InputWraper>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            type="email"
-            label="Email"
-            name="email"
-            register={register}
-            error={errors.email}
-          />
-          <SubmitButton type="submit">
-            Enviar código
-          </SubmitButton>
-        </form>
-          </InputWraper>
+        <InputWraper>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Input
+              type="email"
+              label="Email"
+              name="email"
+              register={register}
+              error={errors.email}
+            />
+            <SubmitButton type="submit">
+              Enviar código
+            </SubmitButton>
+          </form>
+        </InputWraper>
       ) : (
         <TokenVerification onSubmit={handleTokenSubmit} />
       )}

@@ -7,8 +7,8 @@ import GlobalStyle from './layouts/GlobalStyle.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-    <GlobalStyle/>
-    <App />
+      <GlobalStyle />
+      <App />
     </BrowserRouter>
   </StrictMode>,
 )

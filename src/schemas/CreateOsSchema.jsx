@@ -30,12 +30,12 @@ export const CreateOsSchema = z.object({
   consultantName: z
     .string()
     .min(3, "Nome do consultor deve ter pelo menos 3 caracteres"),
-    
+
   consultantPhone: z
     .string()
     .regex(/^\(\d{2}\)\s\d\s\d{4}-\d{4}$/, "Telefone inválido"),
 
-selectedOptionService: z
+  selectedOptionService: z
     .array(
       z.object({
         value: z.number().min(1, "ID do serviço é obrigatório"),

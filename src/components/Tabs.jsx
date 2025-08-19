@@ -13,16 +13,16 @@ const tabs = [
   { value: "value", label: "Valor" },
 ];
 
-export default function Tabs({ onChange } ) {
-//   const [active, setActive] = useState("all");
+export default function Tabs({ onChange }) {
+  //   const [active, setActive] = useState("all");
   const [contracts, setContracts] = useState([]);
 
-       useEffect(() => {
+  useEffect(() => {
     const fetchContracts = async () => {
       try {
         const data = await contract.getContracts();
         setContracts(data);
-     
+
       } catch (error) {
         console.error("Erro ao buscar contratos:", error);
       }
@@ -31,10 +31,10 @@ export default function Tabs({ onChange } ) {
   }, []);
 
 
-//   const handleClick = (value) => {
-//     setActive(value);
-//     onChange?.(value);
-//   };
+  //   const handleClick = (value) => {
+  //     setActive(value);
+  //     onChange?.(value);
+  //   };
 
   return (
     <Container>

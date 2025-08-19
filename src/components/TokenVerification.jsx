@@ -41,26 +41,26 @@ export default function TokenVerification({ onSubmit }) {
 
   return (
     <InputWraper>
-    <form onSubmit={handleSubmit}>
-      <StyledLabel>Digite o token</StyledLabel>
-      <RowInput>
-        {code.map((value, index) => (
-          <StyledInputToken
-            key={index}
-            type="text"
-            inputMode="numeric"
-            maxLength="1"
-            value={value}
-            onChange={(e) => handleChange(e.target.value, index)}
-            onKeyDown={(e) => handleKeyDown(e, index)}
-            ref={(el) => (inputsRef.current[index] = el)}
-          />
-        ))}
-      </RowInput>
-      <SubmitButton>
-        Validar código
-      </SubmitButton>
-    </form>
+      <form onSubmit={handleSubmit}>
+        <StyledLabel>Digite o token</StyledLabel>
+        <RowInput>
+          {code.map((value, index) => (
+            <StyledInputToken
+              key={index}
+              type="text"
+              inputMode="numeric"
+              maxLength="1"
+              value={value}
+              onChange={(e) => handleChange(e.target.value, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              ref={(el) => (inputsRef.current[index] = el)}
+            />
+          ))}
+        </RowInput>
+        <SubmitButton>
+          Validar código
+        </SubmitButton>
+      </form>
     </InputWraper>
   );
 }

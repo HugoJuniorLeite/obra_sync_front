@@ -2,7 +2,7 @@ import api from "./api";
 
 
 async function postEmployee(payload) {
-  const response = await api.post('/add-employee',payload);
+  const response = await api.post('/add-employee', payload);
   return response.data;
 }
 
@@ -17,4 +17,4 @@ async function getEmployee() {
 
 const employee = { postEmployee, getEmployee }
 
-export default employee ;
+export default employee;

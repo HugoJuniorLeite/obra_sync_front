@@ -6,9 +6,9 @@ import { Input } from "../components/Ui/Input";
 import contract from "../services/apiContract";
 import { CustomerSchema } from "../schemas/CustomerSchema";
 
-export default function RegisterCustomer(){
-   
- const {
+export default function RegisterCustomer() {
+
+  const {
     control,
     register,
     handleSubmit,
@@ -20,36 +20,36 @@ export default function RegisterCustomer(){
 
 
   const onSubmit = async ({ customerName, customerEmail, customerCNPJ }) => {
-      
-      const payload = {
-          
-          name: customerName ,
-          email: customerEmail ,
-          cnpj:customerCNPJ,
-        };
-        
-        console.log(payload, "onsumit")
- 
-     try {
-       await contract.putClient(payload);
-        reset()         // <limpa os campos do formulário
-     } catch (err) {
-       console.error(err);
-       alert("Erro ao solicitar o token.");
-     }
+
+    const payload = {
+
+      name: customerName,
+      email: customerEmail,
+      cnpj: customerCNPJ,
+    };
+
+    console.log(payload, "onsumit")
+
+    try {
+      await contract.putClient(payload);
+      reset()         // <limpa os campos do formulário
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao solicitar o token.");
+    }
   }
 
 
-    
-    return(
 
- <div>
+  return (
 
-        <FormTitle>Cadastrar cliente</FormTitle>
-          <InputWraper>
+    <div>
+
+      <FormTitle>Cadastrar cliente</FormTitle>
+      <InputWraper>
         <form onSubmit={handleSubmit(onSubmit)}>
 
-              <Input
+          <Input
             type="text"
             label="Nome do cliente"
             name="customerName"
@@ -66,29 +66,29 @@ export default function RegisterCustomer(){
           />
 
 
-<StyledLabel>CNPJ</StyledLabel>
-     <Controller
-        name="customerCNPJ"
-        control={control}
-        render={({ field }) => (
-          <StyledMaskInput
-            {...field}
-            mask="00.000.000/0000-00"
-            definitions={{ "0": /[0-9]/ }}
-            onAccept={(value) => field.onChange(value)}
-            placeholder="00.000.000/0000-00"
+          <StyledLabel>CNPJ</StyledLabel>
+          <Controller
+            name="customerCNPJ"
+            control={control}
+            render={({ field }) => (
+              <StyledMaskInput
+                {...field}
+                mask="00.000.000/0000-00"
+                definitions={{ "0": /[0-9]/ }}
+                onAccept={(value) => field.onChange(value)}
+                placeholder="00.000.000/0000-00"
+              />
+            )}
           />
-        )}
-      />
-      {errors.customerCNPJ && <ErrorText>{errors.customerCNPJ.message}</ErrorText>}
+          {errors.customerCNPJ && <ErrorText>{errors.customerCNPJ.message}</ErrorText>}
 
-        <SubmitButton type="submit">
+          <SubmitButton type="submit">
             Salvar
-        </SubmitButton>
-           </form>
-     </InputWraper>
+          </SubmitButton>
+        </form>
+      </InputWraper>
 
     </div>
 
-    )
+  )
 }

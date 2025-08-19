@@ -2,7 +2,7 @@ import api from "./api";
 
 
 async function postContract(payload) {
-  const response = await api.post('/add-project',payload);
+  const response = await api.post('/add-project', payload);
   return response.data;
 }
 
@@ -18,18 +18,21 @@ async function getClients() {
 }
 
 async function putClient(payload) {
-  const response = await api.post('/add-firm',payload);
+  const response = await api.post('/add-firm', payload);
   return response.data;
 }
 
 async function postService(payload) {
-  const response = await api.post('/add-service',payload);
+  const response = await api.post('/add-bill', payload);
+  return response.data;
+}
+
+async function getService() {
+  const response = await api.get('/get-bills');
   return response.data;
 }
 
 
+const serviceOs = { postContract, getContracts, getClients, putClient, postService, getService }
 
-
-const serviceOs = { postContract, getContracts, getClients, putClient, postService }
-
-export default serviceOs ;
+export default serviceOs;

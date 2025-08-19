@@ -8,8 +8,8 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LoginMaster />} />
-         <Route path="/projetos" element={<Project />} ></Route>
-                  <Route path="/home" element={<Home />} ></Route>
+      <Route path="/projetos" element={<Project />} ></Route>
+      <Route path="/home" element={<Home />} ></Route>
     </Routes>
   )
 }
