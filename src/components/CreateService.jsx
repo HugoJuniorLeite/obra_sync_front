@@ -1,33 +1,76 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import { Input } from "./Ui/Input";
-import { Select, StyledLabel, SubmitButton, TextArea } from "../layouts/Theme";
+import { customSelectStyles, FormTitle, StyledLabel, StyledSelect, SubmitButton, TextArea } from "../layouts/Theme";
 import { CreateServiceSchema } from "../schemas/CreateServiceSchema";
 import contract from "../services/apiContract";
 import { useEffect, useState } from "react";
 import { MoneyInputFallback } from "./Ui/MoneyInputFallBack";
+import occupation from "../services/apiOccupation";
+import Select from "react-select";
 
 export default function CreateService() {
   const [selectedOption, setSelectedOption] = useState("")
   const [projects, setProjects] = useState([])
+  const [occupations, setOccupations] = useState([])
 
   const {
     control,
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
+    defaultValues: {
+      sameAddress: false,
+      selectedOptionService: [],
+      selectedOptionProject: ""
+    },
     resolver: zodResolver(CreateServiceSchema),
   });
+
+  const selectedOptionService = watch("selectedOptionService");
+
+  // useEffect(() => {
+  //   const fetchClients = async () => {
+  //     try {
+  //       const data = await contract.getContracts();
+  //       setProjects(data);
+  //     } catch (error) {
+  //       console.error("Erro ao buscar contratos:", error);
+  //     }
+  //   };
+  //   fetchClients();
+  // }, []);
+
+
+  // useEffect(() => {
+  //   const fetchOccupation = async () => {
+  //     try {
+  //       const data = await occupation.getOccupation();
+  //       setOccupations(data);
+  //     } catch (error) {
+  //       console.error("Erro ao buscar contratos:", error);
+  //     }
+  //   };
+  //   fetchOccupation();
+  // }, []);
 
 
 
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const data = await contract.getContracts();
-        setProjects(data);
+        const [dataProject, dataOcupation] = await Promise.all([
+          contract.getContracts(),
+          occupation.getOccupation(),
+        ]);
+
+        setProjects(dataProject);
+        setOccupations(dataOcupation);
+        console.log(dataOcupation, "occupation")
+        console.log(dataProject, "Data")
       } catch (error) {
         console.error("Erro ao buscar contratos:", error);
       }
@@ -36,12 +79,18 @@ export default function CreateService() {
   }, []);
 
 
+
+
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
     console.log(event.target.value)
   };
 
-  const onSubmit = async ({ serviceName, descriptionService, priceService, selectedOption }) => {
+
+
+
+
+  const onSubmit = async ({ serviceName, descriptionService, priceService, selectedOption, selectedOptionService }) => {
 
     const payload = {
 
@@ -49,6 +98,7 @@ export default function CreateService() {
       description: descriptionService,
       price: priceService,
       project_id: selectedOption,
+      occupation_ids: selectedOptionService.map(opt => opt.value),
     };
 
 
@@ -66,7 +116,7 @@ export default function CreateService() {
 
   return (
     <div>
-
+      <FormTitle> Cadastrar Serviço</FormTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           type="text"
@@ -96,7 +146,7 @@ export default function CreateService() {
 
         <div>
           <StyledLabel >Escolha o contrato</StyledLabel>
-          <Select id="select" value={selectedOption}
+          <StyledSelect id="select" value={selectedOption}
             {...register("selectedOption")}
             onChange={handleChange}>
             <option value="">Selecione um contrato</option>
@@ -105,8 +155,30 @@ export default function CreateService() {
                 {project.name}
               </option>
             ))}
-          </Select>
+          </StyledSelect>
         </div>
+
+
+        <StyledLabel >Cargo</StyledLabel>
+
+        <Controller
+          name="selectedOptionService"
+          control={control}
+          render={({ field: { onChange, ...rest } }) => (
+            <Select
+              {...rest}
+              isMulti
+              onChange={(selected) => {
+                console.log("Selecione o cargo:", selected); // 🔍 debug
+                onChange(selected);
+              }}
+              options={occupations.map((srv) => ({ value: srv.id, label: srv.name }))}
+              placeholder="Selecione os cargos..."
+              // isDisabled={!selectedOptionProject}
+              styles={customSelectStyles}
+            />
+          )}
+        />
 
 
         <SubmitButton type="submit"> Salvar</SubmitButton>

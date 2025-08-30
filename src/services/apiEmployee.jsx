@@ -6,8 +6,9 @@ async function postEmployee(payload) {
   return response.data;
 }
 
-async function getEmployee() {
-  const response = await api.get('/get-employee-by-project/:project_id');
+async function getEmployee(payload) {
+   if (!payload) return;
+  const response = await api.get(`/get-employee-by-project/${payload}`);
   return response.data;
 }
 

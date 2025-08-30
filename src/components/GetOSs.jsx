@@ -1,71 +1,3 @@
-// import { useEffect, useState } from "react"
-// import serviceOs from "../services/apiOs";
-
-// export default function GetOss(){
-
-// const [bills, setBills] = useState([]) 
-
-
-
-//     useEffect(() => {
-//     const fetchBills = async () => {
-//       try {
-//         const response = await serviceOs.getService()
-//         setBills(response);
-//       } catch (error) {
-//         console.error("Erro ao buscar contratos:", error);
-//       }
-//     };
-//     fetchBills();
-
-//     },[])
-
-
-//     return(
-//          <div className="grid grid-cols-1 gap-4 p-4">
-//       {bills.map((bill) => (
-//         <div
-//           key={bill.id}
-//           className="rounded-2xl shadow-md p-4 border border-gray-200 bg-white"
-//         >
-//           <div className="mt-2">
-//             <p><strong>Nota:</strong> {bill.id}</p>  
-//             <p><strong>Status:</strong> {bill.status}</p>
-//                <h2 className="text-lg font-bold text-gray-800">
-//             Projeto: {bill.project?.name}
-//           </h2>
-//             <p><strong>Serviço:</strong> {bill.service?.name}</p>
-//           </div>
-
-//           <div className="mt-2">
-//             <p>
-//               <strong>Endereço:</strong>{" "}
-//               {bill.customer_address?.street}, {bill.customer_address?.number} -{" "}
-//               {bill.customer_address?.neighborhood},{" "}
-//               {bill.customer_address?.city}/{bill.customer_address?.state}
-//             </p>
-//           </div>
-
-//           <div className="mt-2">
-
-//             <p><strong>Tecnico:</strong> {bill.technical}</p>
-//             <p><strong>Programado:</strong> {bill.scheduled_at?.toLocaleString("pt-BR")}</p>
-//             <p><strong>Inicio:</strong> {bill.service_started_at?.toLocaleString("pt-BR")}</p>
-//             <p><strong>Termino:</strong> {bill.service_completed_at?.toLocaleString("pt-BR")}</p>
-
-//             <p>
-//               <strong>Criada em:</strong>{" "}
-//               {new Date(bill.created_at).toLocaleString("pt-BR")}
-//             </p>
-//           </div>
-//         </div>
-//       ))}
-//     </div>
-
-//     )
-// }
-
-
 import { useEffect, useState } from "react";
 import serviceOs from "../services/apiOs";
 import {
@@ -86,12 +18,16 @@ import Select from "react-select";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BillSchema } from "../schemas/BillSchema";
+import contract from "../services/apiContract";
+import employee from "../services/apiEmployee";
+import { Input } from "./Ui/Input";
 
 
 export default function GetOss() {
   const [bills, setBills] = useState([]);
   const [selectedBills, setSelectedBills] = useState([]);
   const [technicians, setTechnicians] = useState([]);
+  const [projects, setProjects] = useState([]);
   const {
     control,
     register,
@@ -104,44 +40,69 @@ export default function GetOss() {
     resolver: zodResolver(BillSchema),
     defaultValues: {
       sameAddress: false,
-      selectedOptionTechnician: ""
+      selectedOptionTechnician: "",
+      selectedOptionProject: "",
+      programDate: ""
     },
   });
   const selectedOptionTechnician = watch("selectedOptionTechnician");
+  const selectedOptionProject = watch("selectedOptionProject");
+  const programDate = watch("programDate")
 
 
   useEffect(() => {
+
+    async function fetchProjects() {
+      try {
+        const res = await contract.getContracts()
+        setProjects(res);
+        setValue("selectedOptionProject", "");
+        console.log(res, "res")
+      } catch (err) {
+        console.error("Erro ao buscar serviços:", err.message);
+        console.log("aqui")
+        setProjects([]);
+      }
+    }
+    fetchProjects();
+  }, []);
+
+
+  useEffect(() => {
+
+    
     const fetchBills = async () => {
       try {
-        const response = await serviceOs.getService();
+        if (selectedOptionTechnician=="" || selectedOptionProject=="") return
+        const response = await serviceOs.getServiceByTechnical(selectedOptionTechnician?.value);
         setBills(response);
+        console.log(response, "fetchBills")
       } catch (error) {
         console.error("Erro ao buscar contratos:", error);
       }
     };
     fetchBills();
-  }, []);
-
-  // useEffect(() => {
-  //     if (!selectedOptionProject) {
-  //       setServices([]);
-  //       setValue("selectedOptionService", []);
-  //       return;
-  //     }
-  //     async function fetchServicos() {
-  //       try {
-  //         const res = await contract.getService(selectedOptionProject)
-  //         setServices(res);
-  //         setValue("selectedOptionService", []);
-  //       } catch (err) {
-  //         console.error("Erro ao buscar serviços:", err);
-  //         setServices([]);
-  //       }
-  //     }
-  //     fetchServicos();
-  //   }, [selectedOptionProject, setValue]);
+  }, [selectedOptionTechnician]);
 
 
+
+
+  useEffect(() => {
+    async function fetchTechnical() {
+      if (selectedOptionProject =="") return
+
+      try {
+        const res = await employee.getEmployee(selectedOptionProject.value)
+        setTechnicians(res);
+        setValue("selectedOptionTechnician", []);
+        console.log(res, "técnico")
+      } catch (err) {
+        console.error("Erro ao buscar serviços:", err);
+        setTechnicians([]);
+      }
+    }
+    fetchTechnical();
+  }, [selectedOptionProject]);
 
 
   const toggleSelect = (id) => {
@@ -160,11 +121,33 @@ export default function GetOss() {
     }
   };
 
-  const handleDispatch = () => {
-    console.log("Despachando OSs:", selectedBills);
-    // Aqui você pode chamar sua API de despacho
-    setSelectedBills([]);
+  const handleDispatch = async () => {
+    if (selectedOptionTechnician =="" || programDate =="") return;
+
+    const data = {
+      technical_id: selectedOptionTechnician.value,
+      scheduled_at: new Date(programDate),
+    };
+
+    try {
+      for (let billId of selectedBills) {
+        await serviceOs.dispachService(billId, data);
+        // Atualiza localmente o estado da nota
+        setBills((prevBills) =>
+          prevBills.map((bill) =>
+            bill.id === billId
+              ? { ...bill, status: "despachada", technical: selectedOptionTechnician.label, scheduled_at: data.scheduled_at }
+              : bill
+          )
+        );
+      }
+      // Limpa as notas selecionadas
+      setSelectedBills([]);
+    } catch (err) {
+      console.error("Erro ao despachar OS:", err);
+    }
   };
+
 
   return (
     <Container>
@@ -175,8 +158,41 @@ export default function GetOss() {
           Despachar ({selectedBills.length})
         </DispatchButton>
       )} */}
-      <StyledLabel >Ténico</StyledLabel>
+      <Input
+        type="date"
+        label="Data da programação"
+        name="programDate"
+        register={register}
+        error={errors.birthDate}
+      />
+
       <RowDespech>
+
+
+
+        <StyledLabel >Projeto</StyledLabel>
+
+
+
+        <Controller
+          name="selectedOptionProject"
+          control={control}
+          render={({ field: { onChange, ...rest } }) => (
+            <Select
+              {...rest}
+              onChange={(selected) => {
+                console.log("projeto selecionado:", selected); // 🔍 debug
+                onChange(selected);
+              }}
+              options={projects?.map((srv) => ({ value: srv.id, label: srv.name }))}
+              placeholder="Selecione o técnico..."
+              // isDisabled={!selectedOptionProject}
+              styles={customSelectStyles}
+            />
+          )}
+        />
+
+        <StyledLabel >Ténico</StyledLabel>
         <Controller
           name="selectedOptionTechnician"
           control={control}
@@ -187,9 +203,9 @@ export default function GetOss() {
                 console.log("tecnico selecionado:", selected); // 🔍 debug
                 onChange(selected);
               }}
-              options={technicians?.map((srv) => ({ value: srv.id, label: srv.name }))}
+              options={technicians?.map((srv) => ({ value: srv.employee.id, label: srv.employee.name }))}
               placeholder="Selecione o técnico..."
-              isDisabled={!selectedOptionTechnician}
+              // isDisabled={!selectedOptionTechnician}
               styles={customSelectStyles}
             />
           )}

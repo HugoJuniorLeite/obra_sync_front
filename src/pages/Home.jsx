@@ -8,6 +8,8 @@ import RegisterEmployee from "../components/RegisterEmployee";
 import CreateOccupation from "../components/CreateOccupation";
 import CreateOs from "../components/CreateOs";
 import GetOss from "../components/GetOSs";
+import MyService from "../components/MyService";
+// import Projects from "../components/Projects";
 
 const Container = styled.div`
   display: flex;
@@ -26,32 +28,36 @@ const Main = styled.main`
 `;
 
 export default function Home() {
-  const [projects, setProjects] = useState([]);
+  // const [projects, setProjects] = useState([]);
 
-  useEffect(() => {
-    async function fetchProjects() {
-      const response = await fetch("/api/projects");
-      const data = await response.json();
-      setProjects(data);
-    }
-    fetchProjects();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchProjects() {
+  //     const response = await fetch("/api/projects");
+  //     const data = await response.json();
+  //     setProjects(data);
+  //   }
+  //   fetchProjects();
+  // }, []);
 
   return (
     <Container>
-      <Sidebar />
+       <Sidebar />
       <Main>
         {/* <ProjectForm /> */}
         {/* <ProjectList projects={projects} /> */}
 
 
 
-        <CreateService></CreateService>
+         <CreateService></CreateService>
         <RegisterEmployee></RegisterEmployee>
         <CreateOccupation></CreateOccupation>
-        <CreateOs></CreateOs>
+        <CreateOs></CreateOs> 
 
         <GetOss></GetOss>
+
+        {/* <Projects></Projects> */}
+
+        <MyService></MyService>
       </Main>
     </Container>
   );

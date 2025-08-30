@@ -1,15 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Input } from "./Ui/Input";
-import { ErrorText, Select, StyledLabel, SubmitButton, TextArea } from "../layouts/Theme";
+import { ErrorText, FormTitle, Select, StyledLabel, SubmitButton, TextArea } from "../layouts/Theme";
 import { useState } from "react";
 import occupation from "../services/apiOccupation";
 import { CreateOccupationSchema } from "../schemas/CreateOccupationSchema";
 import Checkbox from "./Ui/Checkbox";
+import { MoneyInputFallback } from "./Ui/MoneyInputFallBack";
 
 export default function CreateOccupation() {
   const [selectedOption, setSelectedOption] = useState("")
   const {
+    control,
     register,
     handleSubmit,
     reset,
@@ -18,7 +20,7 @@ export default function CreateOccupation() {
     resolver: zodResolver(CreateOccupationSchema),
   });
 
-  const onSubmit = async ({ occupationName, descriptionOccupation, selectedOption, }) => {
+  const onSubmit = async ({ occupationName, descriptionOccupation, selectedOption, priceSalary}) => {
     const dangerousnessBoolean = selectedOption;
 
     const payload = {
@@ -26,7 +28,7 @@ export default function CreateOccupation() {
       name: occupationName,
       description_of_occupation: descriptionOccupation,
       dangerousness: dangerousnessBoolean,
-
+      salary:priceSalary
     };
 
     console.log(payload, "onsumit")
@@ -44,7 +46,7 @@ export default function CreateOccupation() {
 
   return (
     <div>
-
+<FormTitle>Cadastrar Ocupação</FormTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           type="text"
@@ -58,6 +60,20 @@ export default function CreateOccupation() {
           placeholder="Descrição da ocupação"
           {...register("descriptionOccupation")}
           error={errors.descriptionOccupation} />
+
+
+          <Controller
+            name="priceSalary"
+            control={control}
+            defaultValue={0} // ou undefined
+            render={({ field }) => (
+              <MoneyInputFallback
+                label={"Salário"}
+                {...field}
+                error={errors.valor}
+              />
+            )}
+          />
 
 
         <Checkbox

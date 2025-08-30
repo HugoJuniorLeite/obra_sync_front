@@ -62,6 +62,44 @@ export default function RegisterEmployee() {
     fetchClients();
   }, []);
 
+  // useEffect(() => {
+
+  //   async function fetchProjects() {
+  //     try {
+  //       const res = await contract.getContracts()
+  //       setProjects(res);
+  //       setValue("selectedOptionProject", "");
+  //       console.log(res, "res")
+  //     } catch (err) {
+  //       console.error("Erro ao buscar serviços:", err.message);
+  //       console.log("aqui")
+  //       setProjects([]);
+  //     }
+  //   }
+  //   fetchProjects();
+  // }, []);
+
+
+  // useEffect(() => {
+
+  //   async function fetchOccupation() {
+  //    try {
+  //     const res = await occupation.getOccupationById(selectedOptionProject);
+
+  //     // garante que sempre será array
+  //     const occupationsArray = Array.isArray(res) ? res : [res];
+
+  //     setOccupations(occupationsArray);
+  //     setValue("selectedOptionOccupation", "");
+  //     console.log(occupationsArray, "técnico");
+  //   } catch (err) {
+  //       console.error("Erro ao buscar serviços:", err);
+  //       setOccupations([]);
+  //     }
+  //   }
+  //   fetchOccupation();
+  // }, [selectedOptionProject]);
+
 
   // limpa campos CNH quando desmarca
   useEffect(() => {
@@ -83,26 +121,23 @@ export default function RegisterEmployee() {
   };
 
   const onSubmit = async (data) => {
+    console.log(data)
+    const cleanRgNumber = data.rgNumber.replace(/\D/g, "");
+    const cleanCpfNumber = data.cpfNumber.replace(/\D/g, "");
+    const cleanPhoneNumber = data.phoneNumber.replace(/\D/g, "");
+
 
     const payload = {
       name: data.employeeName,
       date_of_birth: new Date(data.birthDate), // se tiver campo de data de nascimento
-      rg: data.rgNumber,
-      cpf: data.cpfNumber,
+      rg: cleanRgNumber,
+      cpf: cleanCpfNumber,
       drivers_license: true, // você pode criar um campo booleano no form se quiser
       occupation_id: Number(selectedOptionOccupation),
       admission_date: new Date(data.admissionDate),
       phones: {
         create: {
-          phoneNumber: data.phoneNumber
-        }
-      },
-      cnhs: {
-        create: {
-          category_cnh: data.cnhCategory, // criar campo no form
-          number_license: data.cnhNumber, // criar campo no form
-          validity: new Date(data.cnhValidity), // criar campo no form
-          first_drivers_license: new Date(data.firstDriversLicense) // criar campo no form
+          phoneNumber: cleanPhoneNumber
         }
       },
       address: {
@@ -123,6 +158,18 @@ export default function RegisterEmployee() {
         }
       }
     };
+
+          if(hasCNH) {
+        payload.cnhs = {
+          create: {
+            category_cnh: data.cnhCategory || "",
+            number_license: data.cnhNumber || "",
+            validity: new Date(data.cnhValidity || ""),
+            first_drivers_license: new Date(data.firstDriversLicense || "")
+          }
+        };
+      }
+
     console.log(payload, "onsumit")
     try {
       await employee.postEmployee(payload);
@@ -130,8 +177,6 @@ export default function RegisterEmployee() {
       reset()         // <- isso limpa os campos do formulário
       setSelectedOptionOccupation("")
       setSelectedOptionProject("")
-      setProjects("")
-      setOccupations("")
       setCep("")
       setAdress("")
       setNeighborhood("")
@@ -199,41 +244,66 @@ export default function RegisterEmployee() {
 
         </RowInput>
         <RowInput>
-          <Input
-            type="text"
-            label="Rg"
-            mask="00.000.000-00"
-            definitions={{ "0": /[0-9]/ }}
+
+
+
+          <Controller
             name="rgNumber"
-            register={register}
-            error={errors.rgNumber}
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                type="text"
+                label="Rg"
+                mask="00.000.000-00"
+                definitions={{ "0": /[0-9]/ }}
+                name="rgNumber"
+                register={register}
+                error={errors.rgNumber}
+              />
+            )}
           />
 
-          <Input
-
-            type="text"
-            label="CPF"
-            mask="000.000.000-00"
-            definitions={{ "0": /[0-9]/ }}
+          <Controller
             name="cpfNumber"
-            register={register}
-            error={errors.cpfNumber}
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                type="text"
+                label="CPF"
+                mask="000.000.000-00"
+                definitions={{ "0": /[0-9]/ }}
+                name="cpfNumber"
+                register={register}
+                error={errors.cpfNumber}
+              />
+            )}
           />
-
         </RowInput>
 
 
         <RowInput>
 
-          <Input
-            type="phone"
-            label="Telefone"
-            mask="(00) 0 0000-0000"
-            definitions={{ "0": /[0-9]/ }}
+
+          <Controller
             name="phoneNumber"
-            register={register}
-            error={errors.phoneNumber}
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                type="phone"
+                label="Telefone"
+                mask="(00) 0 0000-0000"
+                definitions={{ "0": /[0-9]/ }}
+                name="phoneNumber"
+                register={register}
+                error={errors.phoneNumber}
+              />
+            )}
           />
+
+
 
           <Input
             label="Cep"
@@ -348,25 +418,6 @@ export default function RegisterEmployee() {
             </RowInput>
           </>
         )}
-
-
-
-        <div>
-          <StyledLabel >Cargo:</StyledLabel>
-          <Select id="select" value={selectedOptionOccupation}
-            {...register("selectedOptionOccupation")}
-            onChange={handleChangeOcupation}>
-            <option value="">Selecione um projeto</option>
-            {occupations.map((occupation) => (
-              <option key={occupation.id} value={occupation.id}>
-                {occupation.name}
-              </option>
-            ))}
-          </Select>
-        </div>
-
-
-
         <div>
           <StyledLabel >Centro de custo(Projeto):</StyledLabel>
           <Select id="select" value={selectedOptionProject}
@@ -380,6 +431,25 @@ export default function RegisterEmployee() {
             ))}
           </Select>
         </div>
+
+
+        <div>
+          <StyledLabel >Cargo:</StyledLabel>
+          <Select id="select" value={selectedOptionOccupation}
+            {...register("selectedOptionOccupation")}
+            onChange={handleChangeOcupation}>
+            <option value="">Selecione um cargo</option>
+            {occupations.map((occupation) => (
+              <option key={occupation.id} value={occupation.id}>
+                {occupation.name}
+              </option>
+            ))}
+          </Select>
+        </div>
+
+
+
+
 
         <Input
           type="date"

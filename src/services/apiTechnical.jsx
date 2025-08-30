@@ -7,6 +7,7 @@ async function postTechnical(payload) {
 }
 
 async function getTechnical() {
+  
   const response = await api.get('/get-employee-by-project/:project_id');
   return response.data;
 }

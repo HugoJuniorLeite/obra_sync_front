@@ -11,10 +11,13 @@ async function getOccupation() {
   return response.data;
 }
 
+async function getOccupationById(payload) {
+  const response = await api.get(`/occupation-by-id/${payload}`);
+  return response.data;
+}
 
 
 
-
-const occupation = { postOccupation, getOccupation }
+const occupation = { postOccupation, getOccupation, getOccupationById }
 
 export default occupation;

@@ -5,7 +5,8 @@ export const EmployeeSchema = z.object({
   birthDate: z.string(),
   rgNumber: z.string().regex(/^\d{2}\.\d{3}\.\d{3}-\d{2}$/, "RG inválido. Use o formato 00.000.000-00"),
   cpfNumber: z.string(),
-  phoneNumber: z.string(),
+  phoneNumber: z.string()
+    .regex(/^\(\d{2}\)\s\d\s\d{4}-\d{4}$/, "Telefone inválido"),
   adressNumber: z.string(),
   admissionDate: z.string(),
 
