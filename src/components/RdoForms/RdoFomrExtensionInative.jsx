@@ -906,8 +906,8 @@ import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { FormContext } from "./FormContext";
 import { useParams } from "react-router-dom";
-import { FormTitle, FormWrapper, StyledSelect, SubmitButton } from "../../layouts/Theme";
-import { Container, Title } from "../../layouts/StyledComponents";
+import { ButtonSecondary, FormTitle, FormWrapper, StyledInput, StyledLabel, StyledSelect, SubmitButton } from "../../layouts/Theme";
+import { Container, DispatchButton, Title } from "../../layouts/StyledComponents";
 
 // const Container = styled.div`
 //   display:flex;
@@ -924,7 +924,7 @@ import { Container, Title } from "../../layouts/StyledComponents";
 
 const StepContainer = styled.div`
   margin-bottom: 10px;
-  margin-top:10px;
+  margin-top:15px;
   padding: 15px;
 //  border-radius: 8px;
   //background-color: #fff;
@@ -1008,7 +1008,7 @@ export default function RdoForm() {
     {
       title: "Posição do Ramal",
       content: (
-        <Select
+        <StyledSelect
           value={formData.posicaoRamal}
           onChange={(e) => setFormData({ ...formData, posicaoRamal: e.target.value })}
         >
@@ -1016,27 +1016,27 @@ export default function RdoForm() {
           <option value="Entre lotes">Entre lotes</option>
           <option value="Esquina direita">Esquina direita</option>
           <option value="Esquina esquerda">Esquina esquerda</option>
-        </Select>
+        </StyledSelect>
       ),
     },
     {
       title: "Valv. Ex. Fluxo",
       content: (
-        <Select
+        <StyledSelect
           value={formData.valvFluxo}
           onChange={(e) => setFormData({ ...formData, valvFluxo: e.target.value })}
         >
           <option value="">Selecione</option>
           <option value="false">não</option>
           <option value="true">sim</option>
-        </Select>
+        </StyledSelect>
       ),
     },
 
     {
       title: "Material da Rede",
       content: (
-        <Select
+        <StyledSelect
           value={formData.materialRede}
           onChange={(e) => setFormData({ ...formData, materialRede: e.target.value })}
         >
@@ -1044,13 +1044,13 @@ export default function RdoForm() {
           <option value="Aço">Aço</option>
           <option value="PE">PE</option>
           <option value="Outro">Outro</option>
-        </Select>
+        </StyledSelect>
       ),
     },
     {
       title: "Diametro da Rede",
       content: (
-        <Select
+        <StyledSelect
           value={formData.diametroRede}
           onChange={(e) => setFormData({ ...formData, diametroRede: e.target.value })}
         >
@@ -1060,14 +1060,14 @@ export default function RdoForm() {
           <option value="90mm">90mm</option>
           <option value="125mm">125mm</option>
           <option value="Outro">Outro</option>
-        </Select>
+        </StyledSelect>
       ),
     },
 
         {
       title: "Presão da Rede",
       content: (
-        <Select
+        <StyledSelect
           value={formData.pressaoRede}
           onChange={(e) => setFormData({ ...formData, pressaoRede: e.target.value })}
         >
@@ -1077,13 +1077,13 @@ export default function RdoForm() {
           <option value="1Bar">1Bar</option>
           <option value="4Bar">4Bar</option>
           <option value="7bar"> 7bar</option>
-        </Select>
+        </StyledSelect>
       ),
     },
     {
       title: "Material do Ramal",
       content: (
-        <Select
+        <StyledSelect
           value={formData.materialRamal}
           onChange={(e) => setFormData({ ...formData, materialRamal: e.target.value })}
         >
@@ -1091,14 +1091,14 @@ export default function RdoForm() {
           <option value="Aço">Aço</option>
           <option value="PE">PE</option>
           <option value="Outro">Outro</option>
-        </Select>
+        </StyledSelect>
       ),
     },
 
     {
       title: "Diametro do Ramal",
       content: (
-        <Select
+        <StyledSelect
           value={formData.diametroRamal}
           onChange={(e) => setFormData({ ...formData, diametroRamal: e.target.value })}
         >
@@ -1108,14 +1108,14 @@ export default function RdoForm() {
           <option value="63mm">63mm</option>
           <option value="90mm">90mm</option>
           <option value="Outro"> outro</option>
-        </Select>
+        </StyledSelect>
       ),
     },
     
     {
       title: "Ramal Cortado",
       content: (
-        <Select
+        <StyledSelect
           value={formData.ramalCortado}
           onChange={(e) => setFormData({ ...formData, ramalCortado: e.target.value })}
         >
@@ -1123,100 +1123,100 @@ export default function RdoForm() {
           <option value="Principal">Principal</option>
           <option value="Adjacente">Adjacente</option>
           <option value="Conjulgado">Conjulgado</option>
-        </Select>
+        </StyledSelect>
       ),
     },
     {
       title: "Tipo do ramal",
       content: (
-        <Select
+        <StyledSelect
           value={formData.tipoRamal}
           onChange={(e) => setFormData({ ...formData, tipoRamal: e.target.value })}
         >
           <option value="">Selecione</option>
           <option value="mesmoLado">mesmo lado</option>
           <option value="ladoOposto">lado oposto</option>
-        </Select>
+        </StyledSelect>
       ),
     },
     {
       title: "Posição do ramal",
       content: (
-        <Select
+        <StyledSelect
           value={formData.posicaoRamal}
           onChange={(e) => setFormData({ ...formData, posicaoRamal: e.target.value })}
         >
           <option value="">Selecione</option>
           <option value="mesmoLado">Entre lotes</option>
-        </Select>
+        </StyledSelect>
       ),
     },
     {
       title: "Local do corte",
       content: (
-        <Select
+        <StyledSelect
           value={formData.localCorte}
           onChange={(e) => setFormData({ ...formData, localCorte: e.target.value })}
         >
           <option value="">Selecione</option>
           <option value="preVgb">Pré vgb</option>
           <option value="posVgb">Pós vgb</option>
-        </Select>
+        </StyledSelect>
       ),
     },
     {
       title: "Tipo do capeamento",
       content: (
-        <Select
+        <StyledSelect
           value={formData.tipoCapeamento}
           onChange={(e) => setFormData({ ...formData, tipoCapeamento: e.target.value })}
         >
           <option value="">Selecione</option>
           <option value="flange">Flangeado</option>
           <option value="rosca">Roscado</option>
-        </Select>
+        </StyledSelect>
       ),
     },
 
     {
       title: "Proteção mecânica",
       content: (
-        <Select
+        <StyledSelect
           value={formData.protecaoMecanica}
           onChange={(e) => setFormData({ ...formData, protecaoMecanica: e.target.value })}
         >
           <option value="">Selecione</option>
           <option value="false">Não</option>
           <option value="true">Sim</option>
-        </Select>
+        </StyledSelect>
       ),
     },
 
     {
       title: "Tachão instalado",
       content: (
-        <Select
+        <StyledSelect
           value={formData.tachaoRedondo}
           onChange={(e) => setFormData({ ...formData, tachaoRedondo: e.target.value })}
         >
           <option value="">Selecione</option>
           <option value="false">Não</option>
           <option value="true">Sim</option>
-        </Select>
+        </StyledSelect>
       ),
     },
 
     {
       title: "Faixa de sinalização instalada",
       content: (
-        <Select
+        <StyledSelect
           value={formData.faixaSinalizacao}
           onChange={(e) => setFormData({ ...formData, faixaSinalizacao: e.target.value })}
         >
           <option value="">Selecione</option>
           <option value="false">Não</option>
           <option value="true">Sim</option>
-        </Select>
+        </StyledSelect>
       ),
     },
 
@@ -1226,26 +1226,26 @@ export default function RdoForm() {
         <>
           {(formData.valas || []).map((v, i) => (
             <div key={i} style={{ borderBottom: "1px solid #ccc", marginBottom: "10px" }}>
-              <Label>Largura</Label>
-              <Input value={v.largura} onChange={e => {
+              <StyledLabel>Largura</StyledLabel>
+              <StyledInput value={v.largura} onChange={e => {
                 const newValas = [...formData.valas];
                 newValas[i].largura = e.target.value;
                 setFormData({ ...formData, valas: newValas });
               }} />
-              <Label>Comprimento</Label>
-              <Input value={v.comprimento} onChange={e => {
+              <StyledLabel>Comprimento</StyledLabel>
+              <StyledInput value={v.comprimento} onChange={e => {
                 const newValas = [...formData.valas];
                 newValas[i].comprimento = e.target.value;
                 setFormData({ ...formData, valas: newValas });
               }} />
-              <Label>Profundidade</Label>
-              <Input value={v.profundidade} onChange={e => {
+              <StyledLabel>Profundidade</StyledLabel>
+              <StyledInput value={v.profundidade} onChange={e => {
                 const newValas = [...formData.valas];
                 newValas[i].profundidade = e.target.value;
                 setFormData({ ...formData, valas: newValas });
               }} />
-              <Label>Tipo de Piso</Label>
-              <Select value={v.tipoPiso} onChange={e => {
+              <StyledLabel>Tipo de Piso</StyledLabel>
+              <StyledSelect value={v.tipoPiso} onChange={e => {
                 const newValas = [...formData.valas];
                 newValas[i].tipoPiso = e.target.value;
                 setFormData({ ...formData, valas: newValas });
@@ -1255,11 +1255,11 @@ export default function RdoForm() {
                 <option>Cerâmica</option>
                 <option>Concreto</option>
                 <option>Outro</option>
-              </Select>
-              <button type="button" onClick={() => handleRemoveItem("valas", i)}>Remover Vala</button>
+              </StyledSelect>
+              <SubmitButton type="button" onClick={() => handleRemoveItem("valas", i)}>- Remover</SubmitButton>
             </div>
           ))}
-          <button type="button" onClick={() => handleAddItem("valas", { largura: "", comprimento: "", profundidade: "", tipoPiso: "" })}>+ Adicionar nova Vala</button>
+          <SubmitButton type="button" onClick={() => handleAddItem("valas", { largura: "", comprimento: "", profundidade: "", tipoPiso: "" })}>+ Adicionar</SubmitButton>
         </>
       )
     },
@@ -1269,8 +1269,8 @@ export default function RdoForm() {
         <>
           {["fotoPlacaRua", "fotoFrenteImovel", "fotoCalcadaAntes", "fotoRamalExposto", "fotoRamalCortado", "fotoProtecaoMecanica", "fotoProvisorio", "fotoCroqui"].map((field) => (
             <>
-              <Label>{field.replace(/([A-Z])/g, " $1")}</Label>
-              <Input type="file" onChange={e => setFormData({ ...formData, [field]: e.target.files[0] })} />
+              <StyledLabel>{field.replace(/([A-Z])/g, " $1")}</StyledLabel>
+              <StyledInput type="file" onChange={e => setFormData({ ...formData, [field]: e.target.files[0] })} />
             </>
           ))}
         </>
@@ -1284,8 +1284,8 @@ export default function RdoForm() {
             <div key={i}>
               {["componente", "de", "fabricante", "lote"].map(field => (
                 <>
-                  <Label>{field}</Label>
-                  <Input
+                  <StyledLabel>{field}</StyledLabel>
+                  <StyledInput
                     value={c[field] || ""}
                     onChange={e => {
                       const newC = [...formData.componentes];
@@ -1295,10 +1295,10 @@ export default function RdoForm() {
                   />
                 </>
               ))}
-              <button type="button" onClick={() => handleRemoveItem("componentes", i)}>Remover Linha</button>
+              <SubmitButton type="button" onClick={() => handleRemoveItem("componentes", i)}>Remover Linha</SubmitButton>
             </div>
           ))}
-          <button type="button" onClick={() => handleAddItem("componentes", { componente: "", de: "", fabricante: "", lote: "" })}>+ Adicionar Linha</button>
+          <SubmitButton type="button" onClick={() => handleAddItem("componentes", { componente: "", de: "", fabricante: "", lote: "" })}>+ Adicionar Linha</SubmitButton>
         </>
       )
     },
@@ -1310,8 +1310,8 @@ export default function RdoForm() {
             <div key={i}>
               {["componente", "numeroSolda", "tempoResfriamento"].map(field => (
                 <>
-                  <Label>{field}</Label>
-                  <Input
+                  <StyledLabel>{field}</StyledLabel>
+                  <StyledInput
                     value={s[field] || ""}
                     onChange={e => {
                       const newS = [...formData.soldas];
@@ -1321,8 +1321,8 @@ export default function RdoForm() {
                   />
                 </>
               ))}
-              <Label>Aprovado</Label>
-              <Select value={s.aprovado || ""} onChange={e => {
+              <StyledLabel>Aprovado</StyledLabel>
+              <StyledSelect value={s.aprovado || ""} onChange={e => {
                 const newS = [...formData.soldas];
                 newS[i].aprovado = e.target.value;
                 setFormData({ ...formData, soldas: newS });
@@ -1330,11 +1330,11 @@ export default function RdoForm() {
                 <option value="">Selecione</option>
                 <option>Sim</option>
                 <option>Não</option>
-              </Select>
-              <button type="button" onClick={() => handleRemoveItem("soldas", i)}>Remover Linha</button>
+              </StyledSelect>
+              <SubmitButton type="button" onClick={() => handleRemoveItem("soldas", i)}>- Remover</SubmitButton>
             </div>
           ))}
-          <button type="button" onClick={() => handleAddItem("soldas", { componente: "", numeroSolda: "", tempoResfriamento: "", aprovado: "" })}>+ Adicionar Linha</button>
+          <SubmitButton type="button" onClick={() => handleAddItem("soldas", { componente: "", numeroSolda: "", tempoResfriamento: "", aprovado: "" })}>+ Adicionar</SubmitButton>
         </>
       )
     }

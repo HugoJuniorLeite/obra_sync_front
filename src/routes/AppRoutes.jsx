@@ -6,6 +6,7 @@ import RdoFomrExtensionInative from "../components/RdoForms/RdoFomrExtensionInat
 import { FormProvider } from "../components/RdoForms/FormContext";
 import GlobalStyle from "../layouts/GlobalStyle";
 import { useForm } from "react-hook-form";
+import PrincipalPreVgb from "../components/RdoForms/Croqui/PrincipalPreVgb";
 // import { LoginMaster } from "../pages/LoginMaster";
 
 export default function AppRoutes() {
@@ -21,7 +22,7 @@ export default function AppRoutes() {
           <Route path="/home" element={<Home />} ></Route>
           {/* <Route path="/nota" element={<RdoFomrExtensionInative />} ></Route> */}
           <Route path="/rdo-form/:id" element={<RdoFomrExtensionInative />} />
-
+          <Route path="/rdo-croqui" element={<PrincipalPreVgb />}/>
 
         </Routes>
       </FormProvider>

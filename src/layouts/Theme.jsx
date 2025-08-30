@@ -11,7 +11,7 @@ export const colors = {
   surface: "#3a3a3a", // cinza médio
   input: "#4a4a4a", // cinza escuro
   border: "#666666",
-  text: "#f9f9f9", // branco suave
+  text: /*"#f9f9f9"*/"#e0e0e0", // branco suave
   accent: "#fdb000", // amarelo destaque
   error: "#fdb000",
      gray: "#cccccc"
@@ -70,6 +70,7 @@ export const StyledLabel = styled.label`
   color: ${colors.text};
   margin-bottom: 6px;
   font-size: 16px;
+   font-weight: bold;
 `;
 
 
@@ -89,12 +90,17 @@ export const StyledInput = styled.input`
        border-color: ${colors.accent};
     outline: none;
     }
-  
 
+    &:focus {
+  border: 1px solid #f5a400;
+  box-shadow: 0 0 4px rgba(245,164,0,0.6);
+  outline: none;
+}
+/*   
   &:focus {
     border-color: ${colors.accent};
     outline: none;
-  }
+  } */
    &::placeholder {
      color: ${colors.gray};
    }
@@ -139,6 +145,7 @@ export const SubmitButton = styled.button`
   width: 100%;
   padding: 14px;
   margin-top: 30px;
+  margin-right:5px;
   background-color: ${colors.accent};
   color: #1f1f1f;
   font-weight: 600;
@@ -655,3 +662,27 @@ export const ModalContent = styled.div`
   width: 100%;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* opcional, deixa mais elegante */
 `;
+
+export const ButtonSecondary = styled.button`
+  width: 100%;
+  padding: 0.7rem;
+  margin-top: 0.8rem;
+  margin-bottom:8px;
+  background: transparent;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  background: #444;
+  color: #f5a400;
+  border: 1px solid #f5a400;
+
+  &:hover {
+    background: #f5a400;
+    color: #000;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+`
