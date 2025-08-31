@@ -13,6 +13,8 @@ export function FormProvider({ children }) {
       if (saved) setFormData(JSON.parse(saved));
       else setFormData({ 
         resultado: "",
+        detalhe:"",
+        comentario:"",
         valas: [{ largura: "", comprimento: "", profundidade: "", tipoPiso: "" }],
         posicaoRamal: "",
         tipoRamal: "",

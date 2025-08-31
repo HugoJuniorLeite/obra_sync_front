@@ -157,7 +157,7 @@ const fields = [
 
 ];
 
-export default function PrincipalPreVgb() {
+export default function PrincipalPreVgb(formData, setFormData, BillId) {
   const { control, handleSubmit } = useForm();
   const [widths, setWidths] = useState({});
   const spansRef = useRef({});
@@ -175,7 +175,7 @@ export default function PrincipalPreVgb() {
 
 
   const onSubmit = (data) => {
-    console.log("Dados preenchidos:", data);
+    console.log("Dados preenchidos:", data,"data", formData, "formData", BillId, "billId");
     alert("Valores salvos! Veja no console.");
   };
 
