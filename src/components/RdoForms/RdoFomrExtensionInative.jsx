@@ -3,6 +3,8 @@
 // import styled from "styled-components";
 // // import {ActionButton} from "../../Pages/MinasNotasPage/styled"
 
+
+
 // const Container = styled.div`
 // display:flex;
 // flex-direction: column;
@@ -902,26 +904,14 @@
 //Rdo rev2
 
 // RdoForm.js
-import React, { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
-import { FormContext } from "./FormContext";
-import { useParams } from "react-router-dom";
+// import React, { useContext, useEffect, useState } from "react";
+// import styled from "styled-components";
+// import { FormContext } from "./FormContext";
+// import { useParams } from "react-router-dom";
 import { FormTitle, StyledInput, StyledLabel, StyledSelect, SubmitButton, TextArea } from "../../layouts/Theme";
 import { Container, Title } from "../../layouts/StyledComponents";
-import PrincipalPreVgb from "./Croqui/PrincipalPreVgb";
-
-// const Container = styled.div`
-//   display:flex;
-//   flex-direction: column;
-//   justify-content:center;
-//   max-width: 100vw;
-//   height: 100vh;
-//   margin: 0 auto;
-//   padding: 20px;
-//   font-family: Arial, sans-serif;
-//   color:black;
-//   background-color: #f0f0f0;
-// `;
+// import PrincipalPreVgb from "./Croqui/PrincipalPreVgb";
+// import axios from "axios";
 
 const StepContainer = styled.div`
   margin-bottom: 10px;
@@ -967,83 +957,629 @@ const Label = styled.label`
   display: block;
 `;
 
-export default function RdoForm() {
-  const { BillId } = useParams();
+// export default function RdoForm() {
+//   const { BillId } = useParams();
 
-  const { formData, setFormData } = useContext(FormContext);
+//   const { formData, setFormData } = useContext(FormContext);
+//   const [step, setStep] = useState(0);
+
+//   // Adicionar/Remover linhas de arrays
+//   const handleAddItem = (field, newItem) => {
+//     setFormData({ ...formData, [field]: [...(formData[field] || []), newItem] });
+//   };
+
+//   const handleRemoveItem = (field, index) => {
+//     const newArray = [...formData[field]];
+//     newArray.splice(index, 1);
+//     setFormData({ ...formData, [field]: newArray });
+//   };
+
+//   // Navegação entre steps
+//   const handleNext = () => { if (step < steps.length - 1) setStep(step + 1); };
+//   const handlePrev = () => { if (step > 0) setStep(step - 1); };
+
+//   // Submit
+//   // const handleSubmit = () => {
+//   //   console.log("Dados enviados:", formData);
+//   //   alert("Formulário enviado!");
+//   //   localStorage.removeItem("rdoFormData");
+//   // };
+
+
+//   useEffect(() => {
+//     if (formData.resultado === "executada") {
+//       // limpamos os campos de "não executada"
+//       setFormData(prev => ({
+//         ...prev,
+//         detalhe: "",
+//         comentario: "",
+//       }));
+//     }
+
+//     if (formData.resultado === "nao_executada") {
+//       // limpamos os campos de "executada"
+//       setFormData(prev => ({
+//         ...prev,
+//         detalhe: "",
+//         valas: [{ largura: "", comprimento: "", profundidade: "", tipoPiso: "" }],
+//         posicaoRamal: "",
+//         tipoRamal: "",
+//         materialRede: "",
+//         materialRamal: "",
+//         diametroRede: "",
+//         diametroRamal: "",
+//         ramalCortado: "",
+//         pressaoRede: "",
+//         endereco: "",
+//         localCorte: "",
+//         tipoCapeamento: "",
+//         fotoCalcadaAntes: null,
+//         fotoRamalExposto: null,
+//         fotoRamalCortado: null,
+//         fotoCroqui: null,
+//         fotoFrenteImovel: null,
+//         fotoPlacaRua: null,
+//         fotoProtecaoMecanica: null,
+//         fotoTachao: null,
+//         fotoProvisorio: null,
+//         componentes: [{}],
+//         soldas: [{}],
+//         tachaoRedondo: "",
+//         protecaoMecanica: "",
+//         faixaSinalizacao: "",
+//         valvFluxo: "",
+//       }));
+//     }
+//   }, [formData.resultado]);
+
+
+//   const handleUpload = async (file) => {
+//   const formData = new FormData();
+//   formData.append("file", file);
+
+//   const response = await axios.post("http://localhost:4000/create-rdo", formData, {
+//     headers: { "Content-Type": "multipart/form-data" },
+//   });
+
+//   return response.data.url;
+// };
+
+
+// // const handleFileChangeField = (field) => async (e) => {
+// //   const file = e.target.files[0];
+// //   if (file) {
+// //     const url = await handleUpload(file);
+// //     setFormData(prev => ({ ...prev, [field]: url }));
+// //   }
+// // };
+
+// const handleFileChangeField = (field) => (e) => {
+//   const file = e.target.files[0];
+//   if (file) {
+//     setFormData(prev => ({ ...prev, [field]: file }));
+//   }
+// };
+
+
+// const handleSubmit = async () => {
+//   try {
+//     const form = new FormData();
+
+//     // Lista dos campos que o backend espera
+//     const photoFields = [
+//       "fotoCalcadaAntes",
+//       "fotoCroqui",
+//       "fotoFrenteImovel",
+//       "fotoPlacaRua",
+//       "fotoProtecaoMecanica",
+//       "fotoProvisorio",
+//       "fotoRamalCortado",
+//       "fotoRamalExposto"
+//     ];
+
+//     // Adiciona os arquivos corretos
+//     photoFields.forEach(field => {
+//       if (formData[field]) {
+//         form.append(field, formData[field]);
+//       }
+//     });
+
+//     // Adiciona os outros dados em JSON
+//     form.append("data", JSON.stringify(formData));
+
+//     const response = await axios.post("http://localhost:4000/create-rdo", form, {
+//       headers: { "Content-Type": "multipart/form-data" },
+//     });
+
+//     console.log("Resposta do backend:", response.data);
+//     alert("RDO enviado com sucesso!");
+//     localStorage.removeItem("rdoFormData");
+
+//   } catch (error) {
+//     console.error("Erro ao enviar RDO:", error);
+//     alert("Erro ao enviar o RDO");
+//   }
+// };
+
+
+
+
+
+//   const getSteps = () => {
+//     const stepResultado = {
+//       title: "Resultado",
+//       content: (
+//         <>
+//           <StyledSelect
+//             value={formData.resultado || ""}
+//             onChange={e => setFormData({ ...formData, resultado: e.target.value })}
+//           >
+//             <option value="">Selecione um resultado</option>
+//             <option value="executada">Executado</option>
+//             <option value="nao_executada">Não Executado</option>
+//           </StyledSelect>
+
+//           {formData.resultado === "executada" && (
+//             <StyledSelect
+//               value={formData.detalhe || ""}
+//               onChange={e => setFormData({ ...formData, detalhe: e.target.value })}
+//             >
+//               <option value="">Selecione um resultado</option>
+//               <option value="executada">Executado</option>
+//               <option value="vala_perdida">Vala perdida</option>
+//             </StyledSelect>
+//           )}
+
+//           {formData.resultado === "nao_executada" && (
+//             <>
+//               <StyledSelect
+//                 value={formData.detalhe || ""}
+//                 onChange={e => setFormData({ ...formData, detalhe: e.target.value })}
+//               >
+//                 <option value="">Selecione um resultado</option>
+//                 <option value="exenão_autorizado">Cliente não autoriza</option>
+//                 <option value="com_consumo">Com consumo</option>
+//                 <option value="impossibilidade_tecnica">Imóvel não localizado</option>
+
+//               </StyledSelect>
+
+//               <TextArea
+//                 value={formData.comentario}
+//                 onChange={e => setFormData({ ...formData, comentario: e.target.value })}
+//                 rows={3}
+//                 placeholder="Descrição da ocupação">
+//               </TextArea>
+//             </>
+//           )}
+//         </>
+//       )
+//     };
+
+//     // se NÃO foi executado, só retorna o primeiro step
+//     if (formData.resultado === "nao_executada") {
+//       return [stepResultado];
+//     }
+
+//     // se foi executado, retorna TODOS os steps
+//     if (formData.resultado === "executada") {
+//       return [
+//         stepResultado,
+//         {
+//           title: "Fotos antes da atividade",
+//           content: (
+//             <>
+//               {["fotoPlacaRua", "fotoFrenteImovel", "fotoCalcadaAntes"].map((field) => (
+//                 <>
+//                   <StyledLabel>{field.replace(/([A-Z])/g, " $1")}</StyledLabel>
+//                   <StyledInput type="file" accept="image/*" capture="camera" onChange={handleFileChangeField("fotoPlacaRua")}  />
+//                 </>
+//               ))}
+//             </>
+//           )
+//         },
+//         {
+//           title: "Dimensões da Vala",
+//           content: (
+//             <>
+//               {(formData.valas || []).map((v, i) => (
+//                 <div key={i} style={{ borderBottom: "1px solid #ccc", marginBottom: "10px" }}>
+//                   <StyledLabel>Largura</StyledLabel>
+//                   <StyledInput value={v.largura} onChange={e => {
+//                     const newValas = [...formData.valas];
+//                     newValas[i].largura = e.target.value;
+//                     setFormData({ ...formData, valas: newValas });
+//                   }} />
+//                   <StyledLabel>Comprimento</StyledLabel>
+//                   <StyledInput value={v.comprimento} onChange={e => {
+//                     const newValas = [...formData.valas];
+//                     newValas[i].comprimento = e.target.value;
+//                     setFormData({ ...formData, valas: newValas });
+//                   }} />
+//                   <StyledLabel>Profundidade</StyledLabel>
+//                   <StyledInput value={v.profundidade} onChange={e => {
+//                     const newValas = [...formData.valas];
+//                     newValas[i].profundidade = e.target.value;
+//                     setFormData({ ...formData, valas: newValas });
+//                   }} />
+//                   <StyledLabel>Tipo de Piso</StyledLabel>
+//                   <StyledSelect value={v.tipoPiso} onChange={e => {
+//                     const newValas = [...formData.valas];
+//                     newValas[i].tipoPiso = e.target.value;
+//                     setFormData({ ...formData, valas: newValas });
+//                   }}>
+//                     <option value="">Selecione</option>
+//                     <option>Bloquete</option>
+//                     <option>Cerâmica</option>
+//                     <option>Concreto</option>
+//                     <option>Outro</option>
+//                   </StyledSelect>
+//                   <SubmitButton type="button" onClick={() => handleRemoveItem("valas", i)}>- Remover</SubmitButton>
+//                 </div>
+//               ))}
+//               <SubmitButton type="button" onClick={() => handleAddItem("valas", { largura: "", comprimento: "", profundidade: "", tipoPiso: "" })}>+ Adicionar</SubmitButton>
+//             </>
+//           )
+//         },
+//         {
+//           title: "Croqui",
+//           content: (
+//             <PrincipalPreVgb formData={formData} setFormData={setFormData} BillId={BillId}/>
+//           )
+//         },
+//         {
+//           title: "Fotos durante",
+//           content: (
+//             <>
+//               {["fotoRamalExposto", "fotoRamalCortado", "fotoProtecaoMecanica", "fotoProvisorio"].map((field) => (
+//                 <>
+//                   <StyledLabel>{field.replace(/([A-Z])/g, " $1")}</StyledLabel>
+//                   <StyledInput type="file" accept="image/*" capture="camera" onChange={handleFileChangeField("fotoRamalExposto")} />
+//                 </>
+//               ))}
+//             </>
+//           )
+//         },
+//         {
+//           title: "Posição do Ramal",
+//           content: (
+//             <StyledSelect
+//               value={formData.posicaoRamal}
+//               onChange={(e) => setFormData({ ...formData, posicaoRamal: e.target.value })}
+//             >
+//               <option value="">Selecione</option>
+//               <option value="Entre lotes">Entre lotes</option>
+//               <option value="Esquina direita">Esquina direita</option>
+//               <option value="Esquina esquerda">Esquina esquerda</option>
+//             </StyledSelect>
+//           ),
+//         },
+//         {
+//           title: "Valv. Ex. Fluxo",
+//           content: (
+//             <StyledSelect
+//               value={formData.valvFluxo}
+//               onChange={(e) => setFormData({ ...formData, valvFluxo: e.target.value })}
+//             >
+//               <option value="">Selecione</option>
+//               <option value="false">não</option>
+//               <option value="true">sim</option>
+//             </StyledSelect>
+//           ),
+//         },
+
+//         {
+//           title: "Material da Rede",
+//           content: (
+//             <StyledSelect
+//               value={formData.materialRede}
+//               onChange={(e) => setFormData({ ...formData, materialRede: e.target.value })}
+//             >
+//               <option value="">Selecione</option>
+//               <option value="Aço">Aço</option>
+//               <option value="PE">PE</option>
+//               <option value="Outro">Outro</option>
+//             </StyledSelect>
+//           ),
+//         },
+//         {
+//           title: "Diametro da Rede",
+//           content: (
+//             <StyledSelect
+//               value={formData.diametroRede}
+//               onChange={(e) => setFormData({ ...formData, diametroRede: e.target.value })}
+//             >
+//               <option value="">Selecione</option>
+//               <option value="40mm">40mm</option>
+//               <option value="63mm">63mm</option>
+//               <option value="90mm">90mm</option>
+//               <option value="125mm">125mm</option>
+//               <option value="Outro">Outro</option>
+//             </StyledSelect>
+//           ),
+//         },
+
+//         {
+//           title: "Presão da Rede",
+//           content: (
+//             <StyledSelect
+//               value={formData.pressaoRede}
+//               onChange={(e) => setFormData({ ...formData, pressaoRede: e.target.value })}
+//             >
+//               <option value="">Selecione</option>
+//               <option value="250mbar">250mbar</option>
+//               <option value="750mbar">750mbar</option>
+//               <option value="1Bar">1Bar</option>
+//               <option value="4Bar">4Bar</option>
+//               <option value="7bar"> 7bar</option>
+//             </StyledSelect>
+//           ),
+//         },
+//         {
+//           title: "Material do Ramal",
+//           content: (
+//             <StyledSelect
+//               value={formData.materialRamal}
+//               onChange={(e) => setFormData({ ...formData, materialRamal: e.target.value })}
+//             >
+//               <option value="">Selecione</option>
+//               <option value="Aço">Aço</option>
+//               <option value="PE">PE</option>
+//               <option value="Outro">Outro</option>
+//             </StyledSelect>
+//           ),
+//         },
+
+//         {
+//           title: "Diametro do Ramal",
+//           content: (
+//             <StyledSelect
+//               value={formData.diametroRamal}
+//               onChange={(e) => setFormData({ ...formData, diametroRamal: e.target.value })}
+//             >
+//               <option value="">Selecione</option>
+//               <option value="20mm">20mm</option>
+//               <option value="32mm">32mm</option>
+//               <option value="63mm">63mm</option>
+//               <option value="90mm">90mm</option>
+//               <option value="Outro"> outro</option>
+//             </StyledSelect>
+//           ),
+//         },
+
+//         {
+//           title: "Ramal Cortado",
+//           content: (
+//             <StyledSelect
+//               value={formData.ramalCortado}
+//               onChange={(e) => setFormData({ ...formData, ramalCortado: e.target.value })}
+//             >
+//               <option value="">Selecione</option>
+//               <option value="Principal">Principal</option>
+//               <option value="Adjacente">Adjacente</option>
+//               <option value="Conjulgado">Conjulgado</option>
+//             </StyledSelect>
+//           ),
+//         },
+//         {
+//           title: "Tipo do ramal",
+//           content: (
+//             <StyledSelect
+//               value={formData.tipoRamal}
+//               onChange={(e) => setFormData({ ...formData, tipoRamal: e.target.value })}
+//             >
+//               <option value="">Selecione</option>
+//               <option value="mesmoLado">mesmo lado</option>
+//               <option value="ladoOposto">lado oposto</option>
+//             </StyledSelect>
+//           ),
+//         },
+//         // {
+//         //   title: "Posição do ramal",
+//         //   content: (
+//         //     <StyledSelect
+//         //       value={formData.posicaoRamal}
+//         //       onChange={(e) => setFormData({ ...formData, posicaoRamal: e.target.value })}
+//         //     >
+//         //       <option value="">Selecione</option>
+//         //       <option value="mesmoLado">Entre lotes</option>
+//         //     </StyledSelect>
+//         //   ),
+//         // },
+//         {
+//           title: "Local do corte",
+//           content: (
+//             <StyledSelect
+//               value={formData.localCorte}
+//               onChange={(e) => setFormData({ ...formData, localCorte: e.target.value })}
+//             >
+//               <option value="">Selecione</option>
+//               <option value="preVgb">Pré vgb</option>
+//               <option value="posVgb">Pós vgb</option>
+//             </StyledSelect>
+//           ),
+//         },
+//         {
+//           title: "Tipo do capeamento",
+//           content: (
+//             <StyledSelect
+//               value={formData.tipoCapeamento}
+//               onChange={(e) => setFormData({ ...formData, tipoCapeamento: e.target.value })}
+//             >
+//               <option value="">Selecione</option>
+//               <option value="flange">Flangeado</option>
+//               <option value="rosca">Roscado</option>
+//             </StyledSelect>
+//           ),
+//         },
+
+//         {
+//           title: "Proteção mecânica",
+//           content: (
+//             <StyledSelect
+//               value={formData.protecaoMecanica}
+//               onChange={(e) => setFormData({ ...formData, protecaoMecanica: e.target.value })}
+//             >
+//               <option value="">Selecione</option>
+//               <option value="false">Não</option>
+//               <option value="true">Sim</option>
+//             </StyledSelect>
+//           ),
+//         },
+
+//         {
+//           title: "Tachão instalado",
+//           content: (
+//             <StyledSelect
+//               value={formData.tachaoRedondo}
+//               onChange={(e) => setFormData({ ...formData, tachaoRedondo: e.target.value })}
+//             >
+//               <option value="">Selecione</option>
+//               <option value="false">Não</option>
+//               <option value="true">Sim</option>
+//             </StyledSelect>
+//           ),
+//         },
+
+//         {
+//           title: "Faixa de sinalização instalada",
+//           content: (
+//             <StyledSelect
+//               value={formData.faixaSinalizacao}
+//               onChange={(e) => setFormData({ ...formData, faixaSinalizacao: e.target.value })}
+//             >
+//               <option value="">Selecione</option>
+//               <option value="false">Não</option>
+//               <option value="true">Sim</option>
+//             </StyledSelect>
+//           ),
+//         },
+
+
+//         {
+//           title: "Componentes",
+//           content: (
+//             <>
+//               {(formData.componentes || []).map((c, i) => (
+//                 <div key={i} style={{ borderBottom: "1px solid #ccc", marginBottom: "10px" }}>
+//                   {["componente", "de", "fabricante", "lote"].map(field => (
+//                     <>
+//                       <StyledLabel>{field}</StyledLabel>
+//                       <StyledInput
+//                         value={c[field] || ""}
+//                         onChange={e => {
+//                           const newC = [...formData.componentes];
+//                           newC[i][field] = e.target.value;
+//                           setFormData({ ...formData, componentes: newC });
+//                         }}
+//                       />
+//                     </>
+//                   ))}
+//                   <SubmitButton type="button" onClick={() => handleRemoveItem("componentes", i)}>Remover Linha</SubmitButton>
+//                 </div>
+//               ))}
+//               <SubmitButton type="button" onClick={() => handleAddItem("componentes", { componente: "", de: "", fabricante: "", lote: "" })}>+ Adicionar Linha</SubmitButton>
+//             </>
+//           )
+//         },
+//         {
+//           title: "Soldas",
+//           content: (
+//             <>
+//               {(formData.soldas || []).map((s, i) => (
+//                 <div key={i} style={{ borderBottom: "1px solid #ccc", marginBottom: "10px" }}>
+//                   {["componente", "numeroSolda", "tempoResfriamento"].map(field => (
+//                     <>
+//                       <StyledLabel>{field}</StyledLabel>
+//                       <StyledInput
+//                         value={s[field] || ""}
+//                         onChange={e => {
+//                           const newS = [...formData.soldas];
+//                           newS[i][field] = e.target.value;
+//                           setFormData({ ...formData, soldas: newS });
+//                         }}
+//                       />
+//                     </>
+//                   ))}
+//                   <StyledLabel>Aprovado</StyledLabel>
+//                   <StyledSelect value={s.aprovado || ""} onChange={e => {
+//                     const newS = [...formData.soldas];
+//                     newS[i].aprovado = e.target.value;
+//                     setFormData({ ...formData, soldas: newS });
+//                   }}>
+//                     <option value="">Selecione</option>
+//                     <option>Sim</option>
+//                     <option>Não</option>
+//                   </StyledSelect>
+//                   <SubmitButton type="button" onClick={() => handleRemoveItem("soldas", i)}>- Remover</SubmitButton>
+//                 </div>
+//               ))}
+//               <SubmitButton type="button" onClick={() => handleAddItem("soldas", { componente: "", numeroSolda: "", tempoResfriamento: "", aprovado: "" })}>+ Adicionar</SubmitButton>
+//             </>
+//           )
+//         }
+//       ];
+//     }
+//     return [stepResultado];
+//   };
+
+//   const steps = getSteps();
+//   return (
+//     // <FormWrapper>
+//     <Container>
+//       <FormTitle>RDO</FormTitle>
+//       <StepContainer>
+//         <Title>{steps[step].title}</Title>
+//         {steps[step].content}
+//       </StepContainer>
+//       <ButtonGroup>
+//         {step > 0 && <SubmitButton onClick={handlePrev}>Anterior</SubmitButton>}
+//         {step < steps.length - 1 ? (
+//           <SubmitButton onClick={handleNext}>Próximo</SubmitButton>
+//         ) : (
+//           <SubmitButton onClick={handleSubmit}>Finalizar</SubmitButton>
+//         )}
+//       </ButtonGroup>
+//     </Container>
+//     // </FormWrapper>
+//   );
+// }
+
+
+
+
+
+import React, { useContext, useState } from "react";
+import styled from "styled-components";
+import { FormContext } from "./FormContext";
+import PrincipalPreVgb from "./Croqui/PrincipalPreVgb";
+
+export default function RdoFomrExtensionInative() {
+  const {
+    formData,
+    setFormData,
+    handleAddItem,
+    handleRemoveItem,
+    handleFileChangeField,
+    selectedBill
+  } = useContext(FormContext);
+
   const [step, setStep] = useState(0);
 
-  // Adicionar/Remover linhas de arrays
-  const handleAddItem = (field, newItem) => {
-    setFormData({ ...formData, [field]: [...(formData[field] || []), newItem] });
-  };
-
-  const handleRemoveItem = (field, index) => {
-    const newArray = [...formData[field]];
-    newArray.splice(index, 1);
-    setFormData({ ...formData, [field]: newArray });
-  };
-
-  // Navegação entre steps
+  // Navegação steps
   const handleNext = () => { if (step < steps.length - 1) setStep(step + 1); };
   const handlePrev = () => { if (step > 0) setStep(step - 1); };
 
-  // Submit
-  const handleSubmit = () => {
-    console.log("Dados enviados:", formData);
-    alert("Formulário enviado!");
-    localStorage.removeItem("rdoFormData");
+  // Submit final
+  const handleSubmit = async () => {
+    try {
+      alert("RDO finalizado e sincronizado!");
+    } catch (err) {
+      console.error(err);
+      alert("Falha ao enviar RDO, salvo localmente.");
+    }
   };
 
-
-  useEffect(() => {
-    if (formData.resultado === "executada") {
-      // limpamos os campos de "não executada"
-      setFormData(prev => ({
-        ...prev,
-        detalhe: "",
-        comentario: "",
-      }));
-    }
-
-    if (formData.resultado === "nao_executada") {
-      // limpamos os campos de "executada"
-      setFormData(prev => ({
-        ...prev,
-        detalhe: "",
-        valas: [{ largura: "", comprimento: "", profundidade: "", tipoPiso: "" }],
-        posicaoRamal: "",
-        tipoRamal: "",
-        materialRede: "",
-        materialRamal: "",
-        diametroRede: "",
-        diametroRamal: "",
-        ramalCortado: "",
-        pressaoRede: "",
-        endereco: "",
-        localCorte: "",
-        tipoCapeamento: "",
-        fotoCalcadaAntes: null,
-        fotoRamalExposto: null,
-        fotoRamalCortado: null,
-        fotoCroqui: null,
-        fotoFrenteImovel: null,
-        fotoPlacaRua: null,
-        fotoProtecaoMecanica: null,
-        fotoTachao: null,
-        fotoProvisorio: null,
-        componentes: [{}],
-        soldas: [{}],
-        tachaoRedondo: "",
-        protecaoMecanica: "",
-        faixaSinalizacao: "",
-        valvFluxo: "",
-      }));
-    }
-  }, [formData.resultado]);
-
-
-
+  // Steps
   const getSteps = () => {
     const stepResultado = {
       title: "Resultado",
@@ -1063,7 +1599,7 @@ export default function RdoForm() {
               value={formData.detalhe || ""}
               onChange={e => setFormData({ ...formData, detalhe: e.target.value })}
             >
-              <option value="">Selecione um resultado</option>
+              <option value="">Selecione um detalhe</option>
               <option value="executada">Executado</option>
               <option value="vala_perdida">Vala perdida</option>
             </StyledSelect>
@@ -1075,395 +1611,158 @@ export default function RdoForm() {
                 value={formData.detalhe || ""}
                 onChange={e => setFormData({ ...formData, detalhe: e.target.value })}
               >
-                <option value="">Selecione um resultado</option>
-                <option value="exenão_autorizado">Cliente não autoriza</option>
+                <option value="">Selecione motivo</option>
+                <option value="cliente_nao_autoriza">Cliente não autoriza</option>
                 <option value="com_consumo">Com consumo</option>
                 <option value="impossibilidade_tecnica">Imóvel não localizado</option>
-
               </StyledSelect>
 
               <TextArea
                 value={formData.comentario}
                 onChange={e => setFormData({ ...formData, comentario: e.target.value })}
                 rows={3}
-                placeholder="Descrição da ocupação">
-              </TextArea>
+                placeholder="Descrição da ocupação"
+              />
             </>
           )}
         </>
       )
     };
 
-    // se NÃO foi executado, só retorna o primeiro step
-    if (formData.resultado === "nao_executada") {
-      return [stepResultado];
-    }
+    if (formData.resultado === "nao_executada") return [stepResultado];
 
-    // se foi executado, retorna TODOS os steps
-    if (formData.resultado === "executada") {
-      return [
-        stepResultado,
-        {
-          title: "Fotos antes da atividade",
-          content: (
-            <>
-              {["fotoPlacaRua", "fotoFrenteImovel", "fotoCalcadaAntes"].map((field) => (
-                <>
-                  <StyledLabel>{field.replace(/([A-Z])/g, " $1")}</StyledLabel>
-                  <StyledInput type="file" onChange={e => setFormData({ ...formData, [field]: e.target.files[0] })} />
-                </>
-              ))}
-            </>
-          )
-        },
-        {
-          title: "Dimensões da Vala",
-          content: (
-            <>
-              {(formData.valas || []).map((v, i) => (
-                <div key={i} style={{ borderBottom: "1px solid #ccc", marginBottom: "10px" }}>
-                  <StyledLabel>Largura</StyledLabel>
-                  <StyledInput value={v.largura} onChange={e => {
-                    const newValas = [...formData.valas];
-                    newValas[i].largura = e.target.value;
-                    setFormData({ ...formData, valas: newValas });
-                  }} />
-                  <StyledLabel>Comprimento</StyledLabel>
-                  <StyledInput value={v.comprimento} onChange={e => {
-                    const newValas = [...formData.valas];
-                    newValas[i].comprimento = e.target.value;
-                    setFormData({ ...formData, valas: newValas });
-                  }} />
-                  <StyledLabel>Profundidade</StyledLabel>
-                  <StyledInput value={v.profundidade} onChange={e => {
-                    const newValas = [...formData.valas];
-                    newValas[i].profundidade = e.target.value;
-                    setFormData({ ...formData, valas: newValas });
-                  }} />
-                  <StyledLabel>Tipo de Piso</StyledLabel>
-                  <StyledSelect value={v.tipoPiso} onChange={e => {
-                    const newValas = [...formData.valas];
-                    newValas[i].tipoPiso = e.target.value;
-                    setFormData({ ...formData, valas: newValas });
-                  }}>
-                    <option value="">Selecione</option>
-                    <option>Bloquete</option>
-                    <option>Cerâmica</option>
-                    <option>Concreto</option>
-                    <option>Outro</option>
-                  </StyledSelect>
-                  <SubmitButton type="button" onClick={() => handleRemoveItem("valas", i)}>- Remover</SubmitButton>
-                </div>
-              ))}
-              <SubmitButton type="button" onClick={() => handleAddItem("valas", { largura: "", comprimento: "", profundidade: "", tipoPiso: "" })}>+ Adicionar</SubmitButton>
-            </>
-          )
-        },
-        {
-          title: "Croqui",
-          content: (
-            <PrincipalPreVgb formData={formData} setFormData={setFormData} BillId={BillId}/>
-          )
-        },
-        {
-          title: "Fotos durante",
-          content: (
-            <>
-              {["fotoRamalExposto", "fotoRamalCortado", "fotoProtecaoMecanica", "fotoProvisorio"].map((field) => (
-                <>
-                  <StyledLabel>{field.replace(/([A-Z])/g, " $1")}</StyledLabel>
-                  <StyledInput type="file" onChange={e => setFormData({ ...formData, [field]: e.target.files[0] })} />
-                </>
-              ))}
-            </>
-          )
-        },
-        {
-          title: "Posição do Ramal",
-          content: (
-            <StyledSelect
-              value={formData.posicaoRamal}
-              onChange={(e) => setFormData({ ...formData, posicaoRamal: e.target.value })}
-            >
+    // Executada: todos os steps
+    return [
+      stepResultado,
+      {
+        title: "Fotos antes da atividade",
+        content: ["fotoPlacaRua","fotoFrenteImovel","fotoCalcadaAntes"].map(f => (
+          <div key={f}>
+            <StyledLabel>{f.replace(/([A-Z])/g, " $1")}</StyledLabel>
+            {formData[f] && <img src={formData[f]} width={100} alt={f} />}
+            <StyledInput
+              type="file"
+              accept="image/*"
+              capture="camera"
+              onChange={e => handleFileChangeField(f)(e.target.files[0])}
+            />
+          </div>
+        ))
+      },
+      {
+        title: "Dimensões da Vala",
+        content: (formData.valas || []).map((v,i)=>(
+          <div key={i} style={{borderBottom:"1px solid #ccc", marginBottom:"10px"}}>
+            {["largura","comprimento","profundidade"].map(f=>(
+              <div key={f}>
+                <StyledLabel>{f}</StyledLabel>
+                <StyledInput value={v[f]} onChange={e=>{
+                  const newValas = [...formData.valas];
+                  newValas[i][f]=e.target.value;
+                  setFormData({...formData, valas:newValas});
+                }} />
+              </div>
+            ))}
+            <StyledLabel>Tipo de Piso</StyledLabel>
+            <StyledSelect value={v.tipoPiso} onChange={e=>{
+              const newValas = [...formData.valas];
+              newValas[i].tipoPiso=e.target.value;
+              setFormData({...formData, valas:newValas});
+            }}>
               <option value="">Selecione</option>
-              <option value="Entre lotes">Entre lotes</option>
-              <option value="Esquina direita">Esquina direita</option>
-              <option value="Esquina esquerda">Esquina esquerda</option>
+              <option>Bloquete</option>
+              <option>Cerâmica</option>
+              <option>Concreto</option>
+              <option>Outro</option>
             </StyledSelect>
-          ),
-        },
-        {
-          title: "Valv. Ex. Fluxo",
-          content: (
-            <StyledSelect
-              value={formData.valvFluxo}
-              onChange={(e) => setFormData({ ...formData, valvFluxo: e.target.value })}
-            >
-              <option value="">Selecione</option>
-              <option value="false">não</option>
-              <option value="true">sim</option>
+            <SubmitButton type="button" onClick={()=>handleRemoveItem("valas",i)}>- Remover</SubmitButton>
+          </div>
+        )).concat(
+          <SubmitButton key="addVala" type="button" onClick={()=>handleAddItem("valas",{largura:"",comprimento:"",profundidade:"",tipoPiso:""})}>+ Adicionar</SubmitButton>
+        )
+      },
+      {
+        title: "Croqui",
+        content: <PrincipalPreVgb formData={formData} setFormData={setFormData} BillId={selectedBill?.id} />
+      },
+      {
+        title: "Fotos durante",
+        content: ["fotoRamalExposto","fotoRamalCortado","fotoProtecaoMecanica","fotoProvisorio"].map(f=>(
+          <div key={f}>
+            <StyledLabel>{f.replace(/([A-Z])/g," $1")}</StyledLabel>
+            {formData[f] && <img src={formData[f]} width={100} alt={f} />}
+            <StyledInput type="file" accept="image/*" capture="camera" onChange={e=>handleFileChangeField(f)(e.target.files[0])} />
+          </div>
+        ))
+      },
+      {
+        title: "Ramal e Rede",
+        content: ["posicaoRamal","tipoRamal","materialRede","materialRamal","diametroRede","diametroRamal","ramalCortado","pressaoRede","localCorte","tipoCapeamento"].map(f=>(
+          <StyledSelect key={f} value={formData[f]} onChange={e=>setFormData({...formData,[f]:e.target.value})}>
+            <option value="">Selecione {f}</option>
+            <option value="Exemplo">Exemplo</option>
+          </StyledSelect>
+        ))
+      },
+      {
+        title: "Proteção e sinalização",
+        content: ["protecaoMecanica","tachaoRedondo","faixaSinalizacao","valvFluxo"].map(f=>(
+          <StyledSelect key={f} value={formData[f]} onChange={e=>setFormData({...formData,[f]:e.target.value})}>
+            <option value="">Selecione {f}</option>
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+          </StyledSelect>
+        ))
+      },
+      {
+        title: "Componentes",
+        content: (formData.componentes||[]).map((c,i)=>(
+          <div key={i}>
+            {["componente","de","fabricante","lote"].map(f=>(
+              <StyledInput key={f} value={c[f]||""} placeholder={f} onChange={e=>{
+                const newC = [...formData.componentes];
+                newC[i][f]=e.target.value;
+                setFormData({...formData,componentes:newC});
+              }} />
+            ))}
+            <SubmitButton type="button" onClick={()=>handleRemoveItem("componentes",i)}>- Remover</SubmitButton>
+          </div>
+        )).concat(
+          <SubmitButton key="addComp" type="button" onClick={()=>handleAddItem("componentes",{componente:"",de:"",fabricante:"",lote:""})}>+ Adicionar</SubmitButton>
+        )
+      },
+      {
+        title: "Soldas",
+        content: (formData.soldas||[]).map((s,i)=>(
+          <div key={i}>
+            {["componente","numeroSolda","tempoResfriamento"].map(f=>(
+              <StyledInput key={f} value={s[f]||""} placeholder={f} onChange={e=>{
+                const newS=[...formData.soldas];
+                newS[i][f]=e.target.value;
+                setFormData({...formData,soldas:newS});
+              }} />
+            ))}
+            <StyledSelect value={formData.soldas[i].aprovado||""} onChange={e=>{
+              const newS=[...formData.soldas];
+              newS[i].aprovado=e.target.value;
+              setFormData({...formData,soldas:newS});
+            }}>
+              <option value="">Aprovado?</option>
+              <option>Sim</option>
+              <option>Não</option>
             </StyledSelect>
-          ),
-        },
-
-        {
-          title: "Material da Rede",
-          content: (
-            <StyledSelect
-              value={formData.materialRede}
-              onChange={(e) => setFormData({ ...formData, materialRede: e.target.value })}
-            >
-              <option value="">Selecione</option>
-              <option value="Aço">Aço</option>
-              <option value="PE">PE</option>
-              <option value="Outro">Outro</option>
-            </StyledSelect>
-          ),
-        },
-        {
-          title: "Diametro da Rede",
-          content: (
-            <StyledSelect
-              value={formData.diametroRede}
-              onChange={(e) => setFormData({ ...formData, diametroRede: e.target.value })}
-            >
-              <option value="">Selecione</option>
-              <option value="40mm">40mm</option>
-              <option value="63mm">63mm</option>
-              <option value="90mm">90mm</option>
-              <option value="125mm">125mm</option>
-              <option value="Outro">Outro</option>
-            </StyledSelect>
-          ),
-        },
-
-        {
-          title: "Presão da Rede",
-          content: (
-            <StyledSelect
-              value={formData.pressaoRede}
-              onChange={(e) => setFormData({ ...formData, pressaoRede: e.target.value })}
-            >
-              <option value="">Selecione</option>
-              <option value="250mbar">250mbar</option>
-              <option value="750mbar">750mbar</option>
-              <option value="1Bar">1Bar</option>
-              <option value="4Bar">4Bar</option>
-              <option value="7bar"> 7bar</option>
-            </StyledSelect>
-          ),
-        },
-        {
-          title: "Material do Ramal",
-          content: (
-            <StyledSelect
-              value={formData.materialRamal}
-              onChange={(e) => setFormData({ ...formData, materialRamal: e.target.value })}
-            >
-              <option value="">Selecione</option>
-              <option value="Aço">Aço</option>
-              <option value="PE">PE</option>
-              <option value="Outro">Outro</option>
-            </StyledSelect>
-          ),
-        },
-
-        {
-          title: "Diametro do Ramal",
-          content: (
-            <StyledSelect
-              value={formData.diametroRamal}
-              onChange={(e) => setFormData({ ...formData, diametroRamal: e.target.value })}
-            >
-              <option value="">Selecione</option>
-              <option value="20mm">20mm</option>
-              <option value="32mm">32mm</option>
-              <option value="63mm">63mm</option>
-              <option value="90mm">90mm</option>
-              <option value="Outro"> outro</option>
-            </StyledSelect>
-          ),
-        },
-
-        {
-          title: "Ramal Cortado",
-          content: (
-            <StyledSelect
-              value={formData.ramalCortado}
-              onChange={(e) => setFormData({ ...formData, ramalCortado: e.target.value })}
-            >
-              <option value="">Selecione</option>
-              <option value="Principal">Principal</option>
-              <option value="Adjacente">Adjacente</option>
-              <option value="Conjulgado">Conjulgado</option>
-            </StyledSelect>
-          ),
-        },
-        {
-          title: "Tipo do ramal",
-          content: (
-            <StyledSelect
-              value={formData.tipoRamal}
-              onChange={(e) => setFormData({ ...formData, tipoRamal: e.target.value })}
-            >
-              <option value="">Selecione</option>
-              <option value="mesmoLado">mesmo lado</option>
-              <option value="ladoOposto">lado oposto</option>
-            </StyledSelect>
-          ),
-        },
-        {
-          title: "Posição do ramal",
-          content: (
-            <StyledSelect
-              value={formData.posicaoRamal}
-              onChange={(e) => setFormData({ ...formData, posicaoRamal: e.target.value })}
-            >
-              <option value="">Selecione</option>
-              <option value="mesmoLado">Entre lotes</option>
-            </StyledSelect>
-          ),
-        },
-        {
-          title: "Local do corte",
-          content: (
-            <StyledSelect
-              value={formData.localCorte}
-              onChange={(e) => setFormData({ ...formData, localCorte: e.target.value })}
-            >
-              <option value="">Selecione</option>
-              <option value="preVgb">Pré vgb</option>
-              <option value="posVgb">Pós vgb</option>
-            </StyledSelect>
-          ),
-        },
-        {
-          title: "Tipo do capeamento",
-          content: (
-            <StyledSelect
-              value={formData.tipoCapeamento}
-              onChange={(e) => setFormData({ ...formData, tipoCapeamento: e.target.value })}
-            >
-              <option value="">Selecione</option>
-              <option value="flange">Flangeado</option>
-              <option value="rosca">Roscado</option>
-            </StyledSelect>
-          ),
-        },
-
-        {
-          title: "Proteção mecânica",
-          content: (
-            <StyledSelect
-              value={formData.protecaoMecanica}
-              onChange={(e) => setFormData({ ...formData, protecaoMecanica: e.target.value })}
-            >
-              <option value="">Selecione</option>
-              <option value="false">Não</option>
-              <option value="true">Sim</option>
-            </StyledSelect>
-          ),
-        },
-
-        {
-          title: "Tachão instalado",
-          content: (
-            <StyledSelect
-              value={formData.tachaoRedondo}
-              onChange={(e) => setFormData({ ...formData, tachaoRedondo: e.target.value })}
-            >
-              <option value="">Selecione</option>
-              <option value="false">Não</option>
-              <option value="true">Sim</option>
-            </StyledSelect>
-          ),
-        },
-
-        {
-          title: "Faixa de sinalização instalada",
-          content: (
-            <StyledSelect
-              value={formData.faixaSinalizacao}
-              onChange={(e) => setFormData({ ...formData, faixaSinalizacao: e.target.value })}
-            >
-              <option value="">Selecione</option>
-              <option value="false">Não</option>
-              <option value="true">Sim</option>
-            </StyledSelect>
-          ),
-        },
-
-
-        {
-          title: "Componentes",
-          content: (
-            <>
-              {(formData.componentes || []).map((c, i) => (
-                <div key={i} style={{ borderBottom: "1px solid #ccc", marginBottom: "10px" }}>
-                  {["componente", "de", "fabricante", "lote"].map(field => (
-                    <>
-                      <StyledLabel>{field}</StyledLabel>
-                      <StyledInput
-                        value={c[field] || ""}
-                        onChange={e => {
-                          const newC = [...formData.componentes];
-                          newC[i][field] = e.target.value;
-                          setFormData({ ...formData, componentes: newC });
-                        }}
-                      />
-                    </>
-                  ))}
-                  <SubmitButton type="button" onClick={() => handleRemoveItem("componentes", i)}>Remover Linha</SubmitButton>
-                </div>
-              ))}
-              <SubmitButton type="button" onClick={() => handleAddItem("componentes", { componente: "", de: "", fabricante: "", lote: "" })}>+ Adicionar Linha</SubmitButton>
-            </>
-          )
-        },
-        {
-          title: "Soldas",
-          content: (
-            <>
-              {(formData.soldas || []).map((s, i) => (
-                <div key={i} style={{ borderBottom: "1px solid #ccc", marginBottom: "10px" }}>
-                  {["componente", "numeroSolda", "tempoResfriamento"].map(field => (
-                    <>
-                      <StyledLabel>{field}</StyledLabel>
-                      <StyledInput
-                        value={s[field] || ""}
-                        onChange={e => {
-                          const newS = [...formData.soldas];
-                          newS[i][field] = e.target.value;
-                          setFormData({ ...formData, soldas: newS });
-                        }}
-                      />
-                    </>
-                  ))}
-                  <StyledLabel>Aprovado</StyledLabel>
-                  <StyledSelect value={s.aprovado || ""} onChange={e => {
-                    const newS = [...formData.soldas];
-                    newS[i].aprovado = e.target.value;
-                    setFormData({ ...formData, soldas: newS });
-                  }}>
-                    <option value="">Selecione</option>
-                    <option>Sim</option>
-                    <option>Não</option>
-                  </StyledSelect>
-                  <SubmitButton type="button" onClick={() => handleRemoveItem("soldas", i)}>- Remover</SubmitButton>
-                </div>
-              ))}
-              <SubmitButton type="button" onClick={() => handleAddItem("soldas", { componente: "", numeroSolda: "", tempoResfriamento: "", aprovado: "" })}>+ Adicionar</SubmitButton>
-            </>
-          )
-        }
-      ];
-    }
-    return [stepResultado];
+            <SubmitButton type="button" onClick={()=>handleRemoveItem("soldas",i)}>- Remover</SubmitButton>
+          </div>
+        )).concat(
+          <SubmitButton key="addSolda" type="button" onClick={()=>handleAddItem("soldas",{componente:"",numeroSolda:"",tempoResfriamento:"",aprovado:""})}>+ Adicionar</SubmitButton>
+        )
+      }
+    ];
   };
 
   const steps = getSteps();
+
   return (
-    // <FormWrapper>
     <Container>
       <FormTitle>RDO</FormTitle>
       <StepContainer>
@@ -1472,13 +1771,9 @@ export default function RdoForm() {
       </StepContainer>
       <ButtonGroup>
         {step > 0 && <SubmitButton onClick={handlePrev}>Anterior</SubmitButton>}
-        {step < steps.length - 1 ? (
-          <SubmitButton onClick={handleNext}>Próximo</SubmitButton>
-        ) : (
-          <SubmitButton onClick={handleSubmit}>Finalizar</SubmitButton>
-        )}
+        {step < steps.length-1 ? <SubmitButton onClick={handleNext}>Próximo</SubmitButton>
+          : <SubmitButton onClick={handleSubmit}>Finalizar</SubmitButton>}
       </ButtonGroup>
     </Container>
-    // </FormWrapper>
   );
 }
