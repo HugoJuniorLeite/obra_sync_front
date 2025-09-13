@@ -67,22 +67,28 @@ const fields = [
 ];
 
 export default function PrincipalPreVgb({ formData, setFormData, BillId }) {
-  const { control, setValue, handleSubmit } = useForm();
+   const { control, setValue, reset, handleSubmit } = useForm();
   const [widths, setWidths] = useState({});
   const spansRef = useRef({});
+  
 
   // Carregar dados já salvos (IndexedDB ou do formData global)
-  useEffect(() => {
-    (async () => {
-      const saved = await get(`croqui-${BillId}`);
-      if (saved) {
-        Object.keys(saved).forEach((key) => {
-          setValue(key, saved[key]);
-        });
-        setFormData({ ...formData, croqui: saved });
-      }
-    })();
-  }, [BillId]);
+useEffect(() => {
+  (async () => {
+    const saved = await get(`croqui-${BillId}`) || {};
+    const clonedSaved = { ...saved }; // garante objeto novo
+    reset(clonedSaved);
+
+    setFormData((prev) => ({
+      ...prev,
+      croquis: {
+        ...(prev.croquis || {}),
+        [BillId]: clonedSaved,
+      },
+    }));
+  })();
+}, [BillId, reset]);
+
 
   const updateWidth = (name, value, placeholder) => {
     if (spansRef.current[name]) {
@@ -92,16 +98,25 @@ export default function PrincipalPreVgb({ formData, setFormData, BillId }) {
     }
   };
 
-  const handleChange = (name, value, placeholder) => {
-    updateWidth(name, value, placeholder);
+const handleChange = (name, value, placeholder) => {
+  updateWidth(name, value, placeholder);
 
-    // Atualiza formData global
-    const newCroqui = { ...(formData.croqui || {}), [name]: value };
-    setFormData({ ...formData, croqui: newCroqui });
-
-    // Salva no IndexedDB
-    set(`croqui-${BillId}`, newCroqui);
+  const newCroqui = {
+    ...((formData.croquis?.[BillId] && { ...formData.croquis[BillId] }) || {}),
+    [name]: value,
   };
+
+  setFormData((prev) => ({
+    ...prev,
+    croquis: {
+      ...(prev.croquis || {}),
+      [BillId]: newCroqui, // novo objeto independente
+    },
+  }));
+
+  set(`croqui-${BillId}`, newCroqui);
+};
+
 
   const onSubmit = (data) => {
     console.log("Croqui enviado:", data);
@@ -117,7 +132,8 @@ export default function PrincipalPreVgb({ formData, setFormData, BillId }) {
             key={i}
             name={f.name}
             control={control}
-            defaultValue={formData.croqui?.[f.name] || ""}
+            defaultValue={formData.croquis?.[BillId]?.[f.name] || ""}
+
             render={({ field }) => (
               <InputWrapper style={{ top: f.top, left: f.left }}>
                 <InputField

@@ -348,7 +348,7 @@ useEffect(() => {
       },
       {
         title: "Croqui",
-        content: <PrincipalPreVgb formData={formData} setFormData={setFormData} BillId={selectedBill?.id} />
+        content: <PrincipalPreVgb formData={formData} setFormData={setFormData} BillId={id} />
       },
       {
         title: "Fotos durante",
