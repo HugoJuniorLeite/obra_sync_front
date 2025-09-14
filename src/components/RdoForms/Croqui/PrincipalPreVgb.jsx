@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useForm, Controller } from "react-hook-form";
 import { set, get } from "idb-keyval"; // persistência
+import { details } from "framer-motion/client";
 
 const Container = styled.div`
   position: relative;
@@ -50,33 +51,120 @@ const SpanMeasure = styled.span`
 `;
 
 // Campos posicionados na planta
-const fields = [
-  { name: "A_esquerda", label: "A=", top: "67%", left: "39%" },
-  { name: "A_direita", label: "A=", top: "67%", left: "55%" },
-  { name: "B", label: "B=", top: "61%", left: "33%", rotate: true },
-  { name: "Pg", label: "Pg=", top: "65%", left: "62%" },
-  { name: "PCPREVGB", label: "PCPREVGB=", top: "56.2%", left: "58.4%" },
-  { name: "Numero_esquerda", label: "Nº", top: "37%", left: "37%" },
-  { name: "Numero_centro", label: "Nº", top: "18%", left: "51%" },
-  { name: "Numero_direita", label: "Nº", top: "37%", left: "63%" },
-  { name: "Largura_logradouro", label: "C=", top: "73%", left: "64%", rotate: true },
-  { name: "Rua_esquerda", label: "Rua a esquerda", top: "73%", left: "26%", rotate: true },
-  { name: "Rua_centro", label: "Rua do ramal", top: "78%", left: "48%" },
-  { name: "Rua_direita", label: "Rua a direita", top: "73%", left: "73%", rotate: true },
-  { name: "CPREVGB_Predial", label: "N=", top: "50%", left: "40%", rotate: true },
-];
+// const fields = [
+//   { name: "A_esquerda", label: "A=", top: "67%", left: "39%" },
+//   { name: "A_direita", label: "A=", top: "67%", left: "55%" },
+//   { name: "B", label: "B=", top: "61%", left: "33%", rotate: true },
+//   { name: "Pg", label: "Pg=", top: "65%", left: "62%" },
+//   { name: "PCPREVGB", label: "PCPREVGB=", top: "56.2%", left: "58.4%" },
+//   { name: "Numero_esquerda", label: "Nº", top: "37%", left: "37%" },
+//   { name: "Numero_centro", label: "Nº", top: "18%", left: "51%" },
+//   { name: "Numero_direita", label: "Nº", top: "37%", left: "63%" },
+//   { name: "Largura_logradouro", label: "C=", top: "73%", left: "64%", rotate: true },
+//   { name: "Rua_esquerda", label: "Rua a esquerda", top: "73%", left: "26%", rotate: true },
+//   { name: "Rua_centro", label: "Rua do ramal", top: "78%", left: "48%" },
+//   { name: "Rua_direita", label: "Rua a direita", top: "73%", left: "73%", rotate: true },
+//   { name: "CPREVGB_Predial", label: "N=", top: "50%", left: "40%", rotate: true },
+// ];
 
-export default function PrincipalPreVgb({ formData, setFormData, BillId }) {
-   const { control, setValue, reset, handleSubmit } = useForm();
+export default function PrincipalPreVgb({ formData, setFormData, BillId, croquiFile, croquiFields }) {
+  const { control, setValue, reset, watch } = useForm();
   const [widths, setWidths] = useState({});
   const spansRef = useRef({});
-  
+
+  const fields = croquiFields; // substitui a lista fixa
+
+
+  const ramalCortado = watch("ramalCortado");
+const localCorte = watch("localCorte");
 
   // Carregar dados já salvos (IndexedDB ou do formData global)
+  // useEffect(() => {
+  //   (async () => {
+  //     const saved = await get(`croqui-${BillId}`) || {};
+  //     const clonedSaved = { ...saved }; // garante objeto novo
+  //     reset(clonedSaved);
+
+  //     setFormData((prev) => ({
+  //       ...prev,
+  //       croquis: {
+  //         ...(prev.croquis || {}),
+  //         [BillId]: clonedSaved,
+  //       },
+  //     }));
+  //   })();
+  // }, [BillId, reset]);
+
+
+
+// 1️⃣ Carregar dados salvos ao abrir o croqui
 useEffect(() => {
   (async () => {
     const saved = await get(`croqui-${BillId}`) || {};
-    const clonedSaved = { ...saved }; // garante objeto novo
+    reset(saved); // popula o form com dados salvos
+    setFormData((prev) => ({
+      ...prev,
+      croquis: {
+        ...(prev.croquis || {}),
+        [BillId]: saved,
+      },
+    }));
+  })();
+}, [BillId, reset, setFormData]);
+
+// 2️⃣ Resetar croqui se ramalCortado ou localCorte mudarem
+useEffect(() => {
+  const croqui = formData.croquis?.[BillId] || {};
+  if (
+    croqui.ramalCortado !== formData.ramalCortado ||
+    croqui.localCorte !== formData.localCorte
+  ) {
+    const resetCroqui = { ramalCortado: formData.ramalCortado, localCorte: formData.localCorte };
+    reset(resetCroqui);
+    setFormData((prev) => ({
+      ...prev,
+      croquis: {
+        ...(prev.croquis || {}),
+        [BillId]: resetCroqui,
+      },
+    }));
+    set(`croqui-${BillId}`, resetCroqui);
+  }
+}, [formData.ramalCortado, formData.localCorte, BillId, reset, setFormData]);
+
+// 3️⃣ Função para salvar alterações do croqui
+const handleChange = (name, value, placeholder) => {
+  // Mantém lógica existente de largura e layout
+  updateWidth(name, value, placeholder);
+
+  // Atualiza apenas os dados do croqui para o BillId atual
+  const newCroqui = {
+    ...((formData.croquis?.[BillId] && { ...formData.croquis[BillId] }) || {}),
+    [name]: value,
+  };
+
+  // Atualiza o formData global e persiste no IndexedDB
+  setFormData((prev) => ({
+    ...prev,
+    croquis: {
+      ...(prev.croquis || {}),
+      [BillId]: newCroqui,
+    },
+  }));
+
+  // Persistência imediata
+  set(`croqui-${BillId}`, newCroqui);
+};
+
+useEffect(() => {
+  const resetCroquiForKey = async () => {
+    // Recupera os dados salvos
+    const saved = await get(`croqui-${BillId}`) || {};
+
+    // Se a chave atual não existir, cria um objeto vazio
+    const clonedSaved = { ...saved };
+
+    // Reseta apenas os campos do croqui no formData
     reset(clonedSaved);
 
     setFormData((prev) => ({
@@ -86,8 +174,17 @@ useEffect(() => {
         [BillId]: clonedSaved,
       },
     }));
-  })();
-}, [BillId, reset]);
+
+    // Persistência imediata
+    set(`croqui-${BillId}`, clonedSaved);
+  };
+
+  // Dispara reset apenas quando mudar ramalCortado ou localCorte
+  if (formData.ramalCortado && formData.localCorte) {
+    resetCroquiForKey();
+  }
+}, [formData.ramalCortado, formData.localCorte, BillId, reset]);
+
 
 
   const updateWidth = (name, value, placeholder) => {
@@ -97,36 +194,39 @@ useEffect(() => {
       setWidths((prev) => ({ ...prev, [name]: newWidth }));
     }
   };
+  
 
-const handleChange = (name, value, placeholder) => {
-  updateWidth(name, value, placeholder);
+  // const handleChange = (name, value, placeholder) => {
+  //   updateWidth(name, value, placeholder);
 
-  const newCroqui = {
-    ...((formData.croquis?.[BillId] && { ...formData.croquis[BillId] }) || {}),
-    [name]: value,
-  };
+  //   const newCroqui = {
+  //     ...((formData.croquis?.[BillId] && { ...formData.croquis[BillId] }) || {}),
+  //     [name]: value,
+  //   };
 
-  setFormData((prev) => ({
-    ...prev,
-    croquis: {
-      ...(prev.croquis || {}),
-      [BillId]: newCroqui, // novo objeto independente
-    },
-  }));
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     croquis: {
+  //       ...(prev.croquis || {}),
+  //       [BillId]: newCroqui, // novo objeto independente
+  //     },
+  //   }));
 
-  set(`croqui-${BillId}`, newCroqui);
-};
+  //   set(`croqui-${BillId}`, newCroqui);
+  // };
 
 
-  const onSubmit = (data) => {
-    console.log("Croqui enviado:", data);
-    alert("Croqui salvo e vinculado ao RDO!");
-  };
+  // const onSubmit = (data) => {
+  //   console.log("Croqui enviado:", data);
+  //   alert("Croqui salvo e vinculado ao RDO!");
+  // };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    // <form onSubmit={handleSubmit(onSubmit)}>
       <Container>
-        <Background src="/src/assets/plantasimplificada.png" alt="Planta simplificada" />
+  
+        {/* <Background src="/src/assets/plantasimplificada.png" alt="Planta simplificada" /> */}
+        <Background src={croquiFile} alt="Planta simplificada" />
         {fields.map((f, i) => (
           <Controller
             key={i}
@@ -152,6 +252,6 @@ const handleChange = (name, value, placeholder) => {
           />
         ))}
       </Container>
-    </form>
+    // </form>
   );
 }
