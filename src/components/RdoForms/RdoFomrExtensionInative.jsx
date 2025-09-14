@@ -2,13 +2,19 @@
 import { FormTitle, StyledInput, StyledLabel, StyledSelect, SubmitButton, TextArea } from "../../layouts/Theme";
 import { Container, Title } from "../../layouts/StyledComponents";
 import styled from "styled-components";
+import React, { useContext, useEffect, useState } from "react";
+import { FormContext } from "./FormContext";
+import PrincipalPreVgb from "./Croqui/PrincipalPreVgb";
+import { useParams } from "react-router-dom";
+import { croquisMap } from "../../data/croquisMap";
+import JSZip from "jszip";
+import { set, get } from "idb-keyval";
+
 
 const StepContainer = styled.div`
   margin-bottom: 10px;
   margin-top:15px;
   padding: 15px;
-//  border-radius: 8px;
-  //background-color: #fff;
   background: linear-gradient(135deg, #2c2c2c, #3a3a3a);
   color: #ffffff;
   padding: 1rem;
@@ -49,11 +55,24 @@ const Label = styled.label`
 
 
 
-import React, { useContext, useEffect, useState } from "react";
-import { FormContext } from "./FormContext";
-import PrincipalPreVgb from "./Croqui/PrincipalPreVgb";
-import { useParams } from "react-router-dom";
-import { croquisMap } from "../../data/croquisMap";
+const compressImage = (file, maxWidth = 1024, quality = 0.7) =>
+  new Promise((resolve) => {
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const scale = Math.min(1, maxWidth / img.width);
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(
+        (blob) => resolve(new File([blob], file.name, { type: file.type })),
+        file.type,
+        quality
+      );
+    };
+  });
 
 
 export default function RdoFomrExtensionInative() {
@@ -62,7 +81,7 @@ export default function RdoFomrExtensionInative() {
     resultado: "",
     detalhe: "",
     comentario: "",
-    valas: [{ largura: "", comprimento: "", profundidade: "", tipoPiso: "" }],
+    valas: [{/* largura: "", comprimento: "", profundidade: "", tipoPiso: "" */ }],
     posicaoRamal: "",
     tipoRamal: "",
     materialRede: "",
@@ -77,7 +96,7 @@ export default function RdoFomrExtensionInative() {
     fotoCalcadaAntes: null,
     fotoRamalExposto: null,
     fotoRamalCortado: null,
-    fotoCroqui: null,
+    // fotoCroqui: null,
     fotoFrenteImovel: null,
     fotoPlacaRua: null,
     fotoProtecaoMecanica: null,
@@ -98,11 +117,9 @@ export default function RdoFomrExtensionInative() {
     handleAddItem,
     handleRemoveItem,
     handleFileChangeField,
-    selectedBill,
+    // selectedBill,
     loading,
   } = useContext(FormContext);
-
-
 
   const [step, setStep] = useState(0);
 
@@ -115,24 +132,142 @@ export default function RdoFomrExtensionInative() {
     }
   }, [id, loadFormById, setFormData]);
 
+
+  // ---------- Carregar formulário e fotos ----------
+  const fileHandler = handleFileChangeField(formData, setFormData);
+
+  useEffect(() => {
+    const loadFotosFromDB = async () => {
+      const fotosKeys = [
+        "fotoCalcadaAntes",
+        "fotoRamalExposto",
+        "fotoRamalCortado",
+        "fotoCroqui",
+        "fotoFrenteImovel",
+        "fotoPlacaRua",
+        "fotoProtecaoMecanica",
+        "fotoTachao",
+        "fotoProvisorio",
+      ];
+      const fotosData = {};
+
+      for (const field of fotosKeys) {
+        const keyInDB = formData?.[`${field}Key`];
+        if (!keyInDB) continue;
+
+        const file = await get(keyInDB);
+        if (file) fotosData[field] = URL.createObjectURL(file);
+      }
+
+      setFormData((prev) => ({ ...prev, ...fotosData }));
+    };
+
+    if (id) loadFormById(id, { ...initialFormData, id });
+    else setFormData(initialFormData);
+
+    loadFotosFromDB();
+  }, [id, loadFormById, setFormData]);
+
   // Navegação
   const handleNext = () => { if (step < steps.length - 1) setStep(step + 1); };
   const handlePrev = () => { if (step > 0) setStep(step - 1); };
 
+
+
+
+
+  // const handleSubmit = async () => {
+  //   console.log(formData, "formulario");
+  //   try {
+  //     alert("RDO finalizado e sincronizado!");
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert("Falha ao enviar RDO, salvo localmente.");
+  //   }
+  // };
+
+  // if (loading || !formData) {
+  //   return <div>Carregando RDO...</div>;
+  // }
+
+  // ---------- Envio de fotos em ZIP ----------
   const handleSubmit = async () => {
-    console.log(formData, "formulario");
     try {
-      alert("RDO finalizado e sincronizado!");
-    } catch (err) {
-      console.error(err);
-      alert("Falha ao enviar RDO, salvo localmente.");
+      const fotosFields = [
+        "fotoCalcadaAntes",
+        "fotoRamalExposto",
+        "fotoRamalCortado",
+        "fotoCroqui",
+        "fotoFrenteImovel",
+        "fotoPlacaRua",
+        "fotoProtecaoMecanica",
+        "fotoTachao",
+        "fotoProvisorio",
+      ];
+
+      const fotos = [];
+      for (const field of fotosFields) {
+        const keyInDB = formData[`${field}Key`];
+        if (!keyInDB) continue;
+        const file = await get(keyInDB);
+        if (file) fotos.push(file);
+      }
+
+      if (!fotos.length) {
+        alert("Nenhuma foto para enviar!");
+        return;
+      }
+
+      const fotosCompactadas = await Promise.all(fotos.map((f) => compressImage(f)));
+      const zip = new JSZip();
+      fotosCompactadas.forEach((f) => zip.file(f.name, f));
+      const blobZip = await zip.generateAsync({ type: "blob" });
+      const zipFile = new File([blobZip], "fotos_rdo.zip", { type: "application/zip" });
+
+      const formDataEnvio = new FormData();
+      formDataEnvio.append("file", zipFile);
+      formDataEnvio.append("rdoId", formData.id);
+      
+      console.log(fotosCompactadas, "formulario")
+
+  //     const response = await fetch("https://SEU_BACKEND/upload", {
+  //       method: "POST",
+  //       body: formDataEnvio,
+  //     });
+
+  //     if (!response.ok) throw new Error(await response.text());
+
+  //     alert("RDO finalizado e fotos enviadas com sucesso!");
+  //   } catch (err) {
+
+  //     console.error(err);
+  //     alert("Falha ao enviar RDO ou fotos, salvo localmente.");
+  //   }
+  // };
+     // 🔹 Debug: inspeciona todos os dados antes do envio
+    console.log("=== FormData para envio ===");
+    for (let [key, value] of formDataEnvio.entries()) {
+      if (value instanceof File) {
+        console.log(key, value.name, value.size, value.type);
+      } else {
+        console.log(key, value);
+      }
     }
-  };
 
-  if (loading || !formData) {
-    return <div>Carregando RDO...</div>;
+    // 🔹 Teste sem backend real
+    // const response = await fetch("http://localhost:3000/upload", {
+    //   method: "POST",
+    //   body: formDataEnvio,
+    // });
+
+    alert("FormData preparado e impresso no console. Verifique os arquivos!");
+  } catch (err) {
+    console.error("Erro no handleSubmit:", err);
+    alert("Falha ao preparar FormData.");
   }
+};
 
+  if (loading || !formData) return <div>Carregando RDO...</div>;
 
   const getCroquiKey = (localCorte, tipoRamal, ramalCortado) => {
     if (!localCorte || !tipoRamal) return "principal_geral"; // fallback
@@ -159,11 +294,8 @@ export default function RdoFomrExtensionInative() {
       if (localCorte === "posVgb") return "posVgb_direita_umCorte"; // um corte
       if (localCorte === "posVgbDoisCortes") return "posVgb_direita_doisCortes"; // dois cortes
     }
-    // return "principal_geral"; // default
+    return "principal_geral"; // default
   };
-  
-
-  
   // Steps
   const getSteps = () => {
     const stepResultado = {
@@ -288,12 +420,12 @@ export default function RdoFomrExtensionInative() {
           >
             <option value="">Selecione</option>
             <option value="Aço">Aço</option>
-            <option value="PE">PE</option>
+            <option value="PE80">PE80</option>
+            <option value="PE100">PE100</option>
             <option value="Outro">Outro</option>
           </StyledSelect>
         ),
       },
-
       {
         title: "Diametro do Ramal",
         content: (
@@ -306,11 +438,11 @@ export default function RdoFomrExtensionInative() {
             <option value="32mm">32mm</option>
             <option value="63mm">63mm</option>
             <option value="90mm">90mm</option>
+            <option value="125mm">125mm</option>
             <option value="Outro"> outro</option>
           </StyledSelect>
         ),
       },
-
       {
         title: "Ramal Cortado",
         content: (
@@ -361,335 +493,279 @@ export default function RdoFomrExtensionInative() {
           }
           : {
 
-        title: "Local do corte",
+            title: "Local do corte",
+            content: (
+              <StyledSelect
+                value={formData.localCorte}
+                onChange={(e) =>
+                  setFormData({ ...formData, localCorte: e.target.value })
+                }
+              >
+                <option value="">Selecione</option>
+                <option value="geral">Geral</option>
+                <option value="preVgb">Pré VGB (dois cortes)</option>
+                <option value="preVgbAdjacente">
+                  Pré VGB no ramal adjacente
+                </option>
+                <option value="posVgb">Pós VGB (um corte)</option>
+                <option value="posVgbDoisCortes">Pós VGB (dois cortes)</option>
+              </StyledSelect>
+            ),
+
+
+          })
+      },
+      {
+        title: "Tipo do capeamento",
         content: (
           <StyledSelect
-            value={formData.localCorte}
-            onChange={(e) =>
-              setFormData({ ...formData, localCorte: e.target.value })
-            }
+            value={formData.tipoCapeamento}
+            onChange={(e) => setFormData({ ...formData, tipoCapeamento: e.target.value })}
           >
             <option value="">Selecione</option>
-            <option value="geral">Geral</option>
-            <option value="preVgb">Pré VGB (dois cortes)</option>
-            <option value="preVgbAdjacente">
-              Pré VGB no ramal adjacente
-            </option>
-            <option value="posVgb">Pós VGB (um corte)</option>
-            <option value="posVgbDoisCortes">Pós VGB (dois cortes)</option>
+            <option value="flange">Flangeado</option>
+            <option value="capRosca">Cap Roscado</option>
+            <option value="capSoldadoAco">Cap Soldado (Aço)</option>
+            <option value="capSoldadoPE">Cap Soldado (PE)</option>
           </StyledSelect>
         ),
-
-
-      })
-},
-  {
-    title: "Tipo do capeamento",
-      content: (
-        <StyledSelect
-          value={formData.tipoCapeamento}
-          onChange={(e) => setFormData({ ...formData, tipoCapeamento: e.target.value })}
-        >
-          <option value="">Selecione</option>
-          <option value="flange">Flangeado</option>
-          <option value="rosca">Roscado</option>
-        </StyledSelect>
-      ),
       },
-  // {
-    // title: "Croqui",
-    // content: <PrincipalPreVgb formData={formData} setFormData={setFormData} BillId={id} />
+      {
+        title: "Croqui",
+        content: (() => {
+          const croquiKey = getCroquiKey(
+            formData.localCorte,
+            formData.tipoRamal,
+            formData.ramalCortado
+          );
+          const croquiData = croquisMap[croquiKey] || croquisMap["principal_geral"];
 
-  //   title: "Croqui",
-  //     content: (() => {
-  //       const croquiKey = getCroquiKey(formData.localCorte, formData.tipoRamal, formData.ramalCortado);
-  //       const croquiData = croquisMap[croquiKey];
-
-  //       return (
-  //         <PrincipalPreVgb
-  //           formData={formData}
-  //           setFormData={setFormData}
-  //           BillId={id}
-  //           croquiFile={croquiData.file}
-  //           croquiFields={croquiData.fields}
-  //         />
-  //       );
-  //     })()
-
-  // },
-
- {
-    title: "Croqui",
-    content: (() => {
-      const croquiKey = getCroquiKey(
-        formData.localCorte,
-        formData.tipoRamal,
-        formData.ramalCortado
-      );
-      const croquiData = croquisMap[croquiKey] || croquisMap["principal_geral"];
-
-      return (
-        <PrincipalPreVgb
-          croquiFields={croquiData.fields}
-          croquiFile={croquiData.file}
-          formData={formData}
-          setFormData={setFormData}
-          BillId={id}
-          getCroquiKey={getCroquiKey}
-        />
-      );
-    })(),
-  },
-  {
-    title: "Isométrico",
-    content: (() => {
-      const croquiKey = getCroquiKey(
-        formData.localCorte,
-        formData.tipoRamal,
-        formData.ramalCortado
-      );
-      const croquiData = croquisMap[croquiKey] || croquisMap["principal_geral"];
-
-      return (
-        <div style={{ textAlign: "center" }}>
-          <img
-            src={croquiData.fileIsometric}
-            alt="Croqui Isométrico"
-            style={{
-              maxWidth: "100%",
-              border: "1px solid #ccc",
-              borderRadius: "8px",
-            }}
-          />
-        </div>
-      );
-    })(),
-  },
-
-  
-  {
-    title: "Fotos durante",
-      content: ["fotoRamalExposto", "fotoRamalCortado", "fotoProtecaoMecanica", "fotoProvisorio"].map(f => (
-        <div key={f}>
-          <StyledLabel>{f.replace(/([A-Z])/g, " $1")}</StyledLabel>
-          {formData[f] && <img src={formData[f]} width={100} alt={f} />}
-          <StyledInput type="file" accept="image/*" capture="camera" onChange={e => handleFileChangeField(f)(e.target.files[0])} />
-        </div>
-      ))
-  },
-
-  // dados do form antigo
-
-  {
-    title: "Posição do Ramal",
-      content: (
-        <StyledSelect
-          value={formData.posicaoRamal}
-          onChange={(e) => setFormData({ ...formData, posicaoRamal: e.target.value })}
-        >
-          <option value="">Selecione</option>
-          <option value="Entre lotes">Entre lotes</option>
-          <option value="Esquina direita">Esquina direita</option>
-          <option value="Esquina esquerda">Esquina esquerda</option>
-        </StyledSelect>
-      ),
+          return (
+            <PrincipalPreVgb
+              croquiFields={croquiData.fields}
+              croquiFile={croquiData.file}
+              formData={formData}
+              setFormData={setFormData}
+              BillId={id}
+              getCroquiKey={getCroquiKey}
+            />
+          );
+        })(),
       },
-  {
-    title: "Valv. Ex. Fluxo",
-      content: (
-        <StyledSelect
-          value={formData.valvFluxo}
-          onChange={(e) => setFormData({ ...formData, valvFluxo: e.target.value })}
-        >
-          <option value="">Selecione</option>
-          <option value="false">não</option>
-          <option value="true">sim</option>
-        </StyledSelect>
-      ),
+      {
+        title: "Isométrico",
+        content: (() => {
+          const croquiKey = getCroquiKey(
+            formData.localCorte,
+            formData.tipoRamal,
+            formData.ramalCortado
+          );
+          const croquiData = croquisMap[croquiKey] || croquisMap["principal_geral"];
+
+          return (
+            <div style={{ textAlign: "center" }}>
+              <img
+                src={croquiData.fileIsometric}
+                alt="Croqui Isométrico"
+                style={{
+                  maxWidth: "100%",
+                  border: "1px solid #ccc",
+                  borderRadius: "8px",
+                }}
+              />
+            </div>
+          );
+        })(),
       },
-
-  {
-    title: "Material da Rede",
-      content: (
-        <StyledSelect
-          value={formData.materialRede}
-          onChange={(e) => setFormData({ ...formData, materialRede: e.target.value })}
-        >
-          <option value="">Selecione</option>
-          <option value="Aço">Aço</option>
-          <option value="PE">PE</option>
-          <option value="Outro">Outro</option>
-        </StyledSelect>
-      ),
+      {
+        title: "Fotos durante",
+        content: ["fotoRamalExposto", "fotoRamalCortado", "fotoProtecaoMecanica", "fotoProvisorio", "fotoTachao"].map(f => (
+          <div key={f}>
+            <StyledLabel>{f.replace(/([A-Z])/g, " $1")}</StyledLabel>
+            {formData[f] && <img src={formData[f]} width={100} alt={f} />}
+            <StyledInput type="file" accept="image/*" capture="camera" onChange={e => handleFileChangeField(f)(e.target.files[0])} />
+          </div>
+        ))
       },
-  {
-    title: "Diametro da Rede",
-      content: (
-        <StyledSelect
-          value={formData.diametroRede}
-          onChange={(e) => setFormData({ ...formData, diametroRede: e.target.value })}
-        >
-          <option value="">Selecione</option>
-          <option value="40mm">40mm</option>
-          <option value="63mm">63mm</option>
-          <option value="90mm">90mm</option>
-          <option value="125mm">125mm</option>
-          <option value="Outro">Outro</option>
-        </StyledSelect>
-      ),
-      },
-
-  {
-    title: "Presão da Rede",
-      content: (
-        <StyledSelect
-          value={formData.pressaoRede}
-          onChange={(e) => setFormData({ ...formData, pressaoRede: e.target.value })}
-        >
-          <option value="">Selecione</option>
-          <option value="250mbar">250mbar</option>
-          <option value="750mbar">750mbar</option>
-          <option value="1Bar">1Bar</option>
-          <option value="4Bar">4Bar</option>
-          <option value="7bar"> 7bar</option>
-        </StyledSelect>
-      ),
-      },
-
-
-  {
-    title: "Proteção mecânica",
-      content: (
-        <StyledSelect
-          value={formData.protecaoMecanica}
-          onChange={(e) => setFormData({ ...formData, protecaoMecanica: e.target.value })}
-        >
-          <option value="">Selecione</option>
-          <option value="false">Não</option>
-          <option value="true">Sim</option>
-        </StyledSelect>
-      ),
-      },
-
-  {
-    title: "Tachão instalado",
-      content: (
-        <StyledSelect
-          value={formData.tachaoRedondo}
-          onChange={(e) => setFormData({ ...formData, tachaoRedondo: e.target.value })}
-        >
-          <option value="">Selecione</option>
-          <option value="false">Não</option>
-          <option value="true">Sim</option>
-        </StyledSelect>
-      ),
-      },
-
-  {
-    title: "Faixa de sinalização instalada",
-      content: (
-        <StyledSelect
-          value={formData.faixaSinalizacao}
-          onChange={(e) => setFormData({ ...formData, faixaSinalizacao: e.target.value })}
-        >
-          <option value="">Selecione</option>
-          <option value="false">Não</option>
-          <option value="true">Sim</option>
-        </StyledSelect>
-      ),
-      },
-
-
-  // form novo 
-
-  // {
-  //   title: "Ramal e Rede",
-  //   content: ["posicaoRamal","tipoRamal","materialRede","materialRamal","diametroRede","diametroRamal","ramalCortado","pressaoRede","localCorte","tipoCapeamento"].map(f=>(
-  //     <StyledSelect key={f} value={formData[f]} onChange={e=>setFormData({...formData,[f]:e.target.value})}>
-  //       <option value="">Selecione {f}</option>
-  //       <option value="Exemplo">Exemplo</option>
-  //     </StyledSelect>
-  //   ))
-  // },
-  // {
-  //   title: "Proteção e sinalização",
-  //   content: ["protecaoMecanica","tachaoRedondo","faixaSinalizacao","valvFluxo"].map(f=>(
-  //     <StyledSelect key={f} value={formData[f]} onChange={e=>setFormData({...formData,[f]:e.target.value})}>
-  //       <option value="">Selecione {f}</option>
-  //       <option value="true">Sim</option>
-  //       <option value="false">Não</option>
-  //     </StyledSelect>
-  //   ))
-  // },
-
-  //termino
-
-  {
-    title: "Componentes",
-      content: (formData.componentes || []).map((c, i) => (
-        <div key={i}>
-          {["componente", "de", "fabricante", "lote"].map(f => (
-            <StyledInput key={f} value={c[f] || ""} placeholder={f} onChange={e => {
-              const newC = [...formData.componentes];
-              newC[i][f] = e.target.value;
-              setFormData({ ...formData, componentes: newC });
-            }} />
-          ))}
-          <SubmitButton type="button" onClick={() => handleRemoveItem("componentes", i)}>- Remover</SubmitButton>
-        </div>
-      )).concat(
-        <SubmitButton key="addComp" type="button" onClick={() => handleAddItem("componentes", { componente: "", de: "", fabricante: "", lote: "" })}>+ Adicionar</SubmitButton>
-      )
-  },
-  {
-    title: "Soldas",
-      content: (formData.soldas || []).map((s, i) => (
-        <div key={i}>
-          {["componente", "numeroSolda", "tempoResfriamento"].map(f => (
-            <StyledInput key={f} value={s[f] || ""} placeholder={f} onChange={e => {
-              const newS = [...formData.soldas];
-              newS[i][f] = e.target.value;
-              setFormData({ ...formData, soldas: newS });
-            }} />
-          ))}
-          <StyledSelect value={formData.soldas[i].aprovado || ""} onChange={e => {
-            const newS = [...formData.soldas];
-            newS[i].aprovado = e.target.value;
-            setFormData({ ...formData, soldas: newS });
-          }}>
-            <option value="">Aprovado?</option>
-            <option>Sim</option>
-            <option>Não</option>
-          </StyledSelect>
-          <SubmitButton
-            type="button"
-            onClick={() => handleRemoveItem("soldas", i)}
+      {
+        title: "Posição do Ramal",
+        content: (
+          <StyledSelect
+            value={formData.posicaoRamal}
+            onChange={(e) => setFormData({ ...formData, posicaoRamal: e.target.value })}
           >
-            - Remover
-          </SubmitButton>
-        </div>
+            <option value="">Selecione</option>
+            <option value="Entre lotes">Entre lotes</option>
+            <option value="Esquina direita">Esquina direita</option>
+            <option value="Esquina esquerda">Esquina esquerda</option>
+          </StyledSelect>
+        ),
+      },
+      {
+        title: "Valv. Ex. Fluxo",
+        content: (
+          <StyledSelect
+            value={formData.valvFluxo}
+            onChange={(e) => setFormData({ ...formData, valvFluxo: e.target.value })}
+          >
+            <option value="">Selecione</option>
+            <option value="false">não</option>
+            <option value="true">sim</option>
+          </StyledSelect>
+        ),
+      },
+      {
+        title: "Material da Rede",
+        content: (
+          <StyledSelect
+            value={formData.materialRede}
+            onChange={(e) => setFormData({ ...formData, materialRede: e.target.value })}
+          >
+            <option value="">Selecione</option>
+            <option value="Aço">Aço</option>
+            <option value="PE80">PE80</option>
+            <option value="PE100">PE100</option>
+            <option value="Outro">Outro</option>
+          </StyledSelect>
+        ),
+      },
+      {
+        title: "Diametro da Rede",
+        content: (
+          <StyledSelect
+            value={formData.diametroRede}
+            onChange={(e) => setFormData({ ...formData, diametroRede: e.target.value })}
+          >
+            <option value="">Selecione</option>
+            <option value="40mm">40mm</option>
+            <option value="63mm">63mm</option>
+            <option value="90mm">90mm</option>
+            <option value="125mm">125mm</option>
+            <option value="Outro">Outro</option>
+          </StyledSelect>
+        ),
+      },
+      {
+        title: "Presão da Rede",
+        content: (
+          <StyledSelect
+            value={formData.pressaoRede}
+            onChange={(e) => setFormData({ ...formData, pressaoRede: e.target.value })}
+          >
+            <option value="">Selecione</option>
+            <option value="250mbar">250mbar</option>
+            <option value="750mbar">750mbar</option>
+            <option value="1Bar">1Bar</option>
+            <option value="4Bar">4Bar</option>
+            <option value="7bar"> 7bar</option>
+          </StyledSelect>
+        ),
+      },
+      {
+        title: "Proteção mecânica",
+        content: (
+          <StyledSelect
+            value={formData.protecaoMecanica}
+            onChange={(e) => setFormData({ ...formData, protecaoMecanica: e.target.value })}
+          >
+            <option value="">Selecione</option>
+            <option value="false">Não</option>
+            <option value="true">Sim</option>
+          </StyledSelect>
+        ),
+      },
+      {
+        title: "Faixa de sinalização instalada",
+        content: (
+          <StyledSelect
+            value={formData.faixaSinalizacao}
+            onChange={(e) => setFormData({ ...formData, faixaSinalizacao: e.target.value })}
+          >
+            <option value="">Selecione</option>
+            <option value="false">Não</option>
+            <option value="true">Sim</option>
+          </StyledSelect>
+        ),
+      },
+      {
+        title: "Tachão instalado",
+        content: (
+          <StyledSelect
+            value={formData.tachaoRedondo}
+            onChange={(e) => setFormData({ ...formData, tachaoRedondo: e.target.value })}
+          >
+            <option value="">Selecione</option>
+            <option value="false">Não</option>
+            <option value="true">Sim</option>
+          </StyledSelect>
+        ),
+      },
+      {
+        title: "Componentes",
+        content: (formData.componentes || []).map((c, i) => (
+          <div key={i}>
+            {["componente", "de", "fabricante", "lote"].map(f => (
+              <StyledInput key={f} value={c[f] || ""} placeholder={f} onChange={e => {
+                const newC = [...formData.componentes];
+                newC[i][f] = e.target.value;
+                setFormData({ ...formData, componentes: newC });
+              }} />
+            ))}
+            <SubmitButton type="button" onClick={() => handleRemoveItem("componentes", i)}>- Remover</SubmitButton>
+          </div>
+        )).concat(
+          <SubmitButton key="addComp" type="button" onClick={() => handleAddItem("componentes", { componente: "", de: "", fabricante: "", lote: "" })}>+ Adicionar</SubmitButton>
+        )
+      },
+      {
+        title: "Soldas",
+        content: (formData.soldas || []).map((s, i) => (
+          <div key={i}>
+            {["componente", "numeroSolda", "tempoResfriamento"].map(f => (
+              <StyledInput key={f} value={s[f] || ""} placeholder={f} onChange={e => {
+                const newS = [...formData.soldas];
+                newS[i][f] = e.target.value;
+                setFormData({ ...formData, soldas: newS });
+              }} />
+            ))}
+            <StyledSelect value={formData.soldas[i].aprovado || ""} onChange={e => {
+              const newS = [...formData.soldas];
+              newS[i].aprovado = e.target.value;
+              setFormData({ ...formData, soldas: newS });
+            }}>
+              <option value="">Aprovado?</option>
+              <option>Sim</option>
+              <option>Não</option>
+            </StyledSelect>
+            <SubmitButton
+              type="button"
+              onClick={() => handleRemoveItem("soldas", i)}
+            >
+              - Remover
+            </SubmitButton>
+          </div>
 
-      )).concat(
-        <SubmitButton key="addSolda" type="button" onClick={() => handleAddItem("soldas", { componente: "", numeroSolda: "", tempoResfriamento: "", aprovado: "" })}>+ Adicionar</SubmitButton>
-      )
-  }
+        )).concat(
+          <SubmitButton key="addSolda" type="button" onClick={() => handleAddItem("soldas", { componente: "", numeroSolda: "", tempoResfriamento: "", aprovado: "" })}>+ Adicionar</SubmitButton>
+        )
+      }
     ];
-};
+  };
 
-const steps = getSteps();
+  const steps = getSteps();
 
-return (
-  <Container>
-    <FormTitle>RDO</FormTitle>
-    <StepContainer>
-      <Title>{steps[step].title}</Title>
-      {steps[step].content}
-    </StepContainer>
-    <ButtonGroup>
-      {step > 0 && <SubmitButton onClick={handlePrev}>Anterior</SubmitButton>}
-      {step < steps.length - 1 ? <SubmitButton onClick={handleNext}>Próximo</SubmitButton>
-        : <SubmitButton onClick={handleSubmit}>Finalizar</SubmitButton>}
-    </ButtonGroup>
-  </Container>
-);
+  return (
+    <Container>
+      <FormTitle>RDO</FormTitle>
+      <StepContainer>
+        <Title>{steps[step].title}</Title>
+        {steps[step].content}
+      </StepContainer>
+      <ButtonGroup>
+        {step > 0 && <SubmitButton onClick={handlePrev}>Anterior</SubmitButton>}
+        {step < steps.length - 1 ? <SubmitButton onClick={handleNext}>Próximo</SubmitButton>
+          : <SubmitButton onClick={handleSubmit}>Finalizar</SubmitButton>}
+      </ButtonGroup>
+    </Container>
+  );
 }

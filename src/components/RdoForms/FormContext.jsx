@@ -104,7 +104,23 @@ useEffect(() => {
 
 
 // 🔹 Campo de arquivo (foto etc.)
-const handleFileChangeField = (field) => async (file) => {
+// const handleFileChangeField = (field) => async (file) => {
+//   if (!file || !formData?.id) return;
+
+//   const key = `rdo-${formData.id}-${field}`;
+//   await set(key, file);
+
+//   const url = URL.createObjectURL(file);
+
+//   setFormData((prev) => ({
+//     ...prev,
+//     [field]: url,   // URL para exibir a imagem no preview
+//     [`${field}Key`]: key, // chave para recuperar do IndexedDB
+//   }));
+// };
+
+
+const handleFileChangeField = (formData, setFormData) => (field) => async (file) => {
   if (!file || !formData?.id) return;
 
   const key = `rdo-${formData.id}-${field}`;
@@ -114,10 +130,11 @@ const handleFileChangeField = (field) => async (file) => {
 
   setFormData((prev) => ({
     ...prev,
-    [field]: url,   // URL para exibir a imagem no preview
+    [field]: url,       // URL para preview
     [`${field}Key`]: key, // chave para recuperar do IndexedDB
   }));
 };
+
 
   // 🔹 Limpar dados de um ID específico
   const clearFormById = async (id) => {
