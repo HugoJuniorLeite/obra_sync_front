@@ -136,7 +136,8 @@ export default function RdoFomrExtensionInative() {
   }, [id, loadFormById, setFormData]);
 
 
-  // ---------- Carregar formulário e fotos ----------
+  // ---------- Carregar
+  //  formulário e fotos ----------
   const fileHandler = handleFileChangeField(formData, setFormData);
 
   useEffect(() => {
@@ -445,7 +446,7 @@ export default function RdoFomrExtensionInative() {
               type="file"
               accept="image/*"
               capture="camera"
-              onChange={e => handleFileChangeField(f)(e.target.files[0])}
+              onChange={e => fileHandler(f)(e.target.files[0])}
             />
           </div>
         ))
@@ -654,7 +655,7 @@ export default function RdoFomrExtensionInative() {
           <div key={f}>
             <StyledLabel>{f.replace(/([A-Z])/g, " $1")}</StyledLabel>
             {formData[f] && <img src={formData[f]} width={100} alt={f} />}
-            <StyledInput type="file" accept="image/*" capture="camera" onChange={e => handleFileChangeField(f)(e.target.files[0])} />
+            <StyledInput type="file" accept="image/*" capture="camera" onChange={e => fileHandler(f)(e.target.files[0])} />
           </div>
         ))
       },
