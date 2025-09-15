@@ -1,8 +1,8 @@
 import api from "./api";
 
 
-async function postOccupation(payload) {
-  const response = await api.post('/create-occupation', payload);
+async function postRdo(payload) {
+  const response = await api.post('/create-rdo', payload);
   return response.data;
 }
 
@@ -18,8 +18,8 @@ async function getOccupationById(payload) {
 
 
 
-const occupation = { postOccupation, getOccupation, getOccupationById }
+const createRdo = { postRdo, getOccupation, getOccupationById }
 
-export default occupation;
+export default createRdo;
 
 
