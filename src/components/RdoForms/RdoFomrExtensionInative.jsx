@@ -197,109 +197,236 @@ export default function RdoFomrExtensionInative() {
   // ---------- Envio de fotos em ZIP ----------
 
 
+  // const handleSubmit = async () => {
+  //   try {
+  //     // Campos das fotos
+  //     const fotosFields = [
+  //       "fotoCalcadaAntes",
+  //       "fotoRamalExposto",
+  //       "fotoRamalCortado",
+  //       "fotoCroqui",
+  //       "fotoFrenteImovel",
+  //       "fotoPlacaRua",
+  //       "fotoProtecaoMecanica",
+  //       "fotoTachao",
+  //       "fotoProvisorio",
+  //     ];
+
+  //     // Recupera os arquivos do IndexedDB
+  //     const fotos = {};
+  //     for (const field of fotosFields) {
+  //       const keyInDB = formData[`${field}Key`];
+  //       if (!keyInDB) continue;
+  //       const file = await get(keyInDB);
+  //       if (file) fotos[field] = file;
+  //     }
+
+  //     if (Object.keys(fotos).length === 0) {
+  //       alert("Nenhuma foto para enviar!");
+  //       return;
+  //     }
+
+  //     // Compacta as fotos
+  //     const fotosCompactadas = await Promise.all(
+  //       Object.entries(fotos).map(async ([field, file]) => {
+  //         const compressed = await compressImage(file);
+  //         return { field, file: compressed };
+  //       })
+  //     );
+
+  //     // Cria ZIP com as fotos compactadas
+  //     const zip = new JSZip();
+  //     fotosCompactadas.forEach(({ file }) => {
+  //       zip.file(file.name, file);
+  //     });
+  //     const blobZip = await zip.generateAsync({ type: "blob" });
+  //     const zipFile = new File([blobZip], "fotos_rdo.zip", { type: "application/zip" });
+
+  //     // Cria o objeto RDO
+  //     const rdoJson = {
+  //       id: formData.id,
+  //       resultado: formData.resultado,
+  //       detalhe: formData.detalhe,
+  //       comentario: formData.comentario,
+  //       endereco: formData.endereco,
+  //       localCorte: formData.localCorte,
+  //       ramalCortado: formData.ramalCortado,
+  //       tipoRamal: formData.tipoRamal,
+  //       posicaoRamal: formData.posicaoRamal,
+  //       tipoCapeamento: formData.tipoCapeamento,
+  //       materialRamal: formData.materialRamal,
+  //       materialRede: formData.materialRede,
+  //       diametroRamal: formData.diametroRamal,
+  //       diametroRede: formData.diametroRede,
+  //       pressaoRede: formData.pressaoRede,
+  //       valvFluxo: formData.valvFluxo,
+  //       protecaoMecanica: formData.protecaoMecanica,
+  //       tachaoRedondo: formData.tachaoRedondo,
+  //       faixaSinalizacao: formData.faixaSinalizacao,
+  //       valas: formData.valas,
+  //       componentes: formData.componentes,
+  //       soldas: formData.soldas,
+  //       croquis: formData.croquis,
+  //       fotos: {}
+  //     };
+
+  //     // Preenche o JSON com as chaves das fotos
+  //     for (const field in fotos) {
+  //       rdoJson.fotos[`${field}Key`] = formData[`${field}Key`];
+  //     }
+
+  //     // Cria FormData para envio
+  //     const formDataEnvio = new FormData();
+  //     formDataEnvio.append("data", JSON.stringify(rdoJson));
+  //     formDataEnvio.append("fotosZip", zipFile); // envia todas as fotos compactadas
+
+
+  //     console.log(formDataEnvio, "envio", rdoJson, "rdoJson")
+  //     // for (let [key, value] of formDataEnvio.entries()) {
+  //     //   console.log(key, value);
+  //     // }
+
+
+  //     // Envia para o backend
+  //     const response = await createRdo.postRdo(formDataEnvio, {
+  //       headers: { "Content-Type": "multipart/form-data" },
+  //     });
+
+  //     if (response.status !== 200) throw new Error("Erro ao enviar RDO");
+
+  //     alert("RDO finalizado e fotos enviadas com sucesso!");
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert("Falha ao enviar RDO ou fotos, salvo localmente.");
+  //   }
+  // };
+
+
   const handleSubmit = async () => {
-    try {
-      // Campos das fotos
-      const fotosFields = [
-        "fotoCalcadaAntes",
-        "fotoRamalExposto",
-        "fotoRamalCortado",
-        "fotoCroqui",
-        "fotoFrenteImovel",
-        "fotoPlacaRua",
-        "fotoProtecaoMecanica",
-        "fotoTachao",
-        "fotoProvisorio",
-      ];
+  try {
+    // Campos das fotos que você quer enviar
+    const fotosFields = [
+      "fotoCalcadaAntes",
+      "fotoRamalExposto",
+      "fotoRamalCortado",
+      "fotoFrenteImovel",
+      "fotoPlacaRua",
+      "fotoProtecaoMecanica",
+      "fotoTachao",
+      "fotoProvisorio",
+      // Descomente se usar:
+      // "fotoCroqui",
+    ];
 
-      // Recupera os arquivos do IndexedDB
-      const fotos = {};
-      for (const field of fotosFields) {
-        const keyInDB = formData[`${field}Key`];
-        if (!keyInDB) continue;
-        const file = await get(keyInDB);
-        if (file) fotos[field] = file;
-      }
-
-      if (Object.keys(fotos).length === 0) {
-        alert("Nenhuma foto para enviar!");
-        return;
-      }
-
-      // Compacta as fotos
-      const fotosCompactadas = await Promise.all(
-        Object.entries(fotos).map(async ([field, file]) => {
-          const compressed = await compressImage(file);
-          return { field, file: compressed };
-        })
-      );
-
-      // Cria ZIP com as fotos compactadas
-      const zip = new JSZip();
-      fotosCompactadas.forEach(({ file }) => {
-        zip.file(file.name, file);
-      });
-      const blobZip = await zip.generateAsync({ type: "blob" });
-      const zipFile = new File([blobZip], "fotos_rdo.zip", { type: "application/zip" });
-
-      // Cria o objeto RDO
-      const rdoJson = {
-        id: formData.id,
-        resultado: formData.resultado,
-        detalhe: formData.detalhe,
-        comentario: formData.comentario,
-        endereco: formData.endereco,
-        localCorte: formData.localCorte,
-        ramalCortado: formData.ramalCortado,
-        tipoRamal: formData.tipoRamal,
-        posicaoRamal: formData.posicaoRamal,
-        tipoCapeamento: formData.tipoCapeamento,
-        materialRamal: formData.materialRamal,
-        materialRede: formData.materialRede,
-        diametroRamal: formData.diametroRamal,
-        diametroRede: formData.diametroRede,
-        pressaoRede: formData.pressaoRede,
-        valvFluxo: formData.valvFluxo,
-        protecaoMecanica: formData.protecaoMecanica,
-        tachaoRedondo: formData.tachaoRedondo,
-        faixaSinalizacao: formData.faixaSinalizacao,
-        valas: formData.valas,
-        componentes: formData.componentes,
-        soldas: formData.soldas,
-        croquis: formData.croquis,
-        fotos: {}
-      };
-
-      // Preenche o JSON com as chaves das fotos
-      for (const field in fotos) {
-        rdoJson.fotos[`${field}Key`] = formData[`${field}Key`];
-      }
-
-      // Cria FormData para envio
-      const formDataEnvio = new FormData();
-      formDataEnvio.append("data", JSON.stringify(rdoJson));
-      formDataEnvio.append("fotosZip", zipFile); // envia todas as fotos compactadas
-
-
-      console.log(formDataEnvio, "envio", rdoJson, "rdoJson")
-      for (let [key, value] of formDataEnvio.entries()) {
-        console.log(key, value);
-      }
-
-
-      // Envia para o backend
-      const response = await createRdo.postRdo(formDataEnvio, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      if (response.status !== 200) throw new Error("Erro ao enviar RDO");
-
-      alert("RDO finalizado e fotos enviadas com sucesso!");
-    } catch (err) {
-      console.error(err);
-      alert("Falha ao enviar RDO ou fotos, salvo localmente.");
+    // Recupera os arquivos do IndexedDB
+   const fotos = {};
+    for (const field of fotosFields) {
+      const keyInDB = formData[`${field}Key`];
+      if (!keyInDB) continue;
+      const file = await get(keyInDB);
+      if (file) fotos[field] = file;
     }
-  };
+
+    if (Object.keys(fotos).length === 0) {
+      alert("Nenhuma foto para enviar!");
+      return;
+    }
+
+    // ✅ DEBUG: Ver fotos no console
+    console.group("📸 Fotos a serem enviadas");
+    for (const [field, file] of Object.entries(fotos)) {
+      console.log(`📷 ${field}:`, {
+        name: file.name,
+        size: `${(file.size / 1024).toFixed(2)} KB`,
+        type: file.type,
+      });
+
+      // Gera URL para visualização
+      const url = URL.createObjectURL(file);
+      console.log(`🔗 ${field} URL:`, url);
+
+      // Cria imagem para preview no console
+      const img = new Image();
+      img.src = url;
+      img.style = "max-width: 200px; border: 1px solid #ccc; margin: 5px;";
+      img.onload = () => {
+        console.log(`🖼️ Preview de ${field}:`, img);
+        URL.revokeObjectURL(url); // libera memória após carregar
+      };
+    }
+    console.groupEnd();
+
+    // Compacta as fotos (opcional, mas recomendado)
+    const fotosCompactadas = {};
+    for (const [field, file] of Object.entries(fotos)) {
+      try {
+        const compressed = await compressImage(file);
+        fotosCompactadas[field] = compressed;
+      } catch (err) {
+        console.warn(`Falha ao comprimir ${field}:`, err);
+        fotosCompactadas[field] = file; // mantém original se falhar
+      }
+    }
+
+    // Cria o objeto RDO (sem as fotos, pois elas vão como campos separados)
+    const rdoJson = {
+      id: formData.id,
+      resultado: formData.resultado,
+      detalhe: formData.detalhe,
+      comentario: formData.comentario,
+      endereco: formData.endereco,
+      localCorte: formData.localCorte,
+      ramalCortado: formData.ramalCortado,
+      tipoRamal: formData.tipoRamal,
+      posicaoRamal: formData.posicaoRamal,
+      tipoCapeamento: formData.tipoCapeamento,
+      materialRamal: formData.materialRamal,
+      materialRede: formData.materialRede,
+      diametroRamal: formData.diametroRamal,
+      diametroRede: formData.diametroRede,
+      pressaoRede: formData.pressaoRede,
+      valvFluxo: formData.valvFluxo,
+      protecaoMecanica: formData.protecaoMecanica,
+      tachaoRedondo: formData.tachaoRedondo,
+      faixaSinalizacao: formData.faixaSinalizacao,
+      valas: formData.valas || [],
+      componentes: formData.componentes || [],
+      soldas: formData.soldas || [],
+      croquis: formData.croquis || [],
+    };
+
+    
+
+    // ✅ Cria FormData
+    const formDataEnvio = new FormData();
+    formDataEnvio.append("data", JSON.stringify(rdoJson));
+
+    // ✅ Adiciona cada foto como campo individual
+    for (const [field, file] of Object.entries(fotosCompactadas)) {
+      formDataEnvio.append(field, file); // ex: "fotoCalcadaAntes", file
+    }
+
+    // 👇 DEBUG (opcional): Verifique o que está sendo enviado
+    // for (let [key, value] of formDataEnvio.entries()) {
+    //   console.log(key, value instanceof File ? `${value.name} (${value.type})` : value);
+    // }
+
+    // ✅ ENVIA PARA O BACKEND — SEM DEFINIR CONTENT-TYPE!
+    const response = await createRdo.postRdo(formDataEnvio);
+
+    if (response.status !== 201 && response.status !== 200) {
+      throw new Error("Erro ao enviar RDO");
+    }
+
+    alert("✅ RDO finalizado e fotos enviadas com sucesso!");
+    // Opcional: redirecionar ou resetar form
+    // navigate("/");
+
+  } catch (err) {
+    console.error("Erro no envio:", err);
+    alert("❌ Falha ao enviar RDO ou fotos. Verifique o console.");
+  }
+};
 
 
   //     const response = await fetch("https://SEU_BACKEND/upload", {
