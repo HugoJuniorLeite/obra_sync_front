@@ -20,27 +20,27 @@ export default function LoginMaster() {
   });
 
   const onSubmit = async (data) => {
-    console.log(data)
+    // console.log(data)
     setIstoken(true)
-    // try {
-    //   await putToken(data);
-    //   setIstoken(true);
-    // } catch (err) {
-    //   console.error(err);
-    //   alert("Erro ao solicitar o token.");
-    // }
+    try {
+      await putToken(data);
+      setIstoken(true);
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao solicitar o token.");
+    }
   };
 
   const handleTokenSubmit = async (code) => {
     console.log(code);
     setIstoken(false)
-    // try {
-    //   // await validateToken(code);
-    //   alert("Token validado com sucesso!");
-    // } catch (err) {
-    //   console.error(err);
-    //   alert("Código inválido.");
-    // }
+    try {
+      // await validateToken(code);
+      alert("Token validado com sucesso!");
+    } catch (err) {
+      console.error(err);
+      alert("Código inválido.");
+    }
   };
 
   return (

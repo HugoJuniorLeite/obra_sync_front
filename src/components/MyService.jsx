@@ -392,6 +392,7 @@ export default function MyService() {
     setSelectedBill(bill); // salva no contexto
     setShowModal(false); // fecha modal
     navigate(`/rdo-form/${bill.id}`); // vai pro form
+    console.log(bill)
   };
 
   return (
