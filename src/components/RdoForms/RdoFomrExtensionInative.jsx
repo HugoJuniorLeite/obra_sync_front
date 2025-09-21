@@ -12,7 +12,7 @@ import { set, get } from "idb-keyval";
 import createRdo from "../../services/apiRdo";
 // import compressImage from "./compressImage"; // sua função de compressão
 import html2canvas from "html2canvas";
-
+import generateCroquiPDF from "../generateCroquiPDF";
 
 
 const StepContainer = styled.div`
@@ -180,12 +180,12 @@ export default function RdoFomrExtensionInative() {
 
 
 
-const croquiRef = useRef(null);
+// const croquiRef = useRef(null);
 
-// no JSX
-<div ref={croquiRef}>
-  {/* campos do croqui */}
-</div>
+// // no JSX
+// <div ref={croquiRef}>
+//   {/* campos do croqui */}
+// </div>
 
 // ao capturar
 // function captureCroqui() {
@@ -203,6 +203,45 @@ const croquiRef = useRef(null);
 //   });
 // }
 
+// No início do componente, após os hooks useState/useEffect
+
+
+  const getCroquiKey = (localCorte, tipoRamal, ramalCortado) => {
+    if (!localCorte || !tipoRamal) return "principal_geral"; // fallback
+
+    if (ramalCortado === "principal") {
+      if (localCorte === "geral") return "principal_geral"; // ou dois cortes
+      if (localCorte === "geralExtremidadeRemanescente") return "principal_geralComExtremidadeRemanescente"; // ou dois cortes
+      if (localCorte === "preVgb") return "principal_preVgb"; // ou dois cortes
+      if (localCorte === "posVgb") return "principal_posVgb"; // ou dois cortes
+    }
+
+    if (ramalCortado === "adjacenteEsquerda") {
+      if (localCorte === "geral") return "geral_esquerda"; // ou dois cortes
+      if (localCorte === "preVgb") return "preVgb_esquerda_doisCortes"; // ou dois cortes
+      if (localCorte === "preVgbAdjacente") return "preVgb_esquerda_ramalAdjacente"; // ramal adjacente
+      if (localCorte === "posVgb") return "posVgb_esquerda_umCorte"; // um corte
+      if (localCorte === "posVgbDoisCortes") return "posVgb_esquerda_doisCortes"; // dois cortes
+    }
+
+    if (ramalCortado === "adjacenteDireita") {
+      if (localCorte === "geral") return "geral_direita"; // ou dois cortes
+      if (localCorte === "preVgb") return "preVgb_direita_doisCortes"; // ou dois cortes
+      if (localCorte === "preVgbAdjacente") return "preVgb_direita_ramalAdjacente"; // ramal adjacente
+      if (localCorte === "posVgb") return "posVgb_direita_umCorte"; // um corte
+      if (localCorte === "posVgbDoisCortes") return "posVgb_direita_doisCortes"; // dois cortes
+    }
+    return "principal_geral"; // default
+  };
+
+
+
+const croquiKey = getCroquiKey(
+  formData.localCorte,
+  formData.tipoRamal,
+  formData.ramalCortado
+);
+const croquiData = croquisMap[croquiKey] || croquisMap["principal_geral"];
 
 
   const handleSubmit = async () => {
@@ -322,7 +361,7 @@ const croquiRef = useRef(null);
         }
       };
 
-      console.log(rdoJson)
+      console.log(rdoJson, "formData")
 
 
       // ✅ Cria FormData
@@ -343,77 +382,87 @@ const croquiRef = useRef(null);
         formDataEnvio.append(field, file); // ex: "fotoCalcadaAntes", file
       }
 
-// /
+// /print tela
 // const croquiBlob = await captureCroqui();
 
 
-    async function captureCroquiTemp() {
-      return new Promise((resolve, reject) => {
-        const container = document.createElement("div");
-    container.style.width = "600px";
-container.style.height = "800px";
-        document.body.appendChild(container);
+//     async function captureCroquiTemp() {
+//       return new Promise((resolve, reject) => {
+//         const container = document.createElement("div");
+//     container.style.width = "600px";
+// container.style.height = "800px";
+//         document.body.appendChild(container);
 
-        import("react-dom/client").then(ReactDOM => {
-          const root = ReactDOM.createRoot(container);
-          root.render(
-            <PrincipalPreVgb
-              croquiFields={croquiData.fields}
-              croquiFile={croquiData.file}
-              formData={formData}
-              setFormData={() => {}}
-              BillId={id}
-              getCroquiKey={getCroquiKey}
-            />
-          );
+//         import("react-dom/client").then(ReactDOM => {
+//           const root = ReactDOM.createRoot(container);
+//           root.render(
+//             <PrincipalPreVgb
+//               croquiFields={croquiData.fields}
+//               croquiFile={croquiData.file}
+//               formData={formData}
+//               setFormData={() => {}}
+//               BillId={id}
+//               getCroquiKey={getCroquiKey}
+//             />
+//           );
 
-          setTimeout(() => {
-            html2canvas(container,{
-                scale: 1,
-  useCORS: true,
-  allowTaint: false,
+//           setTimeout(() => {
+//             html2canvas(container,{
+//                 scale: 1,
+//   useCORS: true,
+//   allowTaint: false,
   
-            })
-              .then(canvas => {
-                canvas.toBlob(blob => {
-                  document.body.removeChild(container);
-                  if (blob) resolve(blob);
-                  else reject(new Error("Falha ao gerar blob do croqui"));
-                }, "image/png");
-              })
-              .catch(err => {
-                document.body.removeChild(container);
-                reject(err);
-              });
-          }, 50); // espera React renderizar
-        });
-      });
-    }
+//             })
+//               .then(canvas => {
+//                 canvas.toBlob(blob => {
+//                   document.body.removeChild(container);
+//                   if (blob) resolve(blob);
+//                   else reject(new Error("Falha ao gerar blob do croqui"));
+//                 }, "image/png");
+//               })
+//               .catch(err => {
+//                 document.body.removeChild(container);
+//                 reject(err);
+//               });
+//           }, 50); // espera React renderizar
+//         });
+//       });
+//     }
     // formDataEnvio.append("fotoCroqui", croquiBlob, "croqui.png");
 
-    const croquiBlob = await captureCroquiTemp();
+    // const croquiBlob = await captureCroquiTemp();
 
-console.log(croquiBlob, "Fotos para enviar"); // deve mostrar Blob
+    
+    // formDataEnvio.append("fotoCroqui", croquiBlob, "croqui.png");
+    
 
-formDataEnvio.append("fotoCroqui", croquiBlob, "croqui.png");
 
-      // 👇 DEBUG (opcional): Verifique o que está sendo enviado
+    //pdf 
+
+//     const croquiBlob = await generateCroquiPDF(croquiData, formData);
+// formDataEnvio.append("croquiPDF", croquiBlob, "croqui.pdf");
+    // console.log(croquiBlob, "Fotos para enviar"); // deve mostrar Blob
+    
+    
+    
+    // 👇 DEBUG (opcional): Verifique o que está sendo enviado
       // for (let [key, value] of formDataEnvio.entries()) {
       //   console.log(key, value instanceof File ? `${value.name} (${value.type})` : value);
       // }
 
       // ✅ ENVIA PARA O BACKEND — SEM DEFINIR CONTENT-TYPE!
       const response = await createRdo.postRdo(formDataEnvio);
-
-      if (response.status !== 201 && response.status !== 200) {
-        throw new Error("Erro ao enviar RDO");
-      }
-
+      console.log(response,"retorno do envio")
+   if (!response || !response.message || response.message !== "RDO criado com sucesso!") {
+  throw new Error("Erro ao enviar RDO");
+}
+      
       alert("✅ RDO finalizado e fotos enviadas com sucesso!");
       // Opcional: redirecionar ou resetar form
       // navigate("/");
-
+      
     } catch (err) {
+      // console.log(response,"retorno do envio")
       console.error("Erro no envio:", err);
       alert("❌ Falha ao enviar RDO ou fotos. Verifique o console.");
     }
@@ -421,33 +470,6 @@ formDataEnvio.append("fotoCroqui", croquiBlob, "croqui.png");
 
   if (loading || !formData) return <div>Carregando RDO...</div>;
 
-  const getCroquiKey = (localCorte, tipoRamal, ramalCortado) => {
-    if (!localCorte || !tipoRamal) return "principal_geral"; // fallback
-
-    if (ramalCortado === "principal") {
-      if (localCorte === "geral") return "principal_geral"; // ou dois cortes
-      if (localCorte === "geralExtremidadeRemanescente") return "principal_geralComExtremidadeRemanescente"; // ou dois cortes
-      if (localCorte === "preVgb") return "principal_preVgb"; // ou dois cortes
-      if (localCorte === "posVgb") return "principal_posVgb"; // ou dois cortes
-    }
-
-    if (ramalCortado === "adjacenteEsquerda") {
-      if (localCorte === "geral") return "geral_esquerda"; // ou dois cortes
-      if (localCorte === "preVgb") return "preVgb_esquerda_doisCortes"; // ou dois cortes
-      if (localCorte === "preVgbAdjacente") return "preVgb_esquerda_ramalAdjacente"; // ramal adjacente
-      if (localCorte === "posVgb") return "posVgb_esquerda_umCorte"; // um corte
-      if (localCorte === "posVgbDoisCortes") return "posVgb_esquerda_doisCortes"; // dois cortes
-    }
-
-    if (ramalCortado === "adjacenteDireita") {
-      if (localCorte === "geral") return "geral_direita"; // ou dois cortes
-      if (localCorte === "preVgb") return "preVgb_direita_doisCortes"; // ou dois cortes
-      if (localCorte === "preVgbAdjacente") return "preVgb_direita_ramalAdjacente"; // ramal adjacente
-      if (localCorte === "posVgb") return "posVgb_direita_umCorte"; // um corte
-      if (localCorte === "posVgbDoisCortes") return "posVgb_direita_doisCortes"; // dois cortes
-    }
-    return "principal_geral"; // default
-  };
 
 
 
@@ -700,7 +722,7 @@ formDataEnvio.append("fotoCroqui", croquiBlob, "croqui.png");
           const croquiData = croquisMap[croquiKey] || croquisMap["principal_geral"];
 
           return (
-            <div id="croqui-container" ref={croquiRef}>
+            // <div id="croqui-container" ref={croquiRef}>
               <PrincipalPreVgb
                 croquiFields={croquiData.fields}
                 croquiFile={croquiData.file}
@@ -709,7 +731,7 @@ formDataEnvio.append("fotoCroqui", croquiBlob, "croqui.png");
                 BillId={id}
                 getCroquiKey={getCroquiKey}
               />
-            </div>
+            // </div>
           );
         })(),
       },
@@ -918,6 +940,11 @@ formDataEnvio.append("fotoCroqui", croquiBlob, "croqui.png");
   return (
     <Container>
       <FormTitle>RDO</FormTitle>
+      {/* <generateCroquiPDF 
+  croquiName={croquiData.file}   // ou croquiData.fileIsometric se for PDF isométrico
+  formData={formData}            // envia o estado atual do RDO
+/> */}
+
       <StepContainer>
         <Title>{steps[step].title}</Title>
         {steps[step].content}
@@ -927,6 +954,7 @@ formDataEnvio.append("fotoCroqui", croquiBlob, "croqui.png");
         {step < steps.length - 1 ? <SubmitButton onClick={handleNext}>Próximo</SubmitButton>
           : <SubmitButton onClick={handleSubmit}>Finalizar</SubmitButton>}
       </ButtonGroup>
+      
     </Container>
   );
 }

@@ -9,6 +9,7 @@ import CreateOccupation from "../components/CreateOccupation";
 import CreateOs from "../components/CreateOs";
 import GetOss from "../components/GetOSs";
 import MyService from "../components/MyService";
+import RdoPdf from "../components/RdoForms/RdoPdf";
 // import Projects from "../components/Projects";
 
 const Container = styled.div`
@@ -26,6 +27,10 @@ const Main = styled.main`
   flex-direction: column;
   gap: 2.5rem;
 `;
+
+
+
+
 
 export default function Home() {
   // const [projects, setProjects] = useState([]);
@@ -57,7 +62,12 @@ export default function Home() {
 
         {/* <Projects></Projects> */}
 
-        <MyService></MyService>
+
+        {/* <MyService></MyService>
+
+{/* <RdoPdf/> */}
+
+
       </Main>
     </Container>
   );
