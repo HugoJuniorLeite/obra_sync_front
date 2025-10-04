@@ -197,7 +197,7 @@ export default function PrincipalPreVgb({ formData, setFormData, BillId, croquiF
                 {...field}
                 placeholder={f.label}
                 rotate={f.rotate}
-                width={Math.max(60, (f.name.length * 8))} // garante mínimo de 60px
+                width={Math.max(60, widths[f.name] || f.name.length * 8)}
                 onChange={(e) => {
                   field.onChange(e);
                   handleChange(f.name, e.target.value, f.label);
