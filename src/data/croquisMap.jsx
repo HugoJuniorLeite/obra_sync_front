@@ -7,7 +7,7 @@ export const croquisMap = {
   principal_geral: {
     namecroqui: "principal_geral",
     file: "/assets/croqui/planta_simplicada_princial_geral.png",
-    fileIsometric: "/src/assets/isometrico/isometrico_principal_geral.png",
+    fileIsometric: "/assets/isometrico/isometrico_principal_geral.png",
     details: "Corte no ramal principal no geral",
     fields: [
       { name: "Numero_esquerda", label: "Nº", top: "37%", left: "37%" },
@@ -30,8 +30,8 @@ export const croquisMap = {
   principal_posVgb: {
 
     namecroqui: "principal_posVgb",
-    file: "/src/assets/croqui/planta_simplificada_principal_pos_vgb_entre_lotes.png",
-    fileIsometric: "/src/assets/isometrico/isometrico_principal_pos_vgb.png",
+    file: "/assets/croqui/planta_simplificada_principal_pos_vgb_entre_lotes.png",
+    fileIsometric: "/assets/isometrico/isometrico_principal_pos_vgb.png",
     details: "Corte no ramal principal pós VGB",
     fields: [
       { name: "A_esquerda", label: "A=", top: "67%", left: "39%" },
@@ -57,8 +57,8 @@ export const croquisMap = {
   // 🌐 Principal pre vgb
   principal_preVgb: {
     namecroqui: "principal_preVgb",
-    file: "/src/assets/croqui/planta_simplificada_principal_pre_vbg_entre_lotes.png",
-    fileIsometric: "/src/assets/isometrico/isometrico_principal_pre_vgb.png",
+    file: "/assets/croqui/planta_simplificada_principal_pre_vbg_entre_lotes.png",
+    fileIsometric: "/assets/isometrico/isometrico_principal_pre_vgb.png",
        details: "Corte no ramal principal pré VGB",
     fields: [
       { name: "A_esquerda", label: "A=", top: "67%", left: "39%" },
@@ -82,8 +82,8 @@ export const croquisMap = {
   // 🌐 Principal geral com extremidade remanescente
   principal_geralComExtremidadeRemanescente: {
     namecroqui: "principal_geralComExtremidadeRemanescente",
-    file: "/src/assets/croqui/planta_simplificada_principal_geral_com_extremidade_remanescente.png",
-    fileIsometric: "/src/assets/isometrico/isometrico_principal_geral com extremidade remanescente.png",
+    file: "/assets/croqui/planta_simplificada_principal_geral_com_extremidade_remanescente.png",
+    fileIsometric: "/assets/isometrico/isometrico_principal_geral com extremidade remanescente.png",
     details: "corte no ramal principal no geral com extremidade remanescente",
     fields: [
       { name: "A_esquerda", label: "A=", top: "67%", left: "39%" },
@@ -109,8 +109,8 @@ export const croquisMap = {
   // 🌐 Esquerda - Pré VGB (2 cortes)
   preVgb_esquerda_doisCortes: {
     namecroqui: "preVgb_esquerda_doisCortes",
-    file: "/src/assets/croqui/planta_simplificada_adjacente esquerda_pre_vgb_dois corte.png",
-    fileIsometric: "/src/assets/isometrico/isometrico_adjacente esquerda_pre_vgb_dois cortes.png",
+    file: "/assets/croqui/planta_simplificada_adjacente esquerda_pre_vgb_dois corte.png",
+    fileIsometric: "/assets/isometrico/isometrico_adjacente esquerda_pre_vgb_dois cortes.png",
         details: "2 cortes no ramal adjacente a esquerda pré VGB",
     fields: [
       { name: "A_esquerda", label: "A=", top: "67%", left: "39%" },
@@ -133,8 +133,8 @@ export const croquisMap = {
   //🌐 Esquerda - Pré VGB (1 corte)
   preVgb_esquerda_ramalAdjacente: {
     namecroqui: "preVgb_esquerda_ramalAdjacente",
-    file: "/src/assets/croqui/planta_simplificada_adjacente_esquerda_ramal_adjacente.png",
-    fileIsometric: "/src/assets/isometrico/isometrico_adjacente esquerda_ramal adjacente.png",
+    file: "/assets/croqui/planta_simplificada_adjacente_esquerda_ramal_adjacente.png",
+    fileIsometric: "/assets/isometrico/isometrico_adjacente esquerda_ramal adjacente.png",
             details: "1 cortes no ramal adjacente a esquerda pré VGB",
 
     fields: [
@@ -160,8 +160,8 @@ export const croquisMap = {
   // 🌐 Esquerda - Corte geral
   geral_esquerda: {
     namecroqui: "geral_esquerda",
-    file: "/src/assets/croqui/planta_simplificada_adjacente esquerta_geral.png",
-    fileIsometric: "/src/assets/isometrico/isometrico_adjacente esquerda_geral.png",
+    file: "/assets/croqui/planta_simplificada_adjacente esquerta_geral.png",
+    fileIsometric: "/assets/isometrico/isometrico_adjacente esquerda_geral.png",
             details: "corte no ramal adjacente a esquerda no geral",
 
     fields: [
@@ -183,8 +183,8 @@ export const croquisMap = {
   // 🌐 Esquerda - Pós VGB (1 corte)
   posVgb_esquerda_umCorte: {
     namecroqui: "posVgb_esquerda_umCorte",
-    file: "/src/assets/croqui/planta_simplificada_adjacente_esquerda_pos_vgb_um corte.png",
-    fileIsometric: "/src/assets/isometrico/isometrico_adjacente esquerda_pos_vgb_um corte.png",
+    file: "/assets/croqui/planta_simplificada_adjacente_esquerda_pos_vgb_um corte.png",
+    fileIsometric: "/assets/isometrico/isometrico_adjacente esquerda_pos_vgb_um corte.png",
             details: "1 corte no ramal adjacente a esquerda pós VGB",
 
     fields: [
@@ -213,8 +213,8 @@ export const croquisMap = {
   //  🌐 Esquerda - Pós VGB (2 cortes)
   posVgb_esquerda_doisCortes: {
     namecroqui: "posVgb_esquerda_doisCortes",
-    file: "/src/assets/croqui/planta_simplificada_adjacente_esquerda_pos_vgb_dois cortes.png",
-    fileIsometric: "/src/assets/isometrico/isometrico_adjacente esquerda_pos_vgb_dois cortes.png",
+    file: "/assets/croqui/planta_simplificada_adjacente_esquerda_pos_vgb_dois cortes.png",
+    fileIsometric: "/assets/isometrico/isometrico_adjacente esquerda_pos_vgb_dois cortes.png",
             details: "2 cortes no ramal adjacente a esquerda pós VGB",
 
     fields: [
@@ -248,8 +248,8 @@ export const croquisMap = {
   // 🌐 Direita - Pós VGB (1 corte)
   posVgb_direita_umCorte: {
     namecroqui: "posVgb_direita_umCorte",
-    file: "/src/assets/croqui/planta_simplificada_adjacente_direita_pos_vgb_um corte.png",
-    fileIsometric: "/src/assets/isometrico/isometrico_adjacente direita_pos_vgb_um corte.png",
+    file: "/assets/croqui/planta_simplificada_adjacente_direita_pos_vgb_um corte.png",
+    fileIsometric: "/assets/isometrico/isometrico_adjacente direita_pos_vgb_um corte.png",
             details: "1 corte no ramal adjacente a direita pós VGB",
 
     fields: [
@@ -278,8 +278,8 @@ export const croquisMap = {
   // 🌐 Direita - Pós VGB (2 cortes)
   posVgb_direita_doisCortes: {
     namecroqui: "posVgb_direita_doisCortes",
-    file: "/src/assets/croqui/planta_simplificada_adjacente_direita_pos_vgb_dois cortes.png",
-    fileIsometric: "/src/assets/isometrico/isometrico_adjacente_direita_pos_vgb_dois_cortes.png",
+    file: "/assets/croqui/planta_simplificada_adjacente_direita_pos_vgb_dois cortes.png",
+    fileIsometric: "/assets/isometrico/isometrico_adjacente_direita_pos_vgb_dois_cortes.png",
                details: "2 cortes no ramal adjacente a direita pós VGB",
     fields: [
       { name: "Numero_esquerda", label: "Nº", top: "35%", left: "43%" },
@@ -311,8 +311,8 @@ export const croquisMap = {
   // 🌐 Direita - Corte geral
   geral_direita: {
     namecroqui: "geral_direita",
-    file: "/src/assets/croqui/planta_simplificada_adjacente_direita_corte_geral.png",
-    fileIsometric: "/src/assets/isometrico/ismoetrico_adjacente direita_corte geral.png",
+    file: "/assets/croqui/planta_simplificada_adjacente_direita_corte_geral.png",
+    fileIsometric: "/assets/isometrico/ismoetrico_adjacente direita_corte geral.png",
                details: "corte no ramal adjacente a direita no geral",
     fields: [
       { name: "Numero_esquerda", label: "Nº", top: "35%", left: "43%" },
@@ -333,8 +333,8 @@ export const croquisMap = {
   // 🌐 Direita - Ramal adjacente
   preVgb_direita_ramalAdjacente: {
     namecroqui: "preVgb_direita_ramalAdjacente",
-    file: "/src/assets/croqui/planta_simplificada_adjacente_direira_ramal_adjacente.png",
-    fileIsometric: "/src/assets/isometrico/isometrico_adjacente direita_ramal adjacente.png",
+    file: "/assets/croqui/planta_simplificada_adjacente_direira_ramal_adjacente.png",
+    fileIsometric: "/assets/isometrico/isometrico_adjacente direita_ramal adjacente.png",
                details: "1 corte no ramal adjacente a direita pré VGB",
     fields: [
       { name: "Numero_esquerda", label: "Nº", top: "35%", left: "43%" },
@@ -358,8 +358,8 @@ export const croquisMap = {
   //🌐 Dierita - Pré VGB (2 corte)
   preVgb_direita_doisCortes: {
     namecroqui: "preVgb_direita_doisCortes",
-    file: "/src/assets/croqui/plata_simplificada_adjacente direita_pre_vgb_dois cortes.png",
-    fileIsometric: "/src/assets/isometrico/isometrico_adjacente direita_pre_vgb_dois cortes.png",
+    file: "/assets/croqui/plata_simplificada_adjacente direita_pre_vgb_dois cortes.png",
+    fileIsometric: "/assets/isometrico/isometrico_adjacente direita_pre_vgb_dois cortes.png",
                details: "2 corte no ramal adjacente a direita pré VGB",
     fields: [
       { name: "Numero_esquerda", label: "Nº", top: "35%", left: "43%" },
