@@ -1,9 +1,12 @@
+
+
+
 // src/data/croquisMap.js
 export const croquisMap = {
   // 🌐 Principal geral
   principal_geral: {
     namecroqui: "principal_geral",
-    file: /*"/src/assets/croqui/planta_simplicada_princial_geral.png"*/ "https://www.google.com/imgres?q=dog&imgurl=https%3A%2F%2Fcdn.britannica.com%2F16%2F234216-050-C66F8665%2Fbeagle-hound-dog.jpg&imgrefurl=https%3A%2F%2Fwww.britannica.com%2Fanimal%2Fbeagle-dog&docid=gJ0ou-8nWSsfKM&tbnid=TxZas2ani8v5yM&vet=12ahUKEwjfmKrD94aQAxVvrpUCHf4dPBoQM3oECBoQAA..i&w=1600&h=1057&hcb=2&ved=2ahUKEwjfmKrD94aQAxVvrpUCHf4dPBoQM3oECBoQAA",
+    file: "public/src/assets/croqui/planta_simplicada_princial_geral.png",
     fileIsometric: "/src/assets/isometrico/isometrico_principal_geral.png",
     details: "Corte no ramal principal no geral",
     fields: [
