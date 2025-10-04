@@ -204,6 +204,8 @@ export default function PrincipalPreVgb({ formData, setFormData, BillId, croquiF
                 }}
                 type={f.type || "text"}   // se não tiver, vira "text"
                 step={f.step || undefined} // só aplica se existir
+                min={f.type === "number" ? 0 : undefined} // só aplica no number
+
               />
               <SpanMeasure ref={(el) => (spansRef.current[f.name] = el)} />
             </InputWrapper>
