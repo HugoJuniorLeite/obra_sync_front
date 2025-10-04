@@ -10,7 +10,7 @@ export const croquisMap = {
     fileIsometric: "/assets/isometrico/isometrico_principal_geral.png",
     details: "Corte no ramal principal no geral",
     fields: [
-      { name: "Numero_esquerda", label: "Nº", top: "37%", left: "37%" },
+      { name: "Numero_esquerda", label: "Nº", top: "37%", left: "37%", type:"Number" },
       { name: "Numero_centro", label: "Nº", top: "18%", left: "51%" },
       { name: "Numero_direita", label: "Nº", top: "37%", left: "63%" },
       { name: "Largura_logradouro", label: "C=", top: "73%", left: "64%", rotate: true },
