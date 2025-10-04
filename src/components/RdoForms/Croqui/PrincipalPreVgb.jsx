@@ -59,8 +59,8 @@ export default function PrincipalPreVgb({ formData, setFormData, BillId, croquiF
   const fields = croquiFields; // substitui a lista fixa
 
 
-const ramalCortado = watch("ramalCortado");
-const localCorte = watch("localCorte");
+  const ramalCortado = watch("ramalCortado");
+  const localCorte = watch("localCorte");
 
   const updateWidth = (name, value, placeholder) => {
     if (spansRef.current[name]) {
@@ -81,93 +81,93 @@ const localCorte = watch("localCorte");
     });
   }, []);
 
-// 1️⃣ Carregar dados salvos ao abrir o croqui
-useEffect(() => {
-  (async () => {
-    const saved = await get(`croqui-${BillId}`) || {};
-    reset(saved); // popula o form com dados salvos
+  // 1️⃣ Carregar dados salvos ao abrir o croqui
+  useEffect(() => {
+    (async () => {
+      const saved = await get(`croqui-${BillId}`) || {};
+      reset(saved); // popula o form com dados salvos
+      setFormData((prev) => ({
+        ...prev,
+        croquis: {
+          ...(prev.croquis || {}),
+          [BillId]: saved,
+        },
+      }));
+    })();
+  }, [BillId, reset, setFormData]);
+
+  // 2️⃣ Resetar croqui se ramalCortado ou localCorte mudarem
+  useEffect(() => {
+    const croqui = formData.croquis?.[BillId] || {};
+    if (
+      croqui.ramalCortado !== formData.ramalCortado ||
+      croqui.localCorte !== formData.localCorte
+    ) {
+      const resetCroqui = { ramalCortado: formData.ramalCortado, localCorte: formData.localCorte };
+      reset(resetCroqui);
+      setFormData((prev) => ({
+        ...prev,
+        croquis: {
+          ...(prev.croquis || {}),
+          [BillId]: resetCroqui,
+        },
+      }));
+      set(`croqui-${BillId}`, resetCroqui);
+    }
+  }, [formData.ramalCortado, formData.localCorte, BillId, reset, setFormData]);
+
+  // 3️⃣ Função para salvar alterações do croqui
+  const handleChange = (name, value, placeholder) => {
+    // Mantém lógica existente de largura e layout
+    updateWidth(name, value, placeholder);
+
+    // Atualiza apenas os dados do croqui para o BillId atual
+    const newCroqui = {
+      ...((formData.croquis?.[BillId] && { ...formData.croquis[BillId] }) || {}),
+      [name]: value,
+    };
+
+    // Atualiza o formData global e persiste no IndexedDB
     setFormData((prev) => ({
       ...prev,
       croquis: {
         ...(prev.croquis || {}),
-        [BillId]: saved,
-      },
-    }));
-  })();
-}, [BillId, reset, setFormData]);
-
-// 2️⃣ Resetar croqui se ramalCortado ou localCorte mudarem
-useEffect(() => {
-  const croqui = formData.croquis?.[BillId] || {};
-  if (
-    croqui.ramalCortado !== formData.ramalCortado ||
-    croqui.localCorte !== formData.localCorte
-  ) {
-    const resetCroqui = { ramalCortado: formData.ramalCortado, localCorte: formData.localCorte };
-    reset(resetCroqui);
-    setFormData((prev) => ({
-      ...prev,
-      croquis: {
-        ...(prev.croquis || {}),
-        [BillId]: resetCroqui,
-      },
-    }));
-    set(`croqui-${BillId}`, resetCroqui);
-  }
-}, [formData.ramalCortado, formData.localCorte, BillId, reset, setFormData]);
-
-// 3️⃣ Função para salvar alterações do croqui
-const handleChange = (name, value, placeholder) => {
-  // Mantém lógica existente de largura e layout
-  updateWidth(name, value, placeholder);
-
-  // Atualiza apenas os dados do croqui para o BillId atual
-  const newCroqui = {
-    ...((formData.croquis?.[BillId] && { ...formData.croquis[BillId] }) || {}),
-    [name]: value,
-  };
-
-  // Atualiza o formData global e persiste no IndexedDB
-  setFormData((prev) => ({
-    ...prev,
-    croquis: {
-      ...(prev.croquis || {}),
-      [BillId]: newCroqui,
-    },
-  }));
-
-  // Persistência imediata
-  set(`croqui-${BillId}`, newCroqui);
-};
-
-useEffect(() => {
-  const resetCroquiForKey = async () => {
-    // Recupera os dados salvos
-    const saved = await get(`croqui-${BillId}`) || {};
-
-    // Se a chave atual não existir, cria um objeto vazio
-    const clonedSaved = { ...saved };
-
-    // Reseta apenas os campos do croqui no formData
-    reset(clonedSaved);
-
-  setFormData((prev) =>  ({
-      ...prev,
-      croquis: {
-        ...(prev.croquis || {}),
-        [BillId]: clonedSaved,
+        [BillId]: newCroqui,
       },
     }));
 
     // Persistência imediata
-    set(`croqui-${BillId}`, clonedSaved);
+    set(`croqui-${BillId}`, newCroqui);
   };
 
-  // Dispara reset apenas quando mudar ramalCortado ou localCorte
-  if (formData.ramalCortado && formData.localCorte) {
-    resetCroquiForKey();
-  }
-}, [ramalCortado, localCorte, BillId, reset]);
+  useEffect(() => {
+    const resetCroquiForKey = async () => {
+      // Recupera os dados salvos
+      const saved = await get(`croqui-${BillId}`) || {};
+
+      // Se a chave atual não existir, cria um objeto vazio
+      const clonedSaved = { ...saved };
+
+      // Reseta apenas os campos do croqui no formData
+      reset(clonedSaved);
+
+      setFormData((prev) => ({
+        ...prev,
+        croquis: {
+          ...(prev.croquis || {}),
+          [BillId]: clonedSaved,
+        },
+      }));
+
+      // Persistência imediata
+      set(`croqui-${BillId}`, clonedSaved);
+    };
+
+    // Dispara reset apenas quando mudar ramalCortado ou localCorte
+    if (formData.ramalCortado && formData.localCorte) {
+      resetCroquiForKey();
+    }
+  }, [ramalCortado, localCorte, BillId, reset]);
 
 
 
@@ -180,34 +180,36 @@ useEffect(() => {
   // };
 
   return (
- 
-      <Container>
-  
-        <Background src={croquiFile} alt="Planta simplificada" />
-        {fields.map((f, i) => (
-          <Controller
-            key={i}
-            name={f.name}
-            control={control}
-            defaultValue={formData.croquis?.[BillId]?.[f.name] || ""}
 
-            render={({ field }) => (
-              <InputWrapper style={{ top: f.top, left: f.left }}>
-                <InputField
-                  {...field}
-                  placeholder={f.label}
-                  rotate={f.rotate}
-                  width={widths[f.name] || 40}
-                  onChange={(e) => {
-                    field.onChange(e);
-                    handleChange(f.name, e.target.value, f.label);
-                  }}
-                />
-                <SpanMeasure ref={(el) => (spansRef.current[f.name] = el)} />
-              </InputWrapper>
-            )}
-          />
-        ))}
-      </Container>
+    <Container>
+
+      <Background src={croquiFile} alt="Planta simplificada" />
+      {fields.map((f, i) => (
+        <Controller
+          key={i}
+          name={f.name}
+          control={control}
+          defaultValue={formData.croquis?.[BillId]?.[f.name] || ""}
+
+          render={({ field }) => (
+            <InputWrapper style={{ top: f.top, left: f.left }}>
+              <InputField
+                {...field}
+                placeholder={f.label}
+                rotate={f.rotate}
+                width={widths[f.name] || 40}
+                onChange={(e) => {
+                  field.onChange(e);
+                  handleChange(f.name, e.target.value, f.label);
+                }}
+                type={f.type || "text"}   // se não tiver, vira "text"
+                step={f.step || undefined} // só aplica se existir
+              />
+              <SpanMeasure ref={(el) => (spansRef.current[f.name] = el)} />
+            </InputWrapper>
+          )}
+        />
+      ))}
+    </Container>
   );
 }
