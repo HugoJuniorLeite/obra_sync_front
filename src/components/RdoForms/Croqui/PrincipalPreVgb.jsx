@@ -39,7 +39,7 @@ const InputField = styled.input`
   transform: ${(props) => (props.rotate ? "rotate(-90deg)" : "none")};
   transform-origin: center;
   /* width: ${(props) => props.width}px; */
-    width: ${(props) => props.width || 40}px; /* largura dinâmica */
+    width: ${(props) => props.width || 55}px; /* largura dinâmica */
 `;
 
 const SpanMeasure = styled.span`

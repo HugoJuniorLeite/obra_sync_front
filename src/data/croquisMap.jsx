@@ -17,12 +17,12 @@ export const croquisMap = {
       { name: "Rua_esquerda", label: "Rua a esquerda", top: "73%", left: "26%", rotate: true },
       { name: "Rua_centro", label: "Rua do ramal", top: "78%", left: "48%" },
       { name: "Rua_direita", label: "Rua a direita", top: "73%", left: "73%", rotate: true },
-      { name: "A_esquerda", label: "A=", top: "67%", left: "39%" , type: "number", step: "0.01" },
-      { name: "A_direita", label: "A=", top: "67%", left: "55%" , type: "number", step: "0.01" },
-      { name: "B", label: "B=", top: "61%", left: "33%", rotate: true },
-      { name: "Pg", label: "Pg=", top: "65%", left: "62%" , type: "number", step: "0.01" },
-             { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" , type: "number", step: "0.01" },
-        { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" , type: "number", step: "0.01" },
+      { name: "A_esquerda", label: "A=", top: "67%", left: "39%", type: "number", step: "0.01" ,  min: "0"},
+      { name: "A_direita", label: "A=", top: "67%", left: "55%", type: "number", step: "0.01" ,  min: "0"},
+      { name: "B", label: "B=", top: "61%", left: "33%", rotate: true, type: "number", step: "0.01",  min: "0" },
+      { name: "Pg", label: "Pg=", top: "65%", left: "62%", type: "number", step: "0.01" ,  min: "0"},
+      { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%", type: "number", step: "0.01",  min: "0" },
+      { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%", type: "number", step: "0.01",  min: "0" },
     ],
   },
 
@@ -49,8 +49,8 @@ export const croquisMap = {
       { name: "Rua_direita", label: "Rua a direita", top: "73%", left: "73%", rotate: true },
       { name: "Distancia_VGB_predial", label: "G=", top: "42%", left: "44%", rotate: true },
       { name: "Distancia_CPOSVGB_predial", label: "O=", top: "38%", left: "48%", rotate: true },
-       { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
-        { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" },
+      { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
+      { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" },
     ],
   },
 
@@ -59,7 +59,7 @@ export const croquisMap = {
     namecroqui: "principal_preVgb",
     file: "/assets/croqui/planta_simplificada_principal_pre_vbg_entre_lotes.png",
     fileIsometric: "/assets/isometrico/isometrico_principal_pre_vgb.png",
-       details: "Corte no ramal principal pré VGB",
+    details: "Corte no ramal principal pré VGB",
     fields: [
       { name: "A_esquerda", label: "A=", top: "67%", left: "39%" },
       { name: "A_direita", label: "A=", top: "67%", left: "55%" },
@@ -74,8 +74,8 @@ export const croquisMap = {
       { name: "Rua_centro", label: "Rua do ramal", top: "78%", left: "48%" },
       { name: "Rua_direita", label: "Rua a direita", top: "73%", left: "73%", rotate: true },
       { name: "CPREVGB_predial", label: "N=", top: "50%", left: "40%", rotate: true },
-             { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
-        { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" },
+      { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
+      { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" },
     ],
   },
 
@@ -99,8 +99,8 @@ export const croquisMap = {
       { name: "Rua_centro", label: "Rua do ramal", top: "78%", left: "48%" },
       { name: "Rua_direita", label: "Rua a direita", top: "73%", left: "73%", rotate: true },
       { name: "CPC_predial", label: "M=", top: "50%", left: "36%", rotate: true },
-          { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
-        { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" },
+      { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
+      { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" },
     ],
   },
 
@@ -111,7 +111,7 @@ export const croquisMap = {
     namecroqui: "preVgb_esquerda_doisCortes",
     file: "/assets/croqui/planta_simplificada_adjacente esquerda_pre_vgb_dois corte.png",
     fileIsometric: "/assets/isometrico/isometrico_adjacente esquerda_pre_vgb_dois cortes.png",
-        details: "2 cortes no ramal adjacente a esquerda pré VGB",
+    details: "2 cortes no ramal adjacente a esquerda pré VGB",
     fields: [
       { name: "A_esquerda", label: "A=", top: "67%", left: "39%" },
       { name: "A_direita", label: "A=", top: "67%", left: "57%" },
@@ -125,8 +125,8 @@ export const croquisMap = {
       { name: "Rua_centro", label: "Rua do ramal", top: "78%", left: "48%" },
       { name: "Rua_direita", label: "Rua a direita", top: "73%", left: "73%", rotate: true },
       { name: "CPREVGB_predial", label: "N=", top: "44%", left: "40%", rotate: true },
-          { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
-        { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" },
+      { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
+      { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" },
     ],
   },
 
@@ -135,7 +135,7 @@ export const croquisMap = {
     namecroqui: "preVgb_esquerda_ramalAdjacente",
     file: "/assets/croqui/planta_simplificada_adjacente_esquerda_ramal_adjacente.png",
     fileIsometric: "/assets/isometrico/isometrico_adjacente esquerda_ramal adjacente.png",
-            details: "1 cortes no ramal adjacente a esquerda pré VGB",
+    details: "1 cortes no ramal adjacente a esquerda pré VGB",
 
     fields: [
       { name: "Numero_esquerda", label: "Nº", top: "35%", left: "43%" },
@@ -151,18 +151,18 @@ export const croquisMap = {
       { name: "PCRA", label: "PCRA=", top: "45%", left: "47%", rotate: true },
       { name: "Q", label: "Q=", top: "45%", left: "68%", rotate: true },
       { name: "P", label: "P=", top: "56%", left: "47.2%" },
-             { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
-        { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" },
+      { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
+      { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" },
     ],
   },
 
-//OK
+  //OK
   // 🌐 Esquerda - Corte geral
   geral_esquerda: {
     namecroqui: "geral_esquerda",
     file: "/assets/croqui/planta_simplificada_adjacente esquerta_geral.png",
     fileIsometric: "/assets/isometrico/isometrico_adjacente esquerda_geral.png",
-            details: "corte no ramal adjacente a esquerda no geral",
+    details: "corte no ramal adjacente a esquerda no geral",
 
     fields: [
       { name: "Numero_esquerda", label: "Nº", top: "35%", left: "43%" },
@@ -175,8 +175,8 @@ export const croquisMap = {
       { name: "A_direita", label: "A=", top: "69%", left: "56.5%" },
       { name: "B", label: "B=", top: "52%", left: "31%", rotate: true },
       { name: "Pg", label: "Pg=", top: "60%", left: "61%" },
-             { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
-        { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" },
+      { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
+      { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" },
     ],
   },
 
@@ -185,7 +185,7 @@ export const croquisMap = {
     namecroqui: "posVgb_esquerda_umCorte",
     file: "/assets/croqui/planta_simplificada_adjacente_esquerda_pos_vgb_um corte.png",
     fileIsometric: "/assets/isometrico/isometrico_adjacente esquerda_pos_vgb_um corte.png",
-            details: "1 corte no ramal adjacente a esquerda pós VGB",
+    details: "1 corte no ramal adjacente a esquerda pós VGB",
 
     fields: [
       { name: "Numero_esquerda", label: "Nº", top: "35%", left: "43%" },
@@ -205,8 +205,8 @@ export const croquisMap = {
       { name: "H", label: "H=", top: "58%", left: "47.2%" },
       { name: "PCRA=", label: "PCRA=", top: "43%", left: "58.5%" },
       { name: "PVGB=", label: "PVGB=", top: "51%", left: "58.5%" },
-             { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
-        { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" },
+      { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
+      { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" },
     ],
   },
 
@@ -215,7 +215,7 @@ export const croquisMap = {
     namecroqui: "posVgb_esquerda_doisCortes",
     file: "/assets/croqui/planta_simplificada_adjacente_esquerda_pos_vgb_dois cortes.png",
     fileIsometric: "/assets/isometrico/isometrico_adjacente esquerda_pos_vgb_dois cortes.png",
-            details: "2 cortes no ramal adjacente a esquerda pós VGB",
+    details: "2 cortes no ramal adjacente a esquerda pós VGB",
 
     fields: [
 
@@ -240,8 +240,8 @@ export const croquisMap = {
       { name: "PVGB_direita=", label: "PVGB=", top: "51%", left: "58.5%" },
       { name: "PCPOSVGB_esquerda", label: "PCPOSVGB=", top: "43%", left: "44.5%" },
       { name: "O", label: "O=", top: "36%", left: "30%", rotate: true },
-             { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
-        { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" },
+      { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
+      { name: "distancia_esquerda", label: "distância esquerdo até o medidor", top: "25%", left: "18.5%" },
     ],
   },
 
@@ -250,7 +250,7 @@ export const croquisMap = {
     namecroqui: "posVgb_direita_umCorte",
     file: "/assets/croqui/planta_simplificada_adjacente_direita_pos_vgb_um corte.png",
     fileIsometric: "/assets/isometrico/isometrico_adjacente direita_pos_vgb_um corte.png",
-            details: "1 corte no ramal adjacente a direita pós VGB",
+    details: "1 corte no ramal adjacente a direita pós VGB",
 
     fields: [
       { name: "Numero_esquerda", label: "Nº", top: "35%", left: "43%" },
@@ -270,8 +270,8 @@ export const croquisMap = {
       { name: "H", label: "H=", top: "56%", left: "46.2%" },
       { name: "PCRA=", label: "PCRA=", top: "37%", left: "74.5%" },
       { name: "PVGB=", label: "PVGB=", top: "45%", left: "68.5%" },
-             { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
-        { name: "distancia_esquerda", label: "distância direita até o medidor", top: "25%", left: "18.5%" },
+      { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
+      { name: "distancia_esquerda", label: "distância direita até o medidor", top: "25%", left: "18.5%" },
     ],
   },
 
@@ -280,7 +280,7 @@ export const croquisMap = {
     namecroqui: "posVgb_direita_doisCortes",
     file: "/assets/croqui/planta_simplificada_adjacente_direita_pos_vgb_dois cortes.png",
     fileIsometric: "/assets/isometrico/isometrico_adjacente_direita_pos_vgb_dois_cortes.png",
-               details: "2 cortes no ramal adjacente a direita pós VGB",
+    details: "2 cortes no ramal adjacente a direita pós VGB",
     fields: [
       { name: "Numero_esquerda", label: "Nº", top: "35%", left: "43%" },
       { name: "Numero_direita", label: "Nº", top: "35%", left: "59.5%" },
@@ -303,8 +303,8 @@ export const croquisMap = {
       { name: "PVGB_direita=", label: "PVGB=", top: "50%", left: "68.5%" },
       { name: "PCRA_esquerda", label: "PCRA=", top: "46%", left: "33.5%" },
       { name: "Q", label: "Q=", top: "36%", left: "30%", rotate: true },
-                   { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
-        { name: "distancia_esquerda", label: "distância direita até o medidor", top: "25%", left: "18.5%" },
+      { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
+      { name: "distancia_esquerda", label: "distância direita até o medidor", top: "25%", left: "18.5%" },
     ],
   },
 
@@ -313,7 +313,7 @@ export const croquisMap = {
     namecroqui: "geral_direita",
     file: "/assets/croqui/planta_simplificada_adjacente_direita_corte_geral.png",
     fileIsometric: "/assets/isometrico/ismoetrico_adjacente direita_corte geral.png",
-               details: "corte no ramal adjacente a direita no geral",
+    details: "corte no ramal adjacente a direita no geral",
     fields: [
       { name: "Numero_esquerda", label: "Nº", top: "35%", left: "43%" },
       { name: "Numero_direita", label: "Nº", top: "35%", left: "59%" },
@@ -325,8 +325,8 @@ export const croquisMap = {
       { name: "A_direita", label: "A=", top: "72%", left: "56.5%" },
       { name: "B", label: "B=", top: "52%", left: "31%", rotate: true },
       { name: "Pg", label: "Pg=", top: "57%", left: "61%" },
-                   { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
-        { name: "distancia_esquerda", label: "distância direita até o medidor", top: "25%", left: "18.5%" },
+      { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
+      { name: "distancia_esquerda", label: "distância direita até o medidor", top: "25%", left: "18.5%" },
     ],
   },
 
@@ -335,7 +335,7 @@ export const croquisMap = {
     namecroqui: "preVgb_direita_ramalAdjacente",
     file: "/assets/croqui/planta_simplificada_adjacente_direira_ramal_adjacente.png",
     fileIsometric: "/assets/isometrico/isometrico_adjacente direita_ramal adjacente.png",
-               details: "1 corte no ramal adjacente a direita pré VGB",
+    details: "1 corte no ramal adjacente a direita pré VGB",
     fields: [
       { name: "Numero_esquerda", label: "Nº", top: "35%", left: "43%" },
       { name: "Numero_direita", label: "Nº", top: "35%", left: "59.5%" },
@@ -350,8 +350,8 @@ export const croquisMap = {
       { name: "PCRA", label: "PCRA=", top: "45%", left: "58%", rotate: true },
       { name: "Q", label: "Q=", top: "45%", left: "44%", rotate: true },
       { name: "P", label: "P=", top: "56%", left: "47.2%" },
-                   { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
-        { name: "distancia_esquerda", label: "distância direita até o medidor", top: "25%", left: "18.5%" },
+      { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
+      { name: "distancia_esquerda", label: "distância direita até o medidor", top: "25%", left: "18.5%" },
     ],
   },
 
@@ -360,7 +360,7 @@ export const croquisMap = {
     namecroqui: "preVgb_direita_doisCortes",
     file: "/assets/croqui/plata_simplificada_adjacente direita_pre_vgb_dois cortes.png",
     fileIsometric: "/assets/isometrico/isometrico_adjacente direita_pre_vgb_dois cortes.png",
-               details: "2 corte no ramal adjacente a direita pré VGB",
+    details: "2 corte no ramal adjacente a direita pré VGB",
     fields: [
       { name: "Numero_esquerda", label: "Nº", top: "35%", left: "43%" },
       { name: "Numero_direita", label: "Nº", top: "35%", left: "59.5%" },
@@ -375,8 +375,8 @@ export const croquisMap = {
       { name: "Pg", label: "Pg=", top: "57%", left: "64%" },
       { name: "PCRA", label: "PCRA=", top: "45%", left: "60%" },
       { name: "N", label: "N=", top: "46%", left: "44%", rotate: true },
-                   { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
-        { name: "distancia_esquerda", label: "distância direita até o medidor", top: "25%", left: "18.5%" },
+      { name: "largura_total", label: "largura total do imóvel", top: "17%", left: "13%" },
+      { name: "distancia_esquerda", label: "distância direita até o medidor", top: "25%", left: "18.5%" },
 
     ],
   },
