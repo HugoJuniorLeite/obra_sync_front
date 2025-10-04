@@ -6,7 +6,7 @@ export const croquisMap = {
   // 🌐 Principal geral
   principal_geral: {
     namecroqui: "principal_geral",
-    file: "/public/src/assets/croqui/planta_simplicada_princial_geral.png",
+    file: "/public/assets/croqui/planta_simplicada_princial_geral.png",
     fileIsometric: "/src/assets/isometrico/isometrico_principal_geral.png",
     details: "Corte no ramal principal no geral",
     fields: [
