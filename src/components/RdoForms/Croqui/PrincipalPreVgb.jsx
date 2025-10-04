@@ -39,7 +39,7 @@ const InputField = styled.input`
   transform: ${(props) => (props.rotate ? "rotate(-90deg)" : "none")};
   transform-origin: center;
   /* width: ${(props) => props.width}px; */
-    width: ${(props) => props.width || 55}px; /* largura dinâmica */
+    width: ${(props) => props.width || 40}px; /* largura dinâmica */
 `;
 
 const SpanMeasure = styled.span`
@@ -197,7 +197,7 @@ export default function PrincipalPreVgb({ formData, setFormData, BillId, croquiF
                 {...field}
                 placeholder={f.label}
                 rotate={f.rotate}
-                width={widths[f.name] || 40}
+                width={Math.max(60, (f.name.length * 8))} // garante mínimo de 60px
                 onChange={(e) => {
                   field.onChange(e);
                   handleChange(f.name, e.target.value, f.label);
