@@ -471,13 +471,6 @@ const croquiData = croquisMap[croquiKey] || croquisMap["principal_geral"];
   };
 
   if (loading || !formData) return <div>Carregando RDO...</div>;
-
-
-
-
-
-
-
   
   // Steps
   const getSteps = () => {

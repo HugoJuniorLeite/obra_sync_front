@@ -379,6 +379,4 @@ export const croquisMap = {
 
     ],
   },
-
-
 };
