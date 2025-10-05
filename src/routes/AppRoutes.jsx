@@ -403,7 +403,7 @@ export default function AppRoutes() {
                 ))}
 
                 {/* Fallback */}
-                <Route path="*" element={<NotFound />} />
+                {/* <Route path="*" element={<NotFound />} /> */}
               </Route>
             </Route>
           </Routes>
