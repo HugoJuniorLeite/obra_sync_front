@@ -340,7 +340,7 @@ export default function AppRoutes() {
           <Routes>
             {/* 🌐 Rotas Públicas */}
             <Route path="login-master" element={<LoginMaster />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
 
             {/* 🔒 Rotas Protegidas */}
             <Route element={<PrivateRoute />}>
