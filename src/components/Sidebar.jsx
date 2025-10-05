@@ -296,37 +296,44 @@ export default function Sidebar() {
     setOpenSubmenus((prev) => ({ ...prev, [label]: !prev[label] }));
   };
 
-  const renderMenuItem = (item) => {
-    if (!item.occupation?.includes(user?.occupation)) return null;
+ const renderMenuItem = (item, level = 0) => {
+  if (!item.occupation?.includes(user?.occupation)) return null;
 
-    if (item.submenu) {
-      return (
-        <MenuItem key={item.label}>
-          <div onClick={() => toggleSubmenu(item.label)}>
-            <item.icon size={20} />
+  const hasSubmenu = item.submenu && item.submenu.length > 0;
+  const isOpenSubmenu = openSubmenus[item.label];
+
+  const paddingLeft = `${1 + level * 1.2}rem`; // desloca cada nível um pouco mais para a direita
+
+  return (
+    <MenuItem key={item.label}>
+      {hasSubmenu ? (
+        <>
+          <div
+            onClick={() => toggleSubmenu(item.label)}
+            style={{ paddingLeft }}
+          >
+            <item.icon size={20 - level * 2} />
             {isOpen && <span>{item.label}</span>}
           </div>
-          {openSubmenus[item.label] && (
+          {isOpenSubmenu && (
             <SubMenuList>
-              {item.submenu.map((sub) => {
-                if (!sub.occupation?.includes(user?.occupation)) return null;
-                return (
-                  <li key={sub.path}>
-                    <NavLink
-                      to={sub.path}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                    >
-                      <sub.icon size={18} />
-                      {isOpen && <span>{sub.label}</span>}
-                    </NavLink>
-                  </li>
-                );
-              })}
+              {item.submenu.map((sub) => renderMenuItem(sub, level + 1))}
             </SubMenuList>
           )}
-        </MenuItem>
-      );
-    }
+        </>
+      ) : (
+        <NavLink
+          to={item.path}
+          className={({ isActive }) => (isActive ? "active" : "")}
+          style={{ paddingLeft }}
+        >
+          <item.icon size={20 - level * 2} />
+          {isOpen && <span>{item.label}</span>}
+        </NavLink>
+      )}
+    </MenuItem>
+  );
+};
 
     return (
       <MenuItem key={item.path}>
