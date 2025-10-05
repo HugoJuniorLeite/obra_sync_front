@@ -172,7 +172,7 @@ export default function Login() {
       <InputWraper>
         <form onSubmit={handleSubmit(onSubmit)}>
             <Controller
-                      name="cpfNumber"
+                      name="cpf"
                       control={control}
                       render={({ field }) => (
                         <StyledMaskInput
@@ -182,7 +182,7 @@ export default function Login() {
                           mask="000.000.000-00"
                           placeholder="000.000.000-00"
                           definitions={{ "0": /[0-9]/ }}
-                          name="cpfNumber"
+                          name="cpf"
                           register={register}
                           error={errors.cpfNumber}
                             />
