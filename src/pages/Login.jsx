@@ -36,7 +36,7 @@
 //       alert("Erro ao solicitar o token.");
 //     }
 //   };
-  
+
 //   return (
 //     <FormWrapper>
 
@@ -88,7 +88,7 @@ import logo from '../assets/logo.png'
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [step, setStep] = useState("firstAccess"); 
+  const [step, setStep] = useState("firstAccess");
   // firstAccess → pede CPF, depois decide se pede senha ou troca senha
 
   const navigate = useNavigate();
@@ -100,50 +100,51 @@ export default function Login() {
   } = useForm({
     resolver: zodResolver(LoginSchema),
   });
-const onSubmit = async (data) => {
-  try {
-    if (step === "firstAccess") {
-      console.log("Step firstAccess →", data);
-console.log("endpoint usado:", "/auth/is-first-access", data);
+  const onSubmit = async (data) => {
+    try {
+      if (step === "firstAccess") {
+        console.log("Step firstAccess →", data);
+        console.log("endpoint usado:", "/auth/is-first-access", data);
 
-      const result = await firstLogin({ cpf: data.cpf });
+        const result = await firstLogin({ cpf: data.cpf });
 
-      alert(result.message);
+        alert(result.message);
 
-      if (result.response) {
-        // Já tem senha cadastrada → vai para login
-        setStep("login");
-      } else {
-        // Precisa cadastrar senha
-        setStep("changePassword");
+        if (result.response) {
+          // Já tem senha cadastrada → vai para login
+          setStep("login");
+        } else {
+          // Precisa cadastrar senha
+          setStep("changePassword");
+        }
       }
+
+      if (step === "login") {
+        const result = await login({
+          cpf: data.cpf,
+          password: data.password,
+        }
+      );
+        console.log(result, "test")
+        alert("Login realizado!");
+        // navigate("/home");
+      }
+
+      if (step === "changePassword") {
+        const response = await changePassword({
+          cpf: data.cpf,
+          old_password: data.old_password,
+          new_password: data.new_password,
+        });
+
+        alert(response.data.message || "Senha criada com sucesso!");
+        setStep("login");
+      }
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.message || err.message);
     }
-
-    if (step === "login") {
-      const result = await login({
-        cpf: data.cpf,
-        password: data.password,
-      });
-
-      alert("Login realizado!");
-      navigate("/home");
-    }
-
-    if (step === "changePassword") {
-      const response = await changePassword( {
-        cpf: data.cpf,
-        old_password: data.old_password,
-        new_password: data.new_password,
-      });
-
-      alert(response.data.message || "Senha criada com sucesso!");
-      setStep("login");
-    }
-  } catch (err) {
-    console.error(err);
-    alert(err.response?.data?.message || err.message);
-  }
-};
+  };
   return (
     <FormWrapper>
       <Logo src={logo} alt="logo" />
