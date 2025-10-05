@@ -6,3 +6,4 @@ export default function PrivateRoute() {
   const { token } = useContext(AuthContext);
   return token ? <Outlet /> : <Navigate to="/" replace />;
 }
+
