@@ -288,7 +288,7 @@ export default function Sidebar() {
   const handleLogout = () => {
     if (window.confirm("Deseja realmente sair?")) {
       logout();
-      navigate("/login");
+      navigate("/");
     }
   };
 
