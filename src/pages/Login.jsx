@@ -109,11 +109,11 @@ export default function Login() {
   });
 
 
-  function getHomeRouteByRole(role) {
-    if ([1, 7, 8].includes(role)) return "/minhas-notas";
-    if (role === 6) return "/funcionarios";
-    if (role === 3) return "/notas";
-    if ([2, 4, 5].includes(role)) return "/home";
+  function getHomeRouteByOccupation(occupation) {
+    if ([1, 7, 8].includes(occupation)) return "/minhas-notas";
+    if (occupation === 6) return "/funcionarios";
+    if (occupation === 3) return "/notas";
+    if ([2, 4, 5].includes(occupation)) return "/home";
     return "/home"; // fallback
   }
 
@@ -142,7 +142,8 @@ export default function Login() {
         const result = await handleLogin(data.cpf, data.password);
         console.log(result, "test");
         alert("Login realizado!");
-        navigate(getHomeRouteByRole(result.user.role));
+        const initialRoute = getHomeRouteByOccupation(result.user.occupation);
+        navigate(initialRoute);
 
       }
 
