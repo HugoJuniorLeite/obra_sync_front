@@ -208,9 +208,9 @@ import { AuthContext } from "../contexts/AuthContext";
 import { menuItems } from "../routes/menuItems";
 
 const SidebarContainer = styled.aside`
-  width: ${(props) => (props.isOpen ? "240px" : "70px")};
+  width: ${(props) => (props.isOpen ? "200px" : "60px")};
   background-color: #1f1f1f;
-  color: #f59e0b;;
+  color: white;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -240,6 +240,7 @@ const MenuList = styled.ul`
 
 const MenuItem = styled.li`
   margin: 0.5rem 0;
+    cursor: pointer;
 
   a,
   div {
