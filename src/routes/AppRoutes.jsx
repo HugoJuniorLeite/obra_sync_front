@@ -330,23 +330,32 @@ const Main = styled.main`
 `;
 // Mapeamento de rotas por ocupação
 const roleRoutes = [
+  // {
+  //   allowedRoles: [2, 4, 5],
+  //   routes: [
+  //     { path: "/home", element: <Home /> },
+  //     { path: "/home-copy", element: <HomeCopy /> },
+  //     { path: "/projetos", element: <Project /> },
+  //     { path: "/clientes", element: <RegisterCustomer /> },
+  //     { path: "/funcionarios", element: <RegisterEmployee /> },
+  //     { path: "/ocupacoes", element: <CreateOccupation /> },
+  //     { path: "/notas", element: <CreateOs /> },
+  //     { path: "/servicos", element: <CreateService /> },
+  //     { path: "/ordens", element: <GetOss /> },
+  //     { path: "/configuracoes", element: <div>Configurações</div> },
+  //     { path: "/rh", element: <Rh /> },
+  //     { path: "/engenheiro", element: <Engenheiro /> },
+  //     { path: "/tecnico", element: <Tecnico /> },
+  //     { path: "/planner", element: <Planner /> },
+  //     { path: "/minhas-notas", element: <MyService /> },
+  //     { path: "/rdo-form/:id", element: <RdoFomrExtensionInative /> },
+  //     { path: "/rdo-croqui", element: <PrincipalPreVgb /> },
+  //     { path: "/pdf/:id", element: <RdoPdf /> },
+  //   ],
+  // },
   {
-    allowedRoles: [2, 4, 5],
+    allowedRoles: [1, 7, 8, 2, 4, 5],
     routes: [
-      { path: "/home", element: <Home /> },
-      { path: "/home-copy", element: <HomeCopy /> },
-      { path: "/projetos", element: <Project /> },
-      { path: "/clientes", element: <RegisterCustomer /> },
-      { path: "/funcionarios", element: <RegisterEmployee /> },
-      { path: "/ocupacoes", element: <CreateOccupation /> },
-      { path: "/notas", element: <CreateOs /> },
-      { path: "/servicos", element: <CreateService /> },
-      { path: "/ordens", element: <GetOss /> },
-      { path: "/configuracoes", element: <div>Configurações</div> },
-      { path: "/rh", element: <Rh /> },
-      { path: "/engenheiro", element: <Engenheiro /> },
-      { path: "/tecnico", element: <Tecnico /> },
-      { path: "/planner", element: <Planner /> },
       { path: "/minhas-notas", element: <MyService /> },
       { path: "/rdo-form/:id", element: <RdoFomrExtensionInative /> },
       { path: "/rdo-croqui", element: <PrincipalPreVgb /> },
@@ -354,23 +363,14 @@ const roleRoutes = [
     ],
   },
   {
-    allowedRoles: [1, 7, 8],
-    routes: [
-      { path: "/minhas-notas", element: <MyService /> },
-      { path: "/rdo-form/:id", element: <RdoFomrExtensionInative /> },
-      { path: "/rdo-croqui", element: <PrincipalPreVgb /> },
-      { path: "/pdf/:id", element: <RdoPdf /> },
-    ],
-  },
-  {
-    allowedRoles: [3],
+    allowedRoles: [3, 2, 4, 5],
     routes: [
       { path: "/notas", element: <CreateOs /> },
       { path: "/ordens", element: <GetOss /> },
     ],
   },
   {
-    allowedRoles: [6],
+    allowedRoles: [6, 2, 4, 5],
     routes: [
       { path: "/funcionarios", element: <RegisterEmployee /> },
       { path: "/ocupacoes", element: <CreateOccupation /> },
@@ -388,8 +388,8 @@ export default function AppRoutes() {
         <FormProvider {...methods}>
           <Routes>
             {/* Rotas públicas */}
-            <Route path="/" element={<LoginMaster />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login-master" element={<LoginMaster />} />
+            <Route path="/" element={<Login />} />
 
             {/* Rotas protegidas */}
             <Route element={<PrivateRoute />}>
