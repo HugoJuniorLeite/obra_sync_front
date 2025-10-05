@@ -9,10 +9,10 @@ export const menuItems = [
   },
   {
     label: "Projetos",
-    path: "/projetos",
+    // path: "/projetos",
     icon: FaProjectDiagram,
     occupation: [2, 4, 5],
-  },
+      submenu: [
   {
     label: "Clientes",
     path: "/clientes",
@@ -20,34 +20,12 @@ export const menuItems = [
     occupation: [2, 4, 5],
   },
   {
-    label: "Funcionários",
-    path: "/funcionarios",
-    icon: FaUsers,
-    occupation: [2, 4, 5, 6],
-  },
-  {
-    label: "Ocupações",
-    path: "/ocupacoes",
-    icon: FaUserTie,
-    occupation: [2, 4, 5, 6],
-  },
-  {
-    label: "Notas",
-    path: "/notas",
-    icon: FaClipboard,
-    occupation: [2, 4, 5, 3],
-  },
-  {
     label: "Serviços",
     path: "/servicos",
     icon: FaTools,
     occupation: [2, 4, 5],
   },
-  {
-    label: "Ordens",
-    path: "/ordens",
-    icon: FaClipboard,
-    occupation: [2, 4, 5, 3],
+      ]
   },
   {
     label: "RDO",
@@ -60,36 +38,66 @@ export const menuItems = [
         icon: FaClipboard,
         occupation: [1, 7, 8, 2, 4, 5],
       },
-      {
-        label: "RDO Form",
-        path: "/rdo-form",
-        icon: FaFilePdf,
-        occupation: [1, 7, 8, 2, 4, 5],
-      },
-      {
-        label: "RDO Croqui",
-        path: "/rdo-croqui",
-        icon: FaChartLine,
-        occupation: [1, 7, 8, 2, 4, 5],
-      },
-      {
-        label: "PDF",
-        path: "/pdf",
-        icon: FaFilePdf,
-        occupation: [1, 7, 8, 2, 4, 5],
-      },
+      // {
+      //   label: "RDO Form",
+      //   path: "/rdo-form",
+      //   icon: FaFilePdf,
+      //   occupation: [1, 7, 8, 2, 4, 5],
+      // },
+      // {
+      //   label: "RDO Croqui",
+      //   path: "/rdo-croqui",
+      //   icon: FaChartLine,
+      //   occupation: [1, 7, 8, 2, 4, 5],
+      // },
+      // {
+      //   label: "PDF",
+      //   path: "/pdf",
+      //   icon: FaFilePdf,
+      //   occupation: [1, 7, 8, 2, 4, 5],
+      // },
     ],
   },
   {
     label: "RH",
-    path: "/rh",
+    // path: "/rh",
     icon: FaUserTie,
     occupation: [2, 4, 5],
+  submenu: [
+     {
+    label: "Funcionários",
+    path: "/funcionarios",
+    icon: FaUsers,
+    occupation: [2, 4, 5, 6],
+  },
+    {
+    label: "Ocupações",
+    path: "/ocupacoes",
+    icon: FaUserTie,
+    occupation: [2, 4, 5, 6],
+  },
+]
   },
   {
     label: "Planner",
-    path: "/planner",
+    // path: "/planner",
     icon: FaChartLine,
     occupation: [2, 4, 5],
+    submenu: [
+  {
+    label: "Notas",
+    path: "/notas",
+    icon: FaClipboard,
+    occupation: [2, 4, 5, 3],
+  },
+
+  {
+    label: "Ordens",
+    path: "/ordens",
+    icon: FaClipboard,
+    occupation: [2, 4, 5, 3],
+  },
+
+    ]
   },
 ];

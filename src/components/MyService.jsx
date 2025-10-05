@@ -412,14 +412,15 @@ export default function MyService() {
           <Thead>
             <Tr>
               <Th>
-                <CheckboxContainer>
+                {/* <CheckboxContainer>
                   <HiddenCheckbox
                     type="checkbox"
                     checked={selectedBills.length === bills.length && bills.length > 0}
                     onChange={toggleSelectAll}
                   />
                   <StyledCheckbox />
-                </CheckboxContainer>
+                </CheckboxContainer> */}
+                Selecionar
               </Th>
               <Th>Nota</Th>
               <Th>Status</Th>
@@ -433,13 +434,13 @@ export default function MyService() {
             {bills.map((bill) => (
               <Tr key={bill.id}>
                 <Td>
-                  <CheckboxContainer>
+                  {/* <CheckboxContainer>
                     <HiddenCheckbox
                       checked={selectedBills.includes(bill.id)}
                       onChange={() => toggleSelect(bill.id)}
                     />
                     <StyledCheckbox />
-                  </CheckboxContainer>
+                  </CheckboxContainer> */}
 
                   <div>
                     <ActionButton onClick={() => handleView(bill)} className="view">
