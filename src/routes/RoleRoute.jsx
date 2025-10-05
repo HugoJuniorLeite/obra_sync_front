@@ -12,7 +12,7 @@ export default function RoleRoute({ allowedRoles }) {
     return <Navigate to="/login" replace />;
   }
 
-  if (!allowedRoles.includes(user.role)) {
+  if (!allowedRoles.includes(user.occupation)) {
     // não tem permissão
     return <Navigate to="/home" replace />;
   }

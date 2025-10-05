@@ -147,7 +147,7 @@ export default function Sidebar() {
     const Icon = item.icon;
 
     // verifica se o usuário tem acesso
-    if (!item.roles.includes(user.role)) return null;
+    if (!item.occupation.includes(user.occupation)) return null;
 
     if (item.submenu) {
       return (
@@ -162,7 +162,7 @@ export default function Sidebar() {
           {openMenus[item.label] && (
             <SubMenuList>
               {item.submenu.map((sub) => {
-                if (!sub.roles.includes(user.role)) return null;
+                if (!sub.occupation.includes(user.occupation)) return null;
                 const SubIcon = sub.icon;
                 return (
                   <li key={sub.label}>
