@@ -78,7 +78,7 @@
 
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormTitle, FormWrapper, InputWraper, Logo, SubmitButton } from "../layouts/Theme";
+import { FormTitle, FormWrapper, InputWraper, Logo, StyledMaskInput, SubmitButton } from "../layouts/Theme";
 import { Controller, useForm } from "react-hook-form";
 import { LoginSchema } from "../schemas/LoginSchema"; // aqui já deve validar cpf e senha
 import { changePassword, firstLogin, login, putToken } from "../services/apiLogin";
@@ -175,7 +175,7 @@ export default function Login() {
                       name="cpfNumber"
                       control={control}
                       render={({ field }) => (
-                        <Input
+                        <StyledMaskInput
                           {...field}
                           type="text"
                           label="CPF"
