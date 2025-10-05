@@ -200,20 +200,85 @@
 //     </SidebarContainer>
 //   );
 // }
-
-
 import { useState, useContext } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import styled from "styled-components";
 import { Menu, LogOut } from "lucide-react";
 import { AuthContext } from "../contexts/AuthContext";
 import { menuItems } from "../routes/menuItems";
 
+const SidebarContainer = styled.aside`
+  width: ${(props) => (props.isOpen ? "240px" : "70px")};
+  background-color: #1f1f1f;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: width 0.3s ease;
+`;
+
+const TopBar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #333;
+`;
+
+const Logo = styled.h1`
+  font-size: 1.25rem;
+  font-weight: bold;
+`;
+
+const MenuList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const MenuItem = styled.li`
+  margin: 0.5rem 0;
+
+  a,
+  div {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background-color: #333;
+    }
+  }
+
+  .active {
+    background-color: #444;
+  }
+`;
+
+const SubMenuList = styled.ul`
+  list-style: none;
+  padding-left: 1.5rem;
+  margin: 0.3rem 0;
+`;
+
+const Footer = styled.div`
+  padding: 1rem;
+  border-top: 1px solid #333;
+`;
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);
+  const [openSubmenus, setOpenSubmenus] = useState({});
   const { logout, user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     if (window.confirm("Deseja realmente sair?")) {
@@ -222,48 +287,72 @@ export default function Sidebar() {
     }
   };
 
+  const toggleSubmenu = (label) => {
+    setOpenSubmenus((prev) => ({ ...prev, [label]: !prev[label] }));
+  };
+
+  const renderMenuItem = (item) => {
+    if (!item.occupation?.includes(user?.occupation)) return null;
+
+    if (item.submenu) {
+      return (
+        <MenuItem key={item.label}>
+          <div onClick={() => toggleSubmenu(item.label)}>
+            <item.icon size={20} />
+            {isOpen && <span>{item.label}</span>}
+          </div>
+          {openSubmenus[item.label] && (
+            <SubMenuList>
+              {item.submenu.map((sub) => {
+                if (!sub.occupation?.includes(user?.occupation)) return null;
+                return (
+                  <li key={sub.path}>
+                    <NavLink
+                      to={sub.path}
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                      <sub.icon size={18} />
+                      {isOpen && <span>{sub.label}</span>}
+                    </NavLink>
+                  </li>
+                );
+              })}
+            </SubMenuList>
+          )}
+        </MenuItem>
+      );
+    }
+
+    return (
+      <MenuItem key={item.path}>
+        <NavLink
+          to={item.path}
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          <item.icon size={20} />
+          {isOpen && <span>{item.label}</span>}
+        </NavLink>
+      </MenuItem>
+    );
+  };
+
   return (
-    <motion.div
-      animate={{ width: isOpen ? 220 : 70 }}
-      className="h-screen bg-gray-900 text-white shadow-xl flex flex-col justify-between transition-all duration-300"
-    >
+    <SidebarContainer isOpen={isOpen}>
       {/* TOPO */}
       <div>
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="p-2 rounded hover:bg-gray-800 transition"
-          >
+        <TopBar>
+          <button onClick={() => setIsOpen(!isOpen)}>
             <Menu size={22} />
           </button>
-          {isOpen && <h1 className="text-xl font-semibold">ObraSync</h1>}
-        </div>
+          {isOpen && <Logo>ObraSync</Logo>}
+        </TopBar>
 
         {/* MENU */}
-        <nav className="mt-4 flex flex-col gap-1">
-          {menuItems
-            .filter((item) => item.roles.includes(user?.occupation))
-            .map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) =>
-                  `flex items-center gap-3 px-4 py-2 mx-2 rounded-lg transition ${
-                    isActive
-                      ? "bg-blue-600"
-                      : "hover:bg-gray-800 hover:text-blue-400"
-                  }`
-                }
-              >
-                <item.icon size={20} />
-                {isOpen && <span>{item.label}</span>}
-              </NavLink>
-            ))}
-        </nav>
+        <MenuList>{menuItems.map(renderMenuItem)}</MenuList>
       </div>
 
       {/* RODAPÉ */}
-      <div className="p-4 border-t border-gray-700 flex items-center justify-between">
+      <Footer>
         <button
           onClick={handleLogout}
           className="flex items-center gap-3 text-red-400 hover:text-red-300 transition w-full"
@@ -271,7 +360,7 @@ export default function Sidebar() {
           <LogOut size={20} />
           {isOpen && <span>Sair</span>}
         </button>
-      </div>
-    </motion.div>
+      </Footer>
+    </SidebarContainer>
   );
 }
