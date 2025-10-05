@@ -221,6 +221,7 @@ const SidebarContainer = styled.aside`
 const TopBar = styled.div`
   display: flex;
   align-items: center;
+  color: #f59e0b;
   justify-content: space-between;
   padding: 1rem;
   border-bottom: 1px solid #333;
@@ -259,6 +260,9 @@ const MenuItem = styled.li`
 
   .active {
     background-color: #444;
+      svg {
+     color: #f59e0b;
+   }
   }
 `;
 
