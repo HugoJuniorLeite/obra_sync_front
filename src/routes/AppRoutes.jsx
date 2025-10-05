@@ -384,8 +384,8 @@ export default function AppRoutes() {
                   <Route path="/ocupacoes" element={<CreateOccupation />} />
                 </Route>
 
-                {/* ❌ Página não encontrada */}
-                <Route path="*" element={<NotFound />} />
+                {/* ❌ Página não encontrada
+                <Route path="*" element={<NotFound />} /> */}
 
               </Route>
             </Route>
