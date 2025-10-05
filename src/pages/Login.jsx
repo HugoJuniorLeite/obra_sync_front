@@ -79,7 +79,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormTitle, FormWrapper, InputWraper, Logo, SubmitButton } from "../layouts/Theme";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { LoginSchema } from "../schemas/LoginSchema"; // aqui já deve validar cpf e senha
 import { changePassword, firstLogin, login, putToken } from "../services/apiLogin";
 import { useState } from "react";
@@ -101,6 +101,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -170,13 +171,23 @@ export default function Login() {
 
       <InputWraper>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            type="text"
-            label="CPF"
-            name="cpf"
-            register={register}
-            error={errors.cpf}
-          />
+            <Controller
+                      name="cpfNumber"
+                      control={control}
+                      render={({ field }) => (
+                        <Input
+                          {...field}
+                          type="text"
+                          label="CPF"
+                          mask="000.000.000-00"
+                          placeholder="000.000.000-00"
+                          definitions={{ "0": /[0-9]/ }}
+                          name="cpfNumber"
+                          register={register}
+                          error={errors.cpfNumber}
+                            />
+                      )}
+                    />
 
           {step === "login" && (
             <Input
