@@ -207,7 +207,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Menu, LogOut } from "lucide-react";
 import { AuthContext } from "../contexts/AuthContext";
-import { menuItems } from "../data/menuItems"; // ajuste o caminho
+import { menuItems } from "../routes/menuItems";
+
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);
