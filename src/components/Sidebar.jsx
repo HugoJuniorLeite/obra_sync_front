@@ -347,7 +347,7 @@ export default function Sidebar() {
       <div>
         <TopBar>
           <button onClick={() => setIsOpen(!isOpen)}>
-            <Menu size={22} color="#f59e0bllow"/>
+            <Menu size={22}/>
           </button>
           {isOpen && <Logo>ObraSync</Logo>}
         </TopBar>
@@ -362,7 +362,7 @@ export default function Sidebar() {
           onClick={handleLogout}
           className="flex items-center gap-3 text-red-400 hover:text-red-300 transition w-full"
         >
-          <LogOut size={20} color="#f59e0bllow"/>
+          <LogOut size={20}/>
           {isOpen && <span>Sair</span>}
         </button>
       </Footer>
