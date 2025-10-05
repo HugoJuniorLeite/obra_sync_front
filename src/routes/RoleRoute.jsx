@@ -14,7 +14,9 @@ export default function RoleRoute({ allowedRoles }) {
 
   if (!allowedRoles.includes(user.occupation)) {
     // não tem permissão
-    return <Navigate to="/home" replace />;
+    console.log(user.occupation, "ocupação")
+    console.log(allowedRoles,"roles")
+    return <Navigate to="/" replace />;
   }
 
   return <Outlet />; // renderiza as rotas filhas
