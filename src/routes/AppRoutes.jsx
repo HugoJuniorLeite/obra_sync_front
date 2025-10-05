@@ -124,6 +124,7 @@ import RdoFomrExtensionInative from "../components/RdoForms/RdoFomrExtensionInat
 import RdoPdf from "../components/RdoForms/RdoPdf";
 import PrincipalPreVgb from "../components/RdoForms/Croqui/PrincipalPreVgb";
 import PrivateRoute from "./PrivateRoute"; // 👈 novo import
+import HomeCopy from "../pages/HomeCopy";
 
 const Main = styled.main`
   flex: 1;
@@ -164,6 +165,8 @@ export default function AppRoutes() {
                 <Route path="/rdo-form/:id" element={<RdoFomrExtensionInative />} />
                 <Route path="/rdo-croqui" element={<PrincipalPreVgb />} />
                 <Route path="/pdf/:id" element={<RdoPdf />} />
+                             <Route path="/home-copy" element={<HomeCopy />} ></Route>
+
               </Route>
             </Route>
           </Routes>
