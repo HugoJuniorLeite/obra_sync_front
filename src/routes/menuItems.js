@@ -48,9 +48,24 @@ export const menuItems = [
   submenu: [
      {
     label: "Funcionários",
+    // path: "/funcionarios",
+    icon: FaUsers,
+    // occupation: [2, 4, 5, 6],
+      submenu: [
+     {
+    label: "Cadastrar",
     path: "/funcionarios",
     icon: FaUsers,
     occupation: [2, 4, 5, 6],
+  },
+    {
+    label: "Listar",
+    path: "/ocupacoes",
+    icon: FaUserTie,
+    occupation: [2, 4, 5, 6],
+  },
+]
+  },
   },
     {
     label: "Ocupações",
