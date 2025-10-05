@@ -9,7 +9,7 @@ export default function RoleRoute({ allowedRoles }) {
 
   if (!user) {
     // não está logado
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   if (!allowedRoles.includes(user.occupation)) {
