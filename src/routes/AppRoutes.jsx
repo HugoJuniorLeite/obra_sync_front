@@ -339,7 +339,7 @@ export default function AppRoutes() {
         <FormProvider {...methods}>
           <Routes>
             {/* 🌐 Rotas Públicas */}
-            <Route path="/" element={<LoginMaster />} />
+            <Route path="login-master" element={<LoginMaster />} />
             <Route path="/login" element={<Login />} />
 
             {/* 🔒 Rotas Protegidas */}
@@ -362,6 +362,10 @@ export default function AppRoutes() {
                   <Route path="/engenheiro" element={<Engenheiro />} />
                   <Route path="/tecnico" element={<Tecnico />} />
                   <Route path="/planner" element={<Planner />} />
+                  <Route path="/minhas-notas" element={<MyService />} />
+                  <Route path="/rdo-form/:id" element={<RdoFomrExtensionInative />} />
+                  <Route path="/rdo-croqui" element={<PrincipalPreVgb />} />
+                  <Route path="/pdf/:id" element={<RdoPdf />} />
                 </Route>
 
                 {/* 👷 Ocupações 1, 7, 8 → apenas notas e RDO */}

@@ -210,7 +210,7 @@ import { menuItems } from "../routes/menuItems";
 const SidebarContainer = styled.aside`
   width: ${(props) => (props.isOpen ? "240px" : "70px")};
   background-color: #1f1f1f;
-  color: white;
+  color: #f59e0b;;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

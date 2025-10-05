@@ -4,5 +4,5 @@ import { AuthContext } from "../contexts/AuthContext";
 
 export default function PrivateRoute() {
   const { token } = useContext(AuthContext);
-  return token ? <Outlet /> : <Navigate to="/login" replace />;
+  return token ? <Outlet /> : <Navigate to="/home" replace />;
 }

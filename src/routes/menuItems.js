@@ -38,24 +38,6 @@ export const menuItems = [
         icon: FaClipboard,
         occupation: [1, 7, 8, 2, 4, 5],
       },
-      // {
-      //   label: "RDO Form",
-      //   path: "/rdo-form",
-      //   icon: FaFilePdf,
-      //   occupation: [1, 7, 8, 2, 4, 5],
-      // },
-      // {
-      //   label: "RDO Croqui",
-      //   path: "/rdo-croqui",
-      //   icon: FaChartLine,
-      //   occupation: [1, 7, 8, 2, 4, 5],
-      // },
-      // {
-      //   label: "PDF",
-      //   path: "/pdf",
-      //   icon: FaFilePdf,
-      //   occupation: [1, 7, 8, 2, 4, 5],
-      // },
     ],
   },
   {
