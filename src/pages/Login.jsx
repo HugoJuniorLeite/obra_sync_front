@@ -107,6 +107,18 @@ export default function Login() {
   } = useForm({
     resolver: zodResolver(LoginSchema),
   });
+
+
+  function getHomeRouteByRole(role) {
+    if ([1, 7, 8].includes(role)) return "/minhas-notas";
+    if (role === 6) return "/funcionarios";
+    if (role === 3) return "/notas";
+    if ([2, 4, 5].includes(role)) return "/home";
+    return "/home"; // fallback
+  }
+
+
+
   const onSubmit = async (data) => {
     try {
       if (step === "firstAccess") {
@@ -130,7 +142,8 @@ export default function Login() {
         const result = await handleLogin(data.cpf, data.password);
         console.log(result, "test");
         alert("Login realizado!");
-        navigate("/home");
+        navigate(getHomeRouteByRole(result.user.role));
+
       }
 
       if (step === "changePassword") {
