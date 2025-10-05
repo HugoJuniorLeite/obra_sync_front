@@ -92,7 +92,7 @@ import { AuthContext } from "../contexts/AuthContext";
 
 export default function Login() {
 
-  const { handleLogin, firstLogin, changePassword } = useContext(AuthContext);
+  const { handleLogin, firstLogin, changePassword, user } = useContext(AuthContext);
 
 
   const [step, setStep] = useState("firstAccess");
@@ -142,7 +142,7 @@ export default function Login() {
         const result = await handleLogin(data.cpf, data.password);
         console.log(result, "test");
         alert("Login realizado!");
-        const initialRoute = getHomeRouteByOccupation(result.user.occupation);
+        const initialRoute = getHomeRouteByOccupation(user.occupation);
         navigate(initialRoute);
 
       }
