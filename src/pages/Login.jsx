@@ -144,8 +144,8 @@ export default function Login() {
         console.log(user.occupation, "ocupação");
         // alert("Login realizado!");
 
-        // const initialRoute = getHomeRouteByOccupation(user.occupation);
-        // navigate(initialRoute);
+        const initialRoute = getHomeRouteByOccupation(user.occupation);
+        navigate(initialRoute);
 
       }
 
