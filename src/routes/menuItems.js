@@ -1,4 +1,4 @@
-import { FaHome, FaProjectDiagram, FaUser, FaUsers, FaClipboard, FaFilePdf, FaTools, FaUserTie, FaChartLine, FaFolderOpen } from "react-icons/fa";
+import { FaHome, FaProjectDiagram, FaUser, FaUsers, FaClipboard, FaFilePdf, FaTools, FaUserTie, FaChartLine, FaFolderOpen, FaUserPlus, FaListUl, FaIdBadge } from "react-icons/fa";
 
 export const menuItems = [
   {
@@ -38,43 +38,79 @@ export const menuItems = [
         icon: FaClipboard,
         occupation: [1, 7, 8, 2, 4, 5],
       },
+      // {
+      //   label: "RDO Form",
+      //   path: "/rdo-form",
+      //   icon: FaFilePdf,
+      //   occupation: [1, 7, 8, 2, 4, 5],
+      // },
+      // {
+      //   label: "RDO Croqui",
+      //   path: "/rdo-croqui",
+      //   icon: FaChartLine,
+      //   occupation: [1, 7, 8, 2, 4, 5],
+      // },
+      // {
+      //   label: "PDF",
+      //   path: "/pdf",
+      //   icon: FaFilePdf,
+      //   occupation: [1, 7, 8, 2, 4, 5],
+      // },
     ],
   },
-  {
-    label: "RH",
-    // path: "/rh",
-    icon: FaUserTie,
-    occupation: [2, 4, 5],
+//   {
+//     label: "RH",
+//     // path: "/rh",
+//     icon: FaUserTie,
+//     occupation: [2, 4, 5],
+//   submenu: [
+//      {
+//     label: "Funcionários",
+//     path: "/funcionarios",
+//     icon: FaUsers,
+//     occupation: [2, 4, 5, 6],
+//   },
+//     {
+//     label: "Ocupações",
+//     path: "/ocupacoes",
+//     icon: FaUserTie,
+//     occupation: [2, 4, 5, 6],
+//   },
+// ]
+//   },
+
+ {
+  label: "RH",
+  icon: FaUserTie, // símbolo do setor de recursos humanos / liderança
+  occupation: [2, 4, 5],
   submenu: [
-     {
-    label: "Funcionários",
-    // path: "/funcionarios",
-    icon: FaUsers,
-    // occupation: [2, 4, 5, 6],
+    {
+      label: "Funcionários",
+      icon: FaUsers, // grupo de pessoas
       submenu: [
-     {
-    label: "Cadastrar",
-    path: "/funcionarios",
-    icon: FaUsers,
-    occupation: [2, 4, 5, 6],
-  },
+        {
+          label: "Cadastrar",
+          path: "/funcionarios",
+          icon: FaUserPlus, // adicionar pessoa
+          occupation: [2, 4, 5, 6],
+        },
+        {
+          label: "Listar",
+          path: "/ocupacoes",
+          icon: FaListUl, // lista
+          occupation: [2, 4, 5, 6],
+        },
+      ],
+    },
     {
-    label: "Listar",
-    path: "/ocupacoes",
-    icon: FaUserTie,
-    occupation: [2, 4, 5, 6],
-  },
-]
-  },
-  },
-    {
-    label: "Ocupações",
-    path: "/ocupacoes",
-    icon: FaUserTie,
-    occupation: [2, 4, 5, 6],
-  },
-]
-  },
+      label: "Ocupações",
+      path: "/ocupacoes",
+      icon: FaIdBadge, // crachá — simboliza cargo/ocupação
+      occupation: [2, 4, 5, 6],
+    },
+  ],
+},
+
   {
     label: "Planner",
     // path: "/planner",
