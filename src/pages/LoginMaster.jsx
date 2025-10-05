@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormTitle, FormWrapper, InputWraper, Logo, SubmitButton } from "../layouts/Theme";
 import { useForm } from "react-hook-form";
-import { LoginMasterSchema } from "../schemas/LoginMasterSchema.jxs";
 import { putToken, validateToken } from "../services/apiLogin";
 import { useState } from "react";
 import TokenVerification from "../components/TokenVerification";
 import { Input } from "../components/Ui/Input";
 import logo from '../assets/logo.png'
 import { useNavigate } from "react-router-dom";
+import { LoginMasterSchema } from "../schemas/LoginMasterSchema";
 
 export default function LoginMaster() {
   const [istoken, setIstoken] = useState(false);
