@@ -291,7 +291,14 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FormContext } from "./RdoForms/FormContext";
 
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+
 export default function MyService() {
+
+  const { user, logout } = useContext(AuthContext);
+
+
   const [bills, setBills] = useState([]);
   const [selectedBills, setSelectedBills] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -320,7 +327,7 @@ export default function MyService() {
   useEffect(() => {
     const fetchBills = async () => {
       try {
-        const response = await serviceOs.getService({ technical_id: 10 });
+        const response = await serviceOs.getService({ technical_id: user?.id });
 
         const filtered = response.filter((bill) =>
           ["despachada", "aceita", "em_deslocamento", "em_atendimento"].includes(bill.status)

@@ -87,7 +87,14 @@ import { Input } from "../components/Ui/Input";
 import logo from '../assets/logo.png'
 import { useNavigate } from "react-router-dom";
 
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+
 export default function Login() {
+
+  const { handleLogin, firstLogin, changePassword } = useContext(AuthContext);
+
+
   const [step, setStep] = useState("firstAccess");
   // firstAccess → pede CPF, depois decide se pede senha ou troca senha
 
@@ -120,14 +127,10 @@ export default function Login() {
       }
 
       if (step === "login") {
-        const result = await login({
-          cpf: data.cpf,
-          password: data.password,
-        }
-      );
-        console.log(result, "test")
+        const result = await handleLogin(data.cpf, data.password);
+        console.log(result, "test");
         alert("Login realizado!");
-        // navigate("/home");
+        navigate("/home");
       }
 
       if (step === "changePassword") {
