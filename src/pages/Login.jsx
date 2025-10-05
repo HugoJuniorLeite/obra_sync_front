@@ -121,12 +121,15 @@ export default function Login() {
 
 
   const onSubmit = async (data) => {
+    const cleanCpfNumber = data.cpfNumber.replace(/\D/g, "");
+
+
     try {
       if (step === "firstAccess") {
         console.log("Step firstAccess →", data);
         console.log("endpoint usado:", "/auth/is-first-access", data);
 
-        const result = await firstLogin({ cpf: data.cpf });
+        const result = await firstLogin({ cpf: cleanCpfNumber });
 
         alert(result.message);
 
@@ -140,7 +143,7 @@ export default function Login() {
       }
 
       if (step === "login") {
-        const result = await handleLogin(data.cpf, data.password);
+        const result = await handleLogin(cleanCpfNumber, data.password);
         console.log(result, "test");
         console.log(result.user.occupation, "ocupação");
         // alert("Login realizado!");
@@ -152,7 +155,7 @@ export default function Login() {
 
       if (step === "changePassword") {
         const response = await changePassword({
-          cpf: data.cpf,
+          cpf: cleanCpfNumber,
           old_password: data.old_password,
           new_password: data.new_password,
         });
@@ -171,23 +174,23 @@ export default function Login() {
 
       <InputWraper>
         <form onSubmit={handleSubmit(onSubmit)}>
-            <Controller
-                      name="cpf"
-                      control={control}
-                      render={({ field }) => (
-                        <StyledMaskInput
-                          {...field}
-                          type="text"
-                          label="CPF"
-                          mask="000.000.000-00"
-                          placeholder="000.000.000-00"
-                          definitions={{ "0": /[0-9]/ }}
-                          name="cpf"
-                          register={register}
-                          error={errors.cpfNumber}
-                            />
-                      )}
-                    />
+                   <Controller
+            name="cpfNumber"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                type="text"
+                label="CPF"
+                mask="000.000.000-00"
+                placeholder="000.000.000-00"
+                definitions={{ "0": /[0-9]/ }}
+                name="cpfNumber"
+                register={register}
+                error={errors.cpfNumber}
+                  />
+            )}
+          />
 
           {step === "login" && (
             <Input
