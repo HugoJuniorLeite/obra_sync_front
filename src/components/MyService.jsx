@@ -332,7 +332,7 @@ export default function MyService() {
         const filtered = response.filter((bill) =>
           ["despachada", "aceita", "em_deslocamento", "em_atendimento"].includes(bill.status)
         );
-        console.log(user.id, "id context login")
+        console.log(user, "id context login")
 
         setBills(filtered);
       } catch (error) {
