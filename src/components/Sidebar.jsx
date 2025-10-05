@@ -208,7 +208,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { menuItems } from "../routes/menuItems";
 
 const SidebarContainer = styled.aside`
-  width: ${(props) => (props.isOpen ? "200px" : "65px")};
+  width: ${(props) => (props.isOpen ? "200px" : "70px")};
   background-color: #1f1f1f;
   color: white;
   min-height: 100vh;
@@ -347,7 +347,7 @@ export default function Sidebar() {
       <div>
         <TopBar>
           <button onClick={() => setIsOpen(!isOpen)}>
-            <Menu size={22} color="yellow"/>
+            <Menu size={22} color="#f59e0bllow"/>
           </button>
           {isOpen && <Logo>ObraSync</Logo>}
         </TopBar>
@@ -362,7 +362,7 @@ export default function Sidebar() {
           onClick={handleLogout}
           className="flex items-center gap-3 text-red-400 hover:text-red-300 transition w-full"
         >
-          <LogOut size={20} />
+          <LogOut size={20} color="#f59e0bllow"/>
           {isOpen && <span>Sair</span>}
         </button>
       </Footer>
