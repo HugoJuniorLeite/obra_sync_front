@@ -328,6 +328,55 @@ const Main = styled.main`
   flex: 1;
   display: flex;
 `;
+// Mapeamento de rotas por ocupação
+const roleRoutes = [
+  {
+    allowedRoles: [2, 4, 5],
+    routes: [
+      { path: "/home", element: <Home /> },
+      { path: "/home-copy", element: <HomeCopy /> },
+      { path: "/projetos", element: <Project /> },
+      { path: "/clientes", element: <RegisterCustomer /> },
+      { path: "/funcionarios", element: <RegisterEmployee /> },
+      { path: "/ocupacoes", element: <CreateOccupation /> },
+      { path: "/notas", element: <CreateOs /> },
+      { path: "/servicos", element: <CreateService /> },
+      { path: "/ordens", element: <GetOss /> },
+      { path: "/configuracoes", element: <div>Configurações</div> },
+      { path: "/rh", element: <Rh /> },
+      { path: "/engenheiro", element: <Engenheiro /> },
+      { path: "/tecnico", element: <Tecnico /> },
+      { path: "/planner", element: <Planner /> },
+      { path: "/minhas-notas", element: <MyService /> },
+      { path: "/rdo-form/:id", element: <RdoFomrExtensionInative /> },
+      { path: "/rdo-croqui", element: <PrincipalPreVgb /> },
+      { path: "/pdf/:id", element: <RdoPdf /> },
+    ],
+  },
+  {
+    allowedRoles: [1, 7, 8],
+    routes: [
+      { path: "/minhas-notas", element: <MyService /> },
+      { path: "/rdo-form/:id", element: <RdoFomrExtensionInative /> },
+      { path: "/rdo-croqui", element: <PrincipalPreVgb /> },
+      { path: "/pdf/:id", element: <RdoPdf /> },
+    ],
+  },
+  {
+    allowedRoles: [3],
+    routes: [
+      { path: "/notas", element: <CreateOs /> },
+      { path: "/ordens", element: <GetOss /> },
+    ],
+  },
+  {
+    allowedRoles: [6],
+    routes: [
+      { path: "/funcionarios", element: <RegisterEmployee /> },
+      { path: "/ocupacoes", element: <CreateOccupation /> },
+    ],
+  },
+];
 
 export default function AppRoutes() {
   const methods = useForm();
@@ -338,59 +387,23 @@ export default function AppRoutes() {
         <GlobalStyle />
         <FormProvider {...methods}>
           <Routes>
-            {/* 🌐 Rotas Públicas */}
-            <Route path="login-master" element={<LoginMaster />} />
-            <Route path="/" element={<Login />} />
+            {/* Rotas públicas */}
+            <Route path="/" element={<LoginMaster />} />
+            <Route path="/login" element={<Login />} />
 
-            {/* 🔒 Rotas Protegidas */}
+            {/* Rotas protegidas */}
             <Route element={<PrivateRoute />}>
               <Route element={<AuthenticatedLayout />}>
+                {roleRoutes.map((roleGroup, i) => (
+                  <Route key={i} element={<RoleRoute allowedRoles={roleGroup.allowedRoles} />}>
+                    {roleGroup.routes.map((r) => (
+                      <Route key={r.path} path={r.path} element={r.element} />
+                    ))}
+                  </Route>
+                ))}
 
-                {/* 👤 Ocupações com acesso total (2, 4, 5) */}
-                <Route element={<RoleRoute allowedRoles={[2, 4, 5]} />}>
-                  <Route path="/home" element={<Home />} />
-                  <Route path="/home-copy" element={<HomeCopy />} />
-                  <Route path="/projetos" element={<Project />} />
-                  <Route path="/clientes" element={<RegisterCustomer />} />
-                  <Route path="/funcionarios" element={<RegisterEmployee />} />
-                  <Route path="/ocupacoes" element={<CreateOccupation />} />
-                  <Route path="/notas" element={<CreateOs />} />
-                  <Route path="/servicos" element={<CreateService />} />
-                  <Route path="/ordens" element={<GetOss />} />
-                  <Route path="/configuracoes" element={<div>Configurações</div>} />
-                  <Route path="/rh" element={<Rh />} />
-                  <Route path="/engenheiro" element={<Engenheiro />} />
-                  <Route path="/tecnico" element={<Tecnico />} />
-                  <Route path="/planner" element={<Planner />} />
-                  <Route path="/minhas-notas" element={<MyService />} />
-                  <Route path="/rdo-form/:id" element={<RdoFomrExtensionInative />} />
-                  <Route path="/rdo-croqui" element={<PrincipalPreVgb />} />
-                  <Route path="/pdf/:id" element={<RdoPdf />} />
-                </Route>
-
-                {/* 👷 Ocupações 1, 7, 8 → apenas notas e RDO */}
-                <Route element={<RoleRoute allowedRoles={[1, 7, 8]} />}>
-                  <Route path="/minhas-notas" element={<MyService />} />
-                  <Route path="/rdo-form/:id" element={<RdoFomrExtensionInative />} />
-                  <Route path="/rdo-croqui" element={<PrincipalPreVgb />} />
-                  <Route path="/pdf/:id" element={<RdoPdf />} />
-                </Route>
-
-                {/* 🧾 Ocupação 3 → notas e ordens */}
-                <Route element={<RoleRoute allowedRoles={[3]} />}>
-                  <Route path="/notas" element={<CreateOs />} />
-                  <Route path="/ordens" element={<GetOss />} />
-                </Route>
-
-                {/* 👨‍💼 Ocupação 6 → gestão de RH */}
-                <Route element={<RoleRoute allowedRoles={[6]} />}>
-                  <Route path="/funcionarios" element={<RegisterEmployee />} />
-                  <Route path="/ocupacoes" element={<CreateOccupation />} />
-                </Route>
-
-                {/* ❌ Página não encontrada
-                <Route path="*" element={<NotFound />} /> */}
-
+                {/* Fallback */}
+                <Route path="*" element={<NotFound />} />
               </Route>
             </Route>
           </Routes>
