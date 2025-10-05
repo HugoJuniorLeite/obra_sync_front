@@ -64,8 +64,7 @@ export function AuthProvider({ children }) {
         const decoded = jwtDecode(token);
         setUser({
           id: decoded.userId,
-          cpf: decoded.cpf,
-          role: decoded.role,
+            occupation: decoded.occupation
         });
       } catch (err) {
         console.error("Token inválido:", err);
@@ -82,8 +81,7 @@ export function AuthProvider({ children }) {
     const decoded = jwtDecode(token);
     setUser({
       id: decoded.userId,
-      cpf: decoded.cpf,
-      role: decoded.role,
+            occupation: decoded.occupation
     });
     return result;
   };
