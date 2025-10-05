@@ -122,7 +122,7 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     const cleanCpfNumber = data.cpfNumber.replace(/\D/g, "");
-
+console.log(cleanCpfNumber)
 
     try {
       if (step === "firstAccess") {

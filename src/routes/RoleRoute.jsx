@@ -12,7 +12,7 @@ export default function RoleRoute({ allowedRoles }) {
     return <Navigate to="/" replace />;
   }
 
-  if (!allowedRoles.includes(user.occupation)) {
+  if (!allowedRoles.includes(Number(user.occupation))) {
     // não tem permissão
     console.log(user.occupation, "ocupação")
     console.log(allowedRoles,"roles")
