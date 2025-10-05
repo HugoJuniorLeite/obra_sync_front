@@ -73,17 +73,37 @@ export function AuthProvider({ children }) {
     }
   }, [token]);
 
-  const handleLogin = async (cpf, password) => {
+  // const handleLogin = async (cpf, password) => {
+  //   const result = await apiLogin({ cpf, password });
+  //   const { token } = result;
+  //   localStorage.setItem("token", token);
+  //   setToken(token);
+  //   const decoded = jwtDecode(token);
+  //   setUser({
+  //     id: decoded.userId,
+  //           occupation: decoded.occupation
+  //   });
+  //   return result;
+  // };
+
+    const handleLogin = async (cpf, password) => {
     const result = await apiLogin({ cpf, password });
     const { token } = result;
+
+    // ✅ Já decodifica imediatamente após login
+    const decoded = jwtDecode(token);
+    const loggedUser = {
+      id: decoded.userId,
+      occupation: decoded.occupation,
+    };
+
+    // Atualiza estados e localStorage
     localStorage.setItem("token", token);
     setToken(token);
-    const decoded = jwtDecode(token);
-    setUser({
-      id: decoded.userId,
-            occupation: decoded.occupation
-    });
-    return result;
+    setUser(loggedUser);
+
+    // Retorna tudo que o chamador precisar
+    return { token, user: loggedUser };
   };
 
   const logout = () => {

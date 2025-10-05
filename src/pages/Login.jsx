@@ -141,10 +141,10 @@ export default function Login() {
       if (step === "login") {
         const result = await handleLogin(data.cpf, data.password);
         console.log(result, "test");
-        console.log(user.occupation, "ocupação");
+        console.log(result.user.occupation, "ocupação");
         // alert("Login realizado!");
 
-        const initialRoute = getHomeRouteByOccupation(user.occupation);
+        const initialRoute = getHomeRouteByOccupation(result.user.occupation);
         navigate(initialRoute);
 
       }
