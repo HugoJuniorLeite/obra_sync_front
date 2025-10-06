@@ -265,7 +265,7 @@ export const menuItems = [
     submenu: [
       {
         label: "Minhas Notas",
-        path: "/rdo/minhas-notas",
+        path: "/rdo/minhas/notas",
         icon: FaClipboard, // item
         occupation: [1, 7, 8, 2, 4, 5],
       },

@@ -93,6 +93,7 @@ import { AuthContext } from "../contexts/AuthContext";
 export default function Login() {
 
   const { handleLogin, firstLogin, changePassword, user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false); // ✅ estado de loading
 
 
   const [step, setStep] = useState("firstAccess");
@@ -123,6 +124,7 @@ export default function Login() {
   const onSubmit = async (data) => {
     const cleanCpfNumber = data.cpfNumber.replace(/\D/g, "");
 console.log(cleanCpfNumber)
+    setLoading(true); // ✅ desativa submit / mostra carregando
 
     try {
       if (step === "firstAccess") {
@@ -166,6 +168,8 @@ console.log(cleanCpfNumber)
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.message || err.message);
+    }finally {
+      setLoading(false); // ✅ habilita novamente o botão
     }
   };
   return (
@@ -221,8 +225,12 @@ console.log(cleanCpfNumber)
             </>
           )}
 
-          <SubmitButton type="submit">
-            {step === "firstAccess" ? "Verificar Acesso" : "Entrar"}
+          <SubmitButton type="submit"  disabled={loading}>
+             {loading
+              ? "Carregando..." // ✅ texto durante carregamento
+              : step === "firstAccess"
+              ? "Verificar Acesso"
+              : "Entrar"}
           </SubmitButton>
         </form>
       </InputWraper>
