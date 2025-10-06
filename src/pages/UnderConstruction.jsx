@@ -23,7 +23,9 @@ const IconWrapper = styled.div`
   margin-bottom: 1rem;
   display:flex;
   flex-direction:column;
-  
+      align-items: center;
+  justify-content: center;
+    text-align: center;
 `;
 
 const Title = styled.h1`
@@ -34,20 +36,16 @@ const Title = styled.h1`
 const Description = styled.p`
   font-size: 1.1rem;
   color: #555;
-    align-items: center;
-  justify-content: center;
-    text-align: center;
-
 `;
 
 export default function UnderConstruction({ featureName = "Esta funcionalidade" }) {
-  return (
-    <Container>
-      <IconWrapper>
-        <FaTools />
-      </IconWrapper>
-      <Title>Em Construção</Title>
-      <Description>{featureName} ainda está em desenvolvimento. Volte em breve!</Description>
-    </Container>
-  );
+    return (
+        <Container>
+            <IconWrapper>
+                <FaTools />
+            </IconWrapper>
+            <Title>Em Construção</Title>
+            <Description>{featureName} ainda está em desenvolvimento. Volte em breve!</Description>
+        </Container>
+    );
 }
