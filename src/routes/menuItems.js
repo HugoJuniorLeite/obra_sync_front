@@ -241,7 +241,6 @@ export const menuItems = [
       },
     ],
   },
-];
   {
     label: "RDO",
     icon: FaFolderOpen,
