@@ -473,7 +473,7 @@ export default function Sidebar() {
 
     const hasSubmenu = item.submenu && item.submenu.length > 0;
     const isOpenSubmenu = openSubmenus[item.label];
-    const paddingLeft = `${1 + level * 1.2}rem`; // recuo proporcional ao nível
+    const paddingLeft = `${0.3 + level * 1.2}rem`; // recuo proporcional ao nível
 
     return (
       <MenuItem key={item.label}>

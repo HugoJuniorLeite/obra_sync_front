@@ -372,11 +372,17 @@ const roleRoutes = [
   {
     allowedRoles: [6, 2, 4, 5],
     routes: [
-      { path: "/funcionarios", element: <RegisterEmployee /> },
-      { path: "/ocupacoes", element: <CreateOccupation /> },
+      { path: "/funcionarios/cadastrar", element: <RegisterEmployee /> },
+      { path: "/funcionarios/listar", element: <UnderConstruction featureName="Listar Funcionários" /> },
+      { path: "/ocupacoes/cadastrar", element: <CreateOccupation /> },
+      { path: "/ocupacoes/listar", element: <UnderConstruction featureName="Listar Funcionários" />
+ },
+
     ],
   },
 ];
+
+
 
 export default function AppRoutes() {
   const methods = useForm();
