@@ -337,12 +337,16 @@ const roleRoutes = [
     routes: [
       { path: "/home", element: <Home /> },
       { path: "/home-copy", element: <HomeCopy /> },
-      { path: "/projetos", element: <Project /> },
+      { path: "/comercial/projetos/cadastrar", element: <Project /> },
+        { path: "/comercial/projetos/listar", element: <UnderConstruction featureName="Listar Projetos" /> },
       { path: "/comercial/clientes/cadastrar", element: <RegisterCustomer /> },
+            { path: "/comercial/clientes/listar", element: <UnderConstruction featureName="Listar Clientes" /> },
+
       // { path: "/funcionarios", element: <RegisterEmployee /> },
       // { path: "/ocupacoes", element: <CreateOccupation /> },
       // { path: "/notas", element: <CreateOs /> },
-      { path: "/servicos", element: <CreateService /> },
+      { path: "/comercial/servicos/cadastrar", element: <CreateService /> },
+       { path: "/comercial/servicos/listar", element: <UnderConstruction featureName="Listar Serviços" /> },
       // { path: "/ordens", element: <GetOss /> },
       { path: "/configuracoes", element: <div>Configurações</div> },
       { path: "/rh", element: <Rh /> },
@@ -374,10 +378,10 @@ const roleRoutes = [
   {
     allowedRoles: [6, 2, 4, 5],
     routes: [
-      { path: "/funcionarios-cadastrar", element: <RegisterEmployee /> },
-      { path: "/funcionarios-listar", element: <UnderConstruction featureName="Listar Funcionários" /> },
-      { path: "/ocupacoes-cadastrar", element: <CreateOccupation /> },
-      { path: "/ocupacoes-listar", element: <UnderConstruction featureName="Listar Ocupações" />
+      { path: "/funcionarios/cadastrar", element: <RegisterEmployee /> },
+      { path: "/funcionarios/listar", element: <UnderConstruction featureName="Listar Funcionários" /> },
+      { path: "/ocupacoes/cadastrar", element: <CreateOccupation /> },
+      { path: "/ocupacoes/listar", element: <UnderConstruction featureName="Listar Ocupações" />
  },
 
     ],
