@@ -16,6 +16,7 @@ const Container = styled.div`
   text-align: center;
   color: #333;
   animation: ${fadeIn} 0.5s ease-out;
+  padding-left:150px;
 `;
 
 const IconWrapper = styled.div`
