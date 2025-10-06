@@ -150,7 +150,8 @@ import {
   FaIdBadge,
   FaClipboardCheck,
   FaHardHat,
-  FaBoxOpen
+  FaBoxOpen,
+  FaFilePdf
 } from "react-icons/fa";
 
 export const menuItems = [
@@ -368,6 +369,12 @@ export const menuItems = [
         label: "Ordens",
         path: "/ordens",
         icon: FaClipboard,
+        occupation: [2, 4, 5, 3],
+      },
+      {
+        label: "PDF",
+        path: "/pdf",
+        icon: FaFilePdf,
         occupation: [2, 4, 5, 3],
       },
     ],

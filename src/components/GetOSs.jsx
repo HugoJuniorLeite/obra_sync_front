@@ -286,7 +286,7 @@ export default function GetOss() {
         </Table>
       </TableWrapper>
 
-   <RdoPdf/> 
+   {/* <RdoPdf/>  */}
 
       {/* <MyService></MyService> */}
     </Container>

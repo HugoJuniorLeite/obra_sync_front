@@ -338,15 +338,15 @@ const roleRoutes = [
       { path: "/home", element: <Home /> },
       { path: "/home-copy", element: <HomeCopy /> },
       { path: "/comercial/projetos/cadastrar", element: <Project /> },
-        { path: "/comercial/projetos/listar", element: <UnderConstruction featureName="Listar Projetos" /> },
+      { path: "/comercial/projetos/listar", element: <UnderConstruction featureName="Listar Projetos" /> },
       { path: "/comercial/clientes/cadastrar", element: <RegisterCustomer /> },
-            { path: "/comercial/clientes/listar", element: <UnderConstruction featureName="Listar Clientes" /> },
+      { path: "/comercial/clientes/listar", element: <UnderConstruction featureName="Listar Clientes" /> },
 
       // { path: "/funcionarios", element: <RegisterEmployee /> },
       // { path: "/ocupacoes", element: <CreateOccupation /> },
       // { path: "/notas", element: <CreateOs /> },
       { path: "/comercial/servicos/cadastrar", element: <CreateService /> },
-       { path: "/comercial/servicos/listar", element: <UnderConstruction featureName="Listar Serviços" /> },
+      { path: "/comercial/servicos/listar", element: <UnderConstruction featureName="Listar Serviços" /> },
       // { path: "/ordens", element: <GetOss /> },
       { path: "/configuracoes", element: <div>Configurações</div> },
       { path: "/rh", element: <Rh /> },
@@ -366,10 +366,10 @@ const roleRoutes = [
       { path: "/rdo-form/:id", element: <RdoFomrExtensionInative /> },
       { path: "/rdo-croqui", element: <PrincipalPreVgb /> },
       { path: "/pdf/:id", element: <RdoPdf /> },
-            { path: "/requisicoes/materiais", element: <UnderConstruction featureName="Requisitar Materiais" /> },
-                  { path: "/requisicoes/epi", element: <UnderConstruction featureName="Requisitar EPI" /> },
-                    { path: "/checklist/arl", element: <UnderConstruction featureName="ARL" /> },
-                      { path: "/checklist/frota", element: <UnderConstruction featureName="Check-list Frota" /> },
+      { path: "/requisicoes/materiais", element: <UnderConstruction featureName="Requisitar Materiais" /> },
+      { path: "/requisicoes/epi", element: <UnderConstruction featureName="Requisitar EPI" /> },
+      { path: "/checklist/arl", element: <UnderConstruction featureName="ARL" /> },
+      { path: "/checklist/frota", element: <UnderConstruction featureName="Check-list Frota" /> },
 
 
     ],
@@ -379,6 +379,7 @@ const roleRoutes = [
     routes: [
       { path: "/notas", element: <CreateOs /> },
       { path: "/ordens", element: <GetOss /> },
+      { path: "/pdf", element: <UnderConstruction featureName="PDF" /> },
     ],
   },
   {
@@ -387,8 +388,9 @@ const roleRoutes = [
       { path: "/funcionarios/cadastrar", element: <RegisterEmployee /> },
       { path: "/funcionarios/listar", element: <UnderConstruction featureName="Listar Funcionários" /> },
       { path: "/ocupacoes/cadastrar", element: <CreateOccupation /> },
-      { path: "/ocupacoes/listar", element: <UnderConstruction featureName="Listar Ocupações" />
- },
+      {
+        path: "/ocupacoes/listar", element: <UnderConstruction featureName="Listar Ocupações" />
+      },
 
     ],
   },
