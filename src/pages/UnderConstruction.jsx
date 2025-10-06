@@ -21,6 +21,9 @@ const IconWrapper = styled.div`
   font-size: 5rem;
   color: #f59e0b;
   margin-bottom: 1rem;
+  display:flex;
+  flex-direction:column;
+  
 `;
 
 const Title = styled.h1`
@@ -31,6 +34,10 @@ const Title = styled.h1`
 const Description = styled.p`
   font-size: 1.1rem;
   color: #555;
+    align-items: center;
+  justify-content: center;
+    text-align: center;
+
 `;
 
 export default function UnderConstruction({ featureName = "Esta funcionalidade" }) {
