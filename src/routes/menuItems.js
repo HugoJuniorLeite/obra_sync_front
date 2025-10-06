@@ -157,25 +157,91 @@ export const menuItems = [
     icon: FaHome,
     occupation: [2, 4, 5],
   },
-  {
-    label: "Projetos",
-    icon: FaProjectDiagram,
+  // {
+  //   label: "Projetos",
+  //   icon: FaProjectDiagram,
+  //   occupation: [2, 4, 5],
+  //   submenu: [
+  //     {
+  //       label: "Clientes",
+  //       path: "/clientes",
+  //       icon: FaUser,
+  //       occupation: [2, 4, 5],
+  //     },
+  //     {
+  //       label: "Serviços",
+  //       path: "/servicos",
+  //       icon: FaTools,
+  //       occupation: [2, 4, 5],
+  //     },
+  //   ],
+  // },
+
+    {
+    label: "Comercial",
+    icon: FaFolderOpen, // pasta principal
     occupation: [2, 4, 5],
     submenu: [
       {
         label: "Clientes",
-        path: "/clientes",
-        icon: FaUser,
+        icon: FaUsers, // subpasta
         occupation: [2, 4, 5],
+        submenu: [
+          {
+            label: "Criar",
+            path: "/comercial/clientes/cadastrar",
+            icon: FaUserPlus, // item
+            occupation: [2, 4, 5],
+          },
+          {
+            label: "Listar",
+            path: "/comercial/clientes/listar",
+            icon: FaListUl, // item
+            occupation: [2, 4, 5],
+          },
+        ],
+      },
+      {
+        label: "Projetos",
+        icon: FaProjectDiagram, // subpasta
+        occupation: [2, 4, 5],
+        submenu: [
+          {
+            label: "Criar",
+            path: "/comercial/projetos/cadastrar",
+            icon: FaUserPlus, // item
+            occupation: [2, 4, 5],
+          },
+          {
+            label: "Listar",
+            path: "/comercial/projetos/listar",
+            icon: FaListUl, // item
+            occupation: [2, 4, 5],
+          },
+        ],
       },
       {
         label: "Serviços",
-        path: "/servicos",
-        icon: FaTools,
+        icon: FaTools, // subpasta
         occupation: [2, 4, 5],
+        submenu: [
+          {
+            label: "Criar",
+            path: "/comercial/servicos/cadastrar",
+            icon: FaUserPlus, // item
+            occupation: [2, 4, 5],
+          },
+          {
+            label: "Listar",
+            path: "/comercial/servicos/listar",
+            icon: FaListUl, // item
+            occupation: [2, 4, 5],
+          },
+        ],
       },
     ],
   },
+];
   {
     label: "RDO",
     icon: FaFolderOpen,

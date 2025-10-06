@@ -7,7 +7,7 @@ import TokenVerification from "../components/TokenVerification";
 import { Input } from "../components/Ui/Input";
 import logo from '../assets/logo.png'
 import { useNavigate } from "react-router-dom";
-import { LoginMasterSchema } from "../schemas/LoginMasterSchema";
+import { LoginMasterSchema } from "../schemas/LoginMasterSchema.jxs";
 
 export default function LoginMaster() {
   const [istoken, setIstoken] = useState(false);

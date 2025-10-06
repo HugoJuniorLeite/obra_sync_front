@@ -338,7 +338,7 @@ const roleRoutes = [
       { path: "/home", element: <Home /> },
       { path: "/home-copy", element: <HomeCopy /> },
       { path: "/projetos", element: <Project /> },
-      { path: "/clientes", element: <RegisterCustomer /> },
+      { path: "/comercial/clientes/cadastrar", element: <RegisterCustomer /> },
       // { path: "/funcionarios", element: <RegisterEmployee /> },
       // { path: "/ocupacoes", element: <CreateOccupation /> },
       // { path: "/notas", element: <CreateOs /> },

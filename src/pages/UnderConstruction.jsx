@@ -11,6 +11,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  align-self:center;
   height: 80vh;
   text-align: center;
   color: #333;
@@ -21,11 +22,6 @@ const IconWrapper = styled.div`
   font-size: 5rem;
   color: #f59e0b;
   margin-bottom: 1rem;
-  display:flex;
-  flex-direction:column;
-      align-items: center;
-  justify-content: center;
-    text-align: center;
 `;
 
 const Title = styled.h1`
