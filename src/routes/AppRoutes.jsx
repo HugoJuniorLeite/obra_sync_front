@@ -362,10 +362,16 @@ const roleRoutes = [
   {
     allowedRoles: [1, 7, 8, 2, 4, 5],
     routes: [
-      { path: "/minhas-notas", element: <MyService /> },
+      { path: "/rdo/minhas-notas", element: <MyService /> },
       { path: "/rdo-form/:id", element: <RdoFomrExtensionInative /> },
       { path: "/rdo-croqui", element: <PrincipalPreVgb /> },
       { path: "/pdf/:id", element: <RdoPdf /> },
+            { path: "/requisicoes/materiais", element: <UnderConstruction featureName="Requisitar Materiais" /> },
+                  { path: "/requisicoes/epi", element: <UnderConstruction featureName="Requisitar EPI" /> },
+                    { path: "/checklist/arl", element: <UnderConstruction featureName="ARL" /> },
+                      { path: "/checklist/frota", element: <UnderConstruction featureName="Check-list Frota" /> },
+
+
     ],
   },
   {

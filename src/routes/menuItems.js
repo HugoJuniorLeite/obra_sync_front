@@ -147,7 +147,10 @@ import {
   FaFolderOpen,
   FaUserPlus,
   FaListUl,
-  FaIdBadge
+  FaIdBadge,
+  FaClipboardCheck,
+  FaHardHat,
+  FaBoxOpen
 } from "react-icons/fa";
 
 export const menuItems = [
@@ -241,15 +244,66 @@ export const menuItems = [
       },
     ],
   },
-  {
+  // {
+  //   label: "RDO",
+  //   icon: FaFolderOpen,
+  //   occupation: [1, 7, 8, 2, 4, 5],
+  //   submenu: [
+  //     {
+  //       label: "Minhas Notas",
+  //       path: "/minhas-notas",
+  //       icon: FaClipboard,
+  //       occupation: [1, 7, 8, 2, 4, 5],
+  //     },
+  //   ],
+  // },
+   {
     label: "RDO",
-    icon: FaFolderOpen,
+    icon: FaFolderOpen, // pasta principal
     occupation: [1, 7, 8, 2, 4, 5],
     submenu: [
       {
         label: "Minhas Notas",
-        path: "/minhas-notas",
-        icon: FaClipboard,
+        path: "/rdo/minhas-notas",
+        icon: FaClipboard, // item
+        occupation: [1, 7, 8, 2, 4, 5],
+      },
+    ],
+  },
+  {
+    label: "Requisições",
+    icon: FaFolderOpen, // pasta principal
+    occupation: [1, 7, 8, 2, 4, 5],
+    submenu: [
+      {
+        label: "Materiais",
+        path: "/requisicoes/materiais",
+        icon: FaBoxOpen, // item
+        occupation: [1, 7, 8, 2, 4, 5],
+      },
+      {
+        label: "EPI",
+        path: "/requisicoes/epi",
+        icon: FaHardHat, // item
+        occupation: [1, 7, 8, 2, 4, 5],
+      },
+    ],
+  },
+  {
+    label: "Check-list",
+    icon: FaFolderOpen, // pasta principal
+    occupation: [1, 7, 8, 2, 4, 5],
+    submenu: [
+      {
+        label: "ARL",
+        path: "/checklist/arl",
+        icon: FaClipboardCheck, // item
+        occupation: [1, 7, 8, 2, 4, 5],
+      },
+      {
+        label: "Frota",
+        path: "/checklist/frota",
+        icon: FaClipboardCheck, // item
         occupation: [1, 7, 8, 2, 4, 5],
       },
     ],
