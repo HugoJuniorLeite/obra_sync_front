@@ -372,10 +372,10 @@ const roleRoutes = [
   {
     allowedRoles: [6, 2, 4, 5],
     routes: [
-      { path: "/funcionarios/cadastrar", element: <RegisterEmployee /> },
-      { path: "/funcionarios/listar", element: <UnderConstruction featureName="Listar Funcionários" /> },
-      { path: "/ocupacoes/cadastrar", element: <CreateOccupation /> },
-      { path: "/ocupacoes/listar", element: <UnderConstruction featureName="Listar Funcionários" />
+      { path: "/funcionarios-cadastrar", element: <RegisterEmployee /> },
+      { path: "/funcionarios-listar", element: <UnderConstruction featureName="Listar Funcionários" /> },
+      { path: "/ocupacoes-cadastrar", element: <CreateOccupation /> },
+      { path: "/ocupacoes-listar", element: <UnderConstruction featureName="Listar Ocupações" />
  },
 
     ],

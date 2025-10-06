@@ -201,13 +201,13 @@ export const menuItems = [
         submenu: [
           {
             label: "Criar",
-            path: "/funcionarios/cadastrar",
+            path: "/funcionarios-cadastrar",
             icon: FaUserPlus,
             occupation: [2, 4, 5, 6],
           },
           {
             label: "Listar",
-            path: "/funcionarios/listar",
+            path: "/funcionarios-listar",
             icon: FaListUl,
             occupation: [2, 4, 5, 6],
           },
@@ -220,13 +220,13 @@ export const menuItems = [
         submenu: [
           {
             label: "Criar",
-            path: "/ocupacoes/cadastrar",
+            path: "/ocupacoes-cadastrar",
             icon: FaUserPlus,
             occupation: [2, 4, 5, 6],
           },
           {
             label: "Listar",
-            path: "/ocupacoes/listar",
+            path: "/ocupacoes-listar",
             icon: FaListUl,
             occupation: [2, 4, 5, 6],
           },
