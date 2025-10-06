@@ -19,7 +19,7 @@ import Login from "./Login";
 
 const Container = styled.div`
   display: flex;
-  height: 100vh;
+  height: 100%;
   width:100%;
   background-color: #2c2c2c;
   color: white;
