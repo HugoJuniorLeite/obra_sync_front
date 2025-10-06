@@ -362,7 +362,7 @@ const roleRoutes = [
   {
     allowedRoles: [1, 7, 8, 2, 4, 5],
     routes: [
-      { path: "/rdo/minhas/notas", element: <MyService /> },
+      { path: "/rdo/minhas-notas", element: <MyService /> },
       { path: "/rdo-form/:id", element: <RdoFomrExtensionInative /> },
       { path: "/rdo-croqui", element: <PrincipalPreVgb /> },
       { path: "/pdf/:id", element: <RdoPdf /> },

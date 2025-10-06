@@ -245,19 +245,6 @@ export const menuItems = [
       },
     ],
   },
-  // {
-  //   label: "RDO",
-  //   icon: FaFolderOpen,
-  //   occupation: [1, 7, 8, 2, 4, 5],
-  //   submenu: [
-  //     {
-  //       label: "Minhas Notas",
-  //       path: "/minhas-notas",
-  //       icon: FaClipboard,
-  //       occupation: [1, 7, 8, 2, 4, 5],
-  //     },
-  //   ],
-  // },
    {
     label: "RDO",
     icon: FaFolderOpen, // pasta principal
@@ -265,7 +252,7 @@ export const menuItems = [
     submenu: [
       {
         label: "Minhas Notas",
-        path: "/rdo/minhas/notas",
+        path: "/rdo/minhas-notas",
         icon: FaClipboard, // item
         occupation: [1, 7, 8, 2, 4, 5],
       },

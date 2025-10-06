@@ -112,7 +112,7 @@ export default function Login() {
 
 
   function getHomeRouteByOccupation(occupation) {
-    if ([1, 7, 8].includes(occupation)) return "/minhas-notas";
+    if ([1, 7, 8].includes(occupation)) return "/rdo/minhas-notas";
     if (occupation === 6) return "/funcionarios";
     if (occupation === 3) return "/notas";
     if ([2, 4, 5].includes(occupation)) return "/home";
